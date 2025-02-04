@@ -7,7 +7,14 @@ For more information, look here - [DynamoDB](https://aws.amazon.com/dynamodb/).
 If you already have AWS presence, IAM is a solved topic. The below follows AWS best practices to establish access from 0. Follow the questions below and skip topics as appropriate.
 
 ### Do you have an organisation to use?
-AWS Organizations helps you centrally manage and govern your environment as you grow and scale your AWS resources. Using Organizations, you can create accounts and allocate resources, group accounts to organize your workflows, apply policies for governance, and simplify billing by using a single payment method for all of your accounts.
+AWS Organizations help you centrally manage and govern your environment as you grow and scale your AWS resources. Using Organizations, you can create accounts and allocate resources, group accounts to organize your workflows, apply policies for governance, and simplify billing by using a single payment method for all of your accounts.
+
+1. AWS Organizations do not have any associated costs - [create an organisation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html#tutorial-orgs-step1).
+
+2. Invite existing or new AWS members that will be part of your organisation.
+
+
+
 
 
 
