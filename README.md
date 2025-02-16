@@ -8,7 +8,7 @@ If you already have AWS presence, IAM is a solved topic. It's up to your organis
 
 The below follows AWS best practices to establish access from 0. Follow the questions below and skip topics as appropriate.
 
-## Is your root access secure?
+### Is your root access secure?
 When you create an AWS account, a root user is created automatically for your account. The root user is a special entity that has full access to the account, and can perform all actions, including changing the payment methods or closing the account. When you sign-in using the root user you have complete access to all AWS service and resources in the account. Due to this level of permissions, we recommend that you:
 
 - Enable additional security for the root user with multi-factor authentication
@@ -21,7 +21,7 @@ This service provides access control policies and manages long-term users like t
 
 Set up two factor authentication. A detailed guide can be found [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-two/).
 
-## Is AWS IAM Identity Center enabled?
+### Is AWS IAM Identity Center enabled?
 This is the recommended way of performing daily tasks. For short-term accounts, AWS IAM Identity Center service is used.
 
 This service provides temporary credentials that are granted each time a user signs in for a session. It can integrate with any existing identity providers you might already have, like Microsoft Active Directory or Okta, so that your users can use the same sign on for AWS as they use for other services in your organisation. If you don't have another identity provider, you can create users in IAM Identity Center. This is the recommended way to create additional users for your AWS account.
@@ -33,7 +33,7 @@ When you enable IAM Identity Center you also need to enable AWS Organizations. A
 
 If you do not have an organisation, you will be prompted to create one. If you do, it will allow you to enable IAM Identity Center.
 
-## Do you have additional users to perform charity related tasks?
+### Do you have additional users to perform charity related tasks?
 Tasks to be performed:
 - Add users
 - Add users to groups
@@ -47,7 +47,7 @@ Add a new user: AWS IAM Identity Center -> Users -> Add User
 
 If you don't have a group, you can create one as part of the "Add User" flow. When you finish this flow, added user should receive a confirmation email with further instructions.
 
-## Do added users have the correct permissions?
+### Do added users have the correct permissions?
 Task to be performed:
 - Create an administrative permission set
 - Sign in to the AWS access portal with your administrative credentials
@@ -62,8 +62,31 @@ Now you are ready to sign in using your new user.
 
 Note: confirmation email will include your access portal URL. Use it to sign in to the management console.
 
+### Set up AWS command line interface
+
+The AWS CLI is a unified tool to manage your AWS services. With just one tool to download and configure, you can control multiple AWS services from the command line and automate them through scripts. 
+
+To interact with AWS using the CLI, you need to configure credentials for it to use when making API calls.
+
+Installation process and session configuration is explained [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). You should now be able to fully execute your scripts.
+
 ## Design
-TBC
 
 ## Pricing
+List of service used:
+- Access
+    - IAM: no cost
+    - IAM Identity Center: no cost
+    - Organizations: no cost
+    - CLI: no cost
+
+## Architecture
+Complete architecture is defined in the below sections.
+
+### Front End
+Front end is a single page application written in React, which requires additional information here.
+
+### Hosting
+
+## Development
 
