@@ -79,14 +79,17 @@ List of service used:
     - IAM Identity Center: no cost
     - Organizations: no cost
     - CLI: no cost
+- Hosting
+    - Amplify (front-end): free for 12 months
 
 ## Architecture
 Complete architecture is defined in the below sections.
 
 ### Front End
-Front end is a single page application written in React, which requires additional information here.
+Front end is a single page application written in React. For more information, check
 
 ### Hosting
+https://main.d3ghx0e9yjp2ah.amplifyapp.com/
 
 ## Development
 
