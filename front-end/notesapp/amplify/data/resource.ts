@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -6,31 +6,46 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any unauthenticated user can "create", "read", "update", 
 and "delete" any "Todo" records.
 =========================================================================*/
-const schema = a.schema({
-  Guardian: a
-    .model({
-      guardianId: a.id().required(),
-      firstName: a.string().required(),
-      lastName: a.string().required(),
-      email: a.string().required(),
-      addressLine1: a.string(),
-      addressLine2: a.string(),
-      city: a.string()
-    })
-    .identifier(["guardianId"]),
-  Child: a
-    .model({
-      childId: a.id().required(),
-    })
-    .identifier(["childId"]),
-}).authorization((allow) => [allow.guest()]);
+const schema = a
+  .schema({
+    Guardian: a
+      .model({
+        guardianId: a.id().required(),
+        firstName: a.string().required(),
+        lastName: a.string().required(),
+        email: a.string().required(),
+        addressLine1: a.string().required(),
+        addressLine2: a.string(),
+        city: a.string().required(),
+        postcode: a.string().required(),
+        permissionMedia: a.boolean(),
+        permissionContact: a.boolean(),
+      })
+      .identifier(["guardianId"]),
+    Child: a
+      .model({
+        childId: a.id().required(),
+        firstName: a.string().required(),
+        lastName: a.string().required(),
+        gender: a.string().required(),
+        ethnicity: a.string().required(),
+        dob: a.string().required(),
+        school: a.string().required(),
+        allergies: a.string(),
+        disabilities: a.string(),
+        freeSchoolMeals: a.boolean(),
+        permissionToLeave: a.boolean()
+      })
+      .identifier(["childId"]),
+  })
+  .authorization((allow) => [allow.guest()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: "iam",
   },
 });
 
