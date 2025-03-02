@@ -1,14 +1,21 @@
-# Introduction 
-Slade Gardens uses a DynamoDB database. Amazon DynamoDB is a serverless, NoSQL database service that allows you to develop modern applications at any scale. As a serverless database, you only pay for what you use and DynamoDB scales to zero, has no cold starts, no version upgrades, no maintenance windows, no patching, and no downtime maintenance.
+# Overview
+Front end is exposed as a single page application using [React](https://react.dev/) library. [Vite](https://vite.dev/) is used as the build tool.
 
-For more information, look here - [DynamoDB](https://aws.amazon.com/dynamodb/).
+Before proceeding here are some defintions:
+- SPA (Single Page Application) - A single-page application is a web application or website that interacts with the user by dynamically rewriting the current web page with new data from the web server, instead of the default method of loading entire new pages. The goal is faster transitions that make the website feel more like a native app.
+- React - a library for web and native user interfaces.
+- Vite - Vite (French word for "quick", pronounced /vit/, like "veet") is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts:
+    - A dev server that provides rich feature enhancements over native ES modules, for example extremely fast Hot Module Replacement (HMR).
+    - A build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production.
 
-## Access
+The React app serves as the core piece of the repository, which gets surrounded by AWS services to establish a basic backend. As such, establishing a basic front end codebase can be a useful first step. There are guides available for [dummy apps](https://aws.amazon.com/getting-started/hands-on/build-react-app-amplify-graphql/module-one/) to get you going quickly.
+
+# Back-End Access
 If you already have AWS presence, IAM is a solved topic. It's up to your organisation to decide to how integrate the app with your existing access model. 
 
 The below follows AWS best practices to establish access from 0. Follow the questions below and skip topics as appropriate.
 
-### Is your root access secure?
+## Is your root access secure?
 When you create an AWS account, a root user is created automatically for your account. The root user is a special entity that has full access to the account, and can perform all actions, including changing the payment methods or closing the account. When you sign-in using the root user you have complete access to all AWS service and resources in the account. Due to this level of permissions, we recommend that you:
 
 - Enable additional security for the root user with multi-factor authentication
@@ -21,7 +28,7 @@ This service provides access control policies and manages long-term users like t
 
 Set up two factor authentication. A detailed guide can be found [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-two/).
 
-### Is AWS IAM Identity Center enabled?
+## Is AWS IAM Identity Center enabled?
 This is the recommended way of performing daily tasks. For short-term accounts, AWS IAM Identity Center service is used.
 
 This service provides temporary credentials that are granted each time a user signs in for a session. It can integrate with any existing identity providers you might already have, like Microsoft Active Directory or Okta, so that your users can use the same sign on for AWS as they use for other services in your organisation. If you don't have another identity provider, you can create users in IAM Identity Center. This is the recommended way to create additional users for your AWS account.
@@ -33,7 +40,7 @@ When you enable IAM Identity Center you also need to enable AWS Organizations. A
 
 If you do not have an organisation, you will be prompted to create one. If you do, it will allow you to enable IAM Identity Center.
 
-### Do you have additional users to perform charity related tasks?
+## Do you have additional users to perform charity related tasks?
 Tasks to be performed:
 - Add users
 - Add users to groups
@@ -47,7 +54,7 @@ Add a new user: AWS IAM Identity Center -> Users -> Add User
 
 If you don't have a group, you can create one as part of the "Add User" flow. When you finish this flow, added user should receive a confirmation email with further instructions.
 
-### Do added users have the correct permissions?
+## Do added users have the correct permissions?
 Task to be performed:
 - Create an administrative permission set
 - Sign in to the AWS access portal with your administrative credentials
@@ -62,13 +69,53 @@ Now you are ready to sign in using your new user.
 
 Note: confirmation email will include your access portal URL. Use it to sign in to the management console.
 
-### Set up AWS command line interface
+## Set up AWS command line interface
 
 The AWS CLI is a unified tool to manage your AWS services. With just one tool to download and configure, you can control multiple AWS services from the command line and automate them through scripts. 
 
 To interact with AWS using the CLI, you need to configure credentials for it to use when making API calls.
 
-Installation process and session configuration is explained [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). You should now be able to fully execute your scripts.
+Installation process and session configuration is explained [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). You should now be able to fully execute your commands.
+
+# Hosting
+You have a React app, which can be run locally. Add Amplify libraries by running the following command:
+
+`
+npm create amplify@latest -y
+`
+
+This will establish a foundation for Amplify configuration. You should see a new folder called 'amplify' after this. Add it to a GitHub repository and you are ready to host it.
+
+Using your freshly established AWS account, locate AWS Amplify and follow the User Interface to deploy it. It's a one off and should be performed manually, until an automated approach is described.
+
+From this step onwards, every push to the main branch will redeploy the application.
+
+# Sandbox
+Having multiple users working on your project might be difficult. AWS Amplify allows you to create sandboxes for the backend resources used, so you could continue working on your updates without affecting other users.
+
+To kick off a new sandbox, run the following command:
+`
+npx ampx sandbox --profile {aws-profile}
+`
+
+This also writes a new file out - amplify_outputs.json to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated outputs file to automatically configure the frontend Authenticator connected component.
+
+# Authentication
+Application uses AWS Cognito as the authentication tool through Amplify Auth.
+    - [AWS Cognito](https://aws.amazon.com/cognito/)
+    - [AWS Amplify Auth](https://docs.amplify.aws/react/build-a-backend/auth/set-up-auth/)
+
+The command we ran earlier added Amplify Auth to our project. To use it efficiently, we should use a predefined react library for the UI. This will make the integration easier.
+
+`
+npm add @aws-amplify/ui-react
+`
+
+## Customer Communication
+Registered users receive confirmation emails to complete their registration. This is done using Amazon Simple Email Service.
+
+# Data
+TBC
 
 ## Design
 
@@ -81,15 +128,11 @@ List of service used:
     - CLI: no cost
 - Hosting
     - Amplify (front-end): free for 12 months
+- Communication
+    - Simple Email Service: free for 12 months
 
 ## Architecture
 Complete architecture is defined in the below sections.
-
-### Front End
-Front end is a single page application written in React. For more information, check
-
-### Hosting
-https://main.d3ghx0e9yjp2ah.amplifyapp.com/
 
 ## Development
 
@@ -99,21 +142,3 @@ To set up Amplify data, follow this guide - https://docs.amplify.aws/vue/build-a
 
 AppSync pricing, which includes a generous free tier.
 
-# Overview
-Front end is exposed as a single page application using [React](https://react.dev/) library. [Vite](https://vite.dev/) is used as the build tool.
-
-Before proceeding here are some defintions:
-- SPA (Single Page Application) - A single-page application is a web application or website that interacts with the user by dynamically rewriting the current web page with new data from the web server, instead of the default method of loading entire new pages. The goal is faster transitions that make the website feel more like a native app.
-- React - a library for web and native user interfaces.
-- Vite - Vite (French word for "quick", pronounced /vit/, like "veet") is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts:
-    - A dev server that provides rich feature enhancements over native ES modules, for example extremely fast Hot Module Replacement (HMR).
-    - A build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production.
-
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
