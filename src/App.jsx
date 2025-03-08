@@ -17,6 +17,8 @@ import { getUrl } from "aws-amplify/storage";
 import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
+import { createTestData } from "./api";
+
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
@@ -177,6 +179,7 @@ export default function App() {
               </Flex>
             ))}
           </Grid>
+          <Button onClick={createTestData} variation="primary">Create Test Data</Button>
           <Button onClick={signOut}>Sign Out</Button>
         </Flex>
       )}
