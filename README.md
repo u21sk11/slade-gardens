@@ -111,8 +111,29 @@ The command we ran earlier added Amplify Auth to our project. To use it efficien
 npm add @aws-amplify/ui-react
 `
 
+In general, authentication related code is handled in ./amplify/auth folder.
+
 ## Customer Communication
-Registered users receive confirmation emails to complete their registration. This is done using Amazon Simple Email Service.
+New users receive confirmation emails to complete their registration. There are a few other communication formats as well (e.g. to resend the code, reset your password, etc.). This is done using Amazon Simple Email Service. The template is customised using HTML and lambda function triggers.
+
+To create a trigger, we first need to add aws-lambda package that will be used to define the type of the handler.
+
+`
+npm add --save-dev @types/aws-lambda
+`
+
+The handler file defines the lamda function and thus, has the template. These are the different states of Cognito that we can optimise:
+1. CustomMessage_SignUp : Custom message — To send the confirmation code post sign-up.
+2. CustomMessage_AdminCreateUser : Custom message — To send the temporary password to a new user.
+3. CustomMessage_ResendCode : Custom message — To resend the confirmation code to an existing user.
+4. CustomMessage_ForgotPassword : Custom message — To send the confirmation code for Forgot Password request.
+5. CustomMessage_UpdateUserAttribute : Custom message — When a user’s email or phone number is changed, this trigger sends a verification code automatically to the user. Cannot be used for other attributes.
+6. CustomMessage_VerifyUserAttribute : Custom message — This trigger sends a verification code to the user when they manually request it for a new email or phone number.
+7. CustomMessage_Authentication : Custom message — To send MFA code during authentication.
+
+Configuration is in the following folder ./amplify/auth/custom-message and the trigger is called in the main resource.ts file under auth.
+
+The following messages are applicable to this project and thus, should be customised: 1, 3, and 4.
 
 # Data
 TBC
