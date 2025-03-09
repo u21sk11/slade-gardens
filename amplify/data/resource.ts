@@ -1,11 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any unauthenticated user can "create", "read", "update", 
-and "delete" any "Todo" records.
-=========================================================================*/
 const schema = a
   .schema({
     Guardian: a
@@ -43,6 +37,7 @@ const schema = a
         freeSchoolMeals: a.boolean(),
         permissionToLeave: a.boolean(),
         playgroundEntry: a.hasOne("Playground", "childId"),
+        assignedEmoji: a.hasOne("EmojiStore", "childId"),
         auditEntry: a.hasMany("Audit", "childId"),
       })
       .identifier(["childId"]),
@@ -67,6 +62,14 @@ const schema = a
         child: a.belongsTo("Child", "childId"),
       })
       .identifier(["auditId"]),
+
+    EmojiStore: a
+      .model({
+        childId: a.id(),
+        child: a.belongsTo("Child", "childId"),
+        emoji: a.string(),
+      })
+      .identifier(["childId"]),
 
     GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "NA"]),
 
