@@ -69,7 +69,7 @@ const schema = a
         childId: a.id(),
         child: a.belongsTo("Child", "childId"),
       })
-      .identifier(["childId"]),
+      .identifier(["emoji"]),
 
     GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "NA"]),
 
