@@ -8,63 +8,74 @@ const client = generateClient({
   authMode: "userPool",
 });
 
-export async function auditError(message) {
+async function createAuditEntry(eventType, message, guardianId, childId) {
   try {
-    const auditEntryResponse = await client.models.Audit.create({
+    const auditEntry = {
       auditId: uuidv4(),
-      eventType: "ERROR",
+      eventType: eventType,
       message: message,
-    });
+    };
+    if (guardianId) {
+      auditEntry.guardianId = guardianId;
+    }
+    if (childId) {
+      auditEntry.childId = childId;
+    }
+    const auditEntryResponse = await client.models.Audit.create(auditEntry);
+    const { errors: auditErrors } = auditEntryResponse;
+    if (auditErrors) throw new Error(auditErrors[0].message);
   } catch (error) {
-    console.error("Error creating audit entry for ERROR:", error);
+    console.error(
+      `Unknown error whilst creating audit for ${eventType}: ${error.message}`
+    );
   }
 }
 
-export async function audit() {
-  try {
-    const auditEntryResponse = await client.models.Audit.create({
-      auditId: uuidv4(),
-      eventType: "",
-      message: "",
-    });
-    console.log("Audit Entry Response:", auditEntryResponse);
-  } catch (error) {
-    console.error("Error creating audit entry for ERROR:", error);
-  }
+export async function auditError(message) {
+  await createAuditEntry("ERROR", message);
+  console.error(message);
 }
 
 export async function auditCreate(guardianId, childId) {
-    try {
-        if (guardianId) {
-            const auditEntryResponse = await client.models.Audit.create({
-                auditId: uuidv4(),
-                eventType: "CREATE",
-                message: "Guardian created",
-                guardianId: guardianId,
-            });
-        } else if (childId) {
-            const auditEntryResponse = await client.models.Audit.create({
-                auditId: uuidv4(),
-                eventType: "CREATE",
-                message: "Child created",
-                childId: childId,
-            });
-        }
-    } catch (error) {
-      console.error("Error creating audit entry for CREATE:", error);
-    }
-  }
+  await createAuditEntry(
+    "CREATE",
+    guardianId ? "Guardian created" : "Child created",
+    guardianId,
+    childId
+  );
+}
 
-export async function playgroundEntry(childId) {
-  try {
-    const auditEntryResponse = await client.models.Audit.create({
-      auditId: uuidv4(),
-      eventType: "ENTRY",
-      message: "Child entered playground",
-      childId: childId,
-    });
-    console.log("Audit Entry Response:", auditEntryResponse);
-  } catch (error) {
-    console.error("Error creating audit entry for ENTRY:", error);
-  }
+export async function auditDelete(guardianId, childId) {
+  await createAuditEntry(
+    "DELETE",
+    guardianId ? "Guardian deleted" : "Child deleted",
+    guardianId,
+    childId
+  );
+}
+
+export async function auditUpdate(guardianId, childId) {
+  await createAuditEntry(
+    "UPDATE",
+    guardianId ? "Guardian updated" : "Child updated",
+    guardianId,
+    childId
+  );
+}
+
+export async function auditRead(guardianId, childId) {
+  await createAuditEntry(
+    "READ",
+    guardianId ? "Guardian read" : "Child read",
+    guardianId,
+    childId
+  );
+}
+
+export async function aduitPlaygroundEntry(childId) {
+  await createAuditEntry("ENTRY", "Child entered playground", null, childId);
+}
+
+export async function auditPlaygroundExit(childId) {
+  await createAuditEntry("EXIT", "Child exited playground", null, childId);
 }

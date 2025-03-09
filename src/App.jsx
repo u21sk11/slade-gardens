@@ -18,7 +18,8 @@ import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
 import { createTestData } from "./api";
-import { playgroundEntry, auditCreate } from "./apis/audit";
+import { auditCreate } from "./apis/audit";
+import { enterPlayground, exitPlayground } from "./apis/playground";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -98,7 +99,11 @@ export default function App() {
   }
 
   async function handlePlaygroundEntry() {
-    await playgroundEntry("1234");
+    await enterPlayground("1234");
+  }
+
+  async function handlePlaygroundExit() {
+    await exitPlayground("1234");
   }
 
   async function handleAuditCreate() {
@@ -188,8 +193,15 @@ export default function App() {
               </Flex>
             ))}
           </Grid>
-          <Button onClick={handlePlaygroundEntry} variation="link">Playground ENTRY Test</Button>
-          <Button onClick={handleAuditCreate} variation="link">Audit CREATE Test</Button>
+          <Button onClick={handlePlaygroundEntry} variation="link">
+            Playground ENTRY Test
+          </Button>
+          <Button onClick={handlePlaygroundExit} variation="link">
+            Playground EXIT Test
+          </Button>
+          <Button onClick={handleAuditCreate} variation="link">
+            Audit CREATE Test
+          </Button>
           <Button onClick={signOut}>Sign Out</Button>
         </Flex>
       )}

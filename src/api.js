@@ -50,14 +50,12 @@ export async function createTestData(form) {
       playgroundEntry: uuidv4(),
       auditEntry: uuidv4(),
     });
-    console.log("Child Response:", childResponse);
     const { errors: childErrors, data: newChild } = childResponse;
-    console.log("New Child Created:", newChild);
     if (childErrors) {
-        auditError("Child creation failed: " + childErrors[0].message);
-        throw new Error(`Child creation failed: ${childErrors[0].message}`);
-      }
-      auditCreate(null, newChild?.childId);
+      auditError("Child creation failed: " + childErrors[0].message);
+      throw new Error(`Child creation failed: ${childErrors[0].message}`);
+    }
+    auditCreate(null, newChild?.childId);
 
     const playgroundResponse = await client.models.Playground.create({
       childId: childResponse?.data?.childId,
