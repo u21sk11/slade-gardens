@@ -17,7 +17,6 @@ export async function enterPlayground(childId){
         aduitPlaygroundEntry(childId);
     } catch (error) {
         auditError("Error entering playground: " + error);
-        throw new Error("Error entering playground: " + error);
     }
 }
 
@@ -26,9 +25,8 @@ export async function exitPlayground(childId){
         const playgroundEntryResponse = await client.models.Playground.delete({
             childId: childId,
         });
-        // console.log("Child entered playground:", playgroundEntryResponse);
         auditPlaygroundExit(childId);
     } catch (error) {
-        console.error("Error entering playground:", error);
+        auditError("Error exiting playground: " + error);
     }
 }

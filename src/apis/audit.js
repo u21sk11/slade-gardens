@@ -33,6 +33,7 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
 
 export async function auditError(message) {
   await createAuditEntry("ERROR", message);
+  console.error(message);
 }
 
 export async function auditCreate(guardianId, childId) {
