@@ -2,17 +2,20 @@ import { v4 as uuidv4 } from "uuid";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
+import { auditError, auditCreate } from "./apis/audit";
 
 Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
 });
 
-export async function createTestData() {
+export async function createTestData(form) {
+  console.log("!!! Creating Test Data !!!" + form);
+  console.log("! Form Name: ", form.get("name"));
   try {
-    const  guardianResponse = await client.models.Guardian.create({
+    const guardianResponse = await client.models.Guardian.create({
       guardianId: uuidv4(),
-      firstName: "John",
+      firstName: form.get("name"),
       lastName: "Doe",
       email: "john.doe@example.com",
       addressLine1: "123 Main St",
@@ -24,17 +27,16 @@ export async function createTestData() {
       permissionContact: true,
       referralSource: "Friend",
     });
-    console.log("guardianResponse Response:", guardianResponse);
     const { errors: guardianErrors, data: newGuardian } = guardianResponse;
     if (guardianErrors) {
-        console.log("Guardian Response:", guardianErrors);
-        throw new Error(`Guardian creation failed: ${guardianErrors[0].message}`);
-      }
-    console.log("New Guardian Created:", newGuardian);
+      auditError("Guardian creation failed: " + guardianErrors[0].message);
+      throw new Error(`Guardian creation failed: ${guardianErrors[0].message}`);
+    }
+    auditCreate(newGuardian?.guardianId, null);
 
     const childResponse = await client.models.Child.create({
       childId: uuidv4(),
-      guardianId: guardianResponse?.data?.guardianId, // Link to the created Guardian
+      guardianId: newGuardian?.guardianId,
       firstName: "Jane",
       lastName: "Doe",
       gender: "FEMALE",
@@ -45,12 +47,17 @@ export async function createTestData() {
       disabilities: "None",
       freeSchoolMeals: true,
       permissionToLeave: true,
-      activePlaygroundId: uuidv4(),
+      playgroundEntry: uuidv4(),
       auditEntry: uuidv4(),
     });
     console.log("Child Response:", childResponse);
-    const { data: newChild } = childResponse;
+    const { errors: childErrors, data: newChild } = childResponse;
     console.log("New Child Created:", newChild);
+    if (childErrors) {
+        auditError("Child creation failed: " + childErrors[0].message);
+        throw new Error(`Child creation failed: ${childErrors[0].message}`);
+      }
+      auditCreate(null, newChild?.childId);
 
     const playgroundResponse = await client.models.Playground.create({
       childId: childResponse?.data?.childId,
@@ -58,7 +65,6 @@ export async function createTestData() {
     console.log("Playground Response:", playgroundResponse);
     const { data: newPlayground } = playgroundResponse;
     console.log("New Playground Created:", newPlayground);
-
   } catch (error) {
     console.error("Error creating child:", error);
   }

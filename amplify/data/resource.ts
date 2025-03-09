@@ -23,7 +23,7 @@ const schema = a
         permissionContact: a.boolean().required(),
         referralSource: a.string(),
         children: a.hasMany("Child", "guardianId"),
-        auditEntry: a.hasMany("Audit", "auditId"),
+        auditEntry: a.hasMany("Audit", "guardianId"),
       })
       .identifier(["guardianId"]),
 
@@ -42,8 +42,8 @@ const schema = a
         disabilities: a.string(),
         freeSchoolMeals: a.boolean(),
         permissionToLeave: a.boolean(),
-        activePlaygroundId: a.hasOne("Playground", "childId"),
-        auditEntry: a.hasMany("Audit", "auditId"),
+        playgroundEntry: a.hasOne("Playground", "childId"),
+        auditEntry: a.hasMany("Audit", "childId"),
       })
       .identifier(["childId"]),
 
@@ -57,13 +57,14 @@ const schema = a
     Audit: a
       .model({
         auditId: a.id().required(),
-        timestamp: a.datetime().required(),
         eventType: a.ref("EventType").required(),
         message: a.string(),
         visitor: a.boolean(),
         volunteer: a.boolean(),
-        guardianId: a.belongsTo("Guardian", "auditId"),
-        childId: a.belongsTo("Child", "auditId"),
+        guardianId: a.id(),
+        guardian: a.belongsTo("Guardian", "guardianId"),
+        childId: a.id(),
+        child: a.belongsTo("Child", "childId"),
       })
       .identifier(["auditId"]),
 

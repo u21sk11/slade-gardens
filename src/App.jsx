@@ -18,6 +18,7 @@ import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
 import { createTestData } from "./api";
+import { playgroundEntry, auditCreate } from "./apis/audit";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -90,6 +91,22 @@ export default function App() {
     fetchNotes();
   }
 
+  async function handleSubmit(event) {
+    const form = new FormData(event.target);
+    event.preventDefault();
+    await createTestData(form);
+  }
+
+  async function handlePlaygroundEntry() {
+    await playgroundEntry("1234");
+  }
+
+  async function handleAuditCreate() {
+    await auditCreate("1234", "5678");
+    await auditCreate(null, "5678");
+    await auditCreate("1234", "5678");
+  }
+
   return (
     <Authenticator>
       {({ signOut }) => (
@@ -102,7 +119,7 @@ export default function App() {
           margin="0 auto"
         >
           <Heading level={1}>My Notes App</Heading>
-          <View as="form" margin="3rem 0" onSubmit={createNote}>
+          <View as="form" margin="3rem 0" onSubmit={handleSubmit}>
             <Flex
               direction="column"
               justifyContent="center"
@@ -125,14 +142,6 @@ export default function App() {
                 variation="quiet"
                 required
               />
-              <View
-                name="image"
-                as="input"
-                type="file"
-                alignSelf={"end"}
-                accept="image/png, image/jpeg"
-              />
-
               <Button type="submit" variation="primary">
                 Create Note
               </Button>
@@ -179,7 +188,8 @@ export default function App() {
               </Flex>
             ))}
           </Grid>
-          <Button onClick={createTestData} variation="primary">Create Test Data</Button>
+          <Button onClick={handlePlaygroundEntry} variation="link">Playground ENTRY Test</Button>
+          <Button onClick={handleAuditCreate} variation="link">Audit CREATE Test</Button>
           <Button onClick={signOut}>Sign Out</Button>
         </Flex>
       )}
