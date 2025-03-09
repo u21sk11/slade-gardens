@@ -65,9 +65,9 @@ const schema = a
 
     EmojiStore: a
       .model({
+        emoji: a.id().required(),
         childId: a.id(),
         child: a.belongsTo("Child", "childId"),
-        emoji: a.string(),
       })
       .identifier(["childId"]),
 
