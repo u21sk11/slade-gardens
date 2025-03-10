@@ -26,7 +26,7 @@ export async function getUnassignedEmojis(emojiCount) {
     auditError("Not enough unassigned emojis found for allocation.");
   } catch (error) {
     console.error(
-      `Unknown error whilst assigning emoji to child: ${error.message}`
+      `Unknown error whilst getting unassigned emojis: ${error.message}`
     );
   }
 }
@@ -49,7 +49,7 @@ async function fetchEmojis(nextToken) {
     return [emojiStore.data, newNextToken];
   } catch (error) {
     console.error(
-      `Unknown error whilst assigning emoji to child: ${error.message}`
+      `Unknown error whilst fetching emojis: ${error.message}`
     );
   }
 }
@@ -105,10 +105,10 @@ export async function seedEmojiStore() {
           emoji: emoji,
           childId: "none",
         };
-        const emojiEntryResponse = await client.models.EmojiStore.create(
+        const emojiStore = await client.models.EmojiStore.create(
           emojiEntry
         );
-        const { errors: emojiErrors } = emojiEntryResponse;
+        const { errors: emojiErrors } = emojiStore;
         if (emojiErrors) throw new Error(emojiErrors[0].message);
       })
     );
