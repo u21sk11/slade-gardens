@@ -123,6 +123,7 @@ export default function App() {
           width="70%"
           margin="0 auto"
         >
+          
           <Heading level={1}>My Notes App</Heading>
           <View as="form" margin="3rem 0" onSubmit={handleSubmit}>
             <Flex
