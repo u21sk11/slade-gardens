@@ -12,6 +12,11 @@ Before proceeding here are some defintions:
 
 The React app serves as the core piece of the repository, which gets surrounded by AWS services to establish a basic backend. As such, establishing a basic front end codebase can be a useful first step. There are guides available for [dummy apps](https://aws.amazon.com/getting-started/hands-on/build-react-app-amplify-graphql/module-one/) to get you going quickly.
 
+# App Styling
+Tailwindcss is used to style the application - a utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.
+
+Application set up with Vite is explained [here](https://v3.tailwindcss.com/docs/guides/vite).
+
 # Back-End Access
 
 If you already have AWS presence, IAM is a solved topic. It's up to your organisation to decide to how integrate the app with your existing access model.
