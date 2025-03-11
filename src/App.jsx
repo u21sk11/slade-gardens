@@ -21,6 +21,9 @@ import { createTestData } from "./api";
 import { auditCreate } from "./apis/audit";
 import { enterPlayground, exitPlayground } from "./apis/playground";
 
+import { Routes, Route } from 'react-router-dom';
+import About from './app/pages/About';
+
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
@@ -113,7 +116,11 @@ export default function App() {
   }
 
   return (
-    <Authenticator>
+    <>
+    <Routes>
+      <Route path="/about" element={<About />}/>
+    </Routes>
+    {/* <Authenticator>
       {({ signOut }) => (
         <Flex
           className="App"
@@ -206,6 +213,7 @@ export default function App() {
           <Button onClick={signOut}>Sign Out</Button>
         </Flex>
       )}
-    </Authenticator>
+    </Authenticator> */}
+    </>
   );
 }

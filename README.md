@@ -17,6 +17,11 @@ Tailwindcss is used to style the application - a utility-first CSS framework pac
 
 Application set up with Vite is explained [here](https://v3.tailwindcss.com/docs/guides/vite).
 
+# App Routing
+Routing is implemented with the [react-router-dom](https://www.npmjs.com/package/react-router-dom) library.
+
+The first step is to wrap the application in a BrowserRouter component (main.jsx file) and then configure the routes in the App.jsx file.
+
 # Back-End Access
 
 If you already have AWS presence, IAM is a solved topic. It's up to your organisation to decide to how integrate the app with your existing access model.
