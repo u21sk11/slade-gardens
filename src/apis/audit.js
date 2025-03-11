@@ -22,11 +22,11 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
       auditEntry.childId = childId;
     }
     const auditEntryResponse = await client.models.Audit.create(auditEntry);
-    const { errors: auditErrors } = auditEntryResponse;
-    if (auditErrors) throw new Error(auditErrors[0].message);
+    const { errors: responseError } = auditEntryResponse;
+    if (responseError) throw new Error(responseError[0].message);
   } catch (error) {
     console.error(
-      `Unknown error whilst creating audit for ${eventType}: ${error.message}`
+      "Unknown error whilst creating audit for ${eventType}: ${error.message}"
     );
   }
 }
