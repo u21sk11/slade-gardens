@@ -26,7 +26,7 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
     if (responseError) throw new Error(responseError[0].message);
   } catch (error) {
     console.error(
-      `Unknown error whilst creating audit for ${eventType}: ${error.message}`
+      "Unknown error whilst creating audit for ${eventType}: ${error.message}"
     );
   }
 }

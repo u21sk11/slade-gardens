@@ -26,7 +26,7 @@ export async function getUnassignedEmojis(emojiCount) {
     auditError("Not enough unassigned emojis found for allocation.");
   } catch (error) {
     console.error(
-      `Unknown error whilst getting unassigned emojis: ${error.message}`
+      "Unknown error whilst getting unassigned emojis: ${error.message}"
     );
   }
 }
@@ -49,7 +49,7 @@ async function fetchEmojis(nextToken) {
     return [emojiStore.data, newNextToken];
   } catch (error) {
     console.error(
-      `Unknown error whilst fetching emojis: ${error.message}`
+      "Unknown error whilst fetching emojis: ${error.message}"
     );
   }
 }
@@ -67,7 +67,7 @@ export async function getChildId(emoji) {
 
     return emojiStore.data.childId;
   } catch (error) {
-    console.error(`Unknown error whilst getting child ID: ${error.message}`);
+    console.error("Unknown error whilst getting child ID: ${error.message}");
   }
 }
 
