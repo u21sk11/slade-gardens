@@ -20,6 +20,7 @@ import outputs from "../amplify_outputs.json";
 import { createTestData } from "./api";
 import { auditCreate } from "./apis/audit";
 import { enterPlayground, exitPlayground } from "./apis/playground";
+import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiStore";
 
 import { Routes, Route } from 'react-router-dom';
 import About from './app/pages/About';
@@ -113,6 +114,18 @@ export default function App() {
     await auditCreate("1234", "5678");
     await auditCreate(null, "5678");
     await auditCreate("1234", "5678");
+  }
+  
+  async function handleSeedEmojiStore() {
+    seedEmojiStore();
+  }
+  
+  async function handleAssignEmoji() {
+    getUnassignedEmojis(5);
+  }
+  
+  async function handleCheckEmoji() {
+    getChildId("🍔🍕🍟");
   }
 
   return (
@@ -209,6 +222,15 @@ export default function App() {
           </Button>
           <Button onClick={handleAuditCreate} variation="link">
             Audit CREATE Test
+          </Button>
+          <Button onClick={handleSeedEmojiStore} variation="destructive">
+            SEED EMOJISTORE
+          </Button>
+          <Button onClick={handleAssignEmoji} variation="warning">
+            ASSIGN EMOJI
+          </Button>
+          <Button onClick={handleCheckEmoji} variation="warning">
+            CHECK EMOJI
           </Button>
           <Button onClick={signOut}>Sign Out</Button>
         </Flex>
