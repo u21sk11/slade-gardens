@@ -8,6 +8,9 @@ const client = generateClient({
   authMode: "userPool",
 });
 
+/**
+ * Creates an audit entry.
+ */
 async function createAuditEntry(eventType, message, guardianId, childId) {
   try {
     const auditEntry = {
@@ -31,11 +34,17 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
   }
 }
 
-export async function auditError(message) {
-  await createAuditEntry("ERROR", message);
+/**
+ * Audits an error event.
+ */
+export async function auditError(message, guardianId, childId) {
   console.error(message);
+  await createAuditEntry("ERROR", message, guardianId, childId);
 }
 
+/**
+ * Audits a create event.
+ */
 export async function auditCreate(guardianId, childId) {
   await createAuditEntry(
     "CREATE",
@@ -45,6 +54,9 @@ export async function auditCreate(guardianId, childId) {
   );
 }
 
+/**
+ * Audits a delete event.
+ */
 export async function auditDelete(guardianId, childId) {
   await createAuditEntry(
     "DELETE",
@@ -54,6 +66,9 @@ export async function auditDelete(guardianId, childId) {
   );
 }
 
+/**
+ * Audits an update event.
+ */
 export async function auditUpdate(guardianId, childId) {
   await createAuditEntry(
     "UPDATE",
@@ -63,6 +78,9 @@ export async function auditUpdate(guardianId, childId) {
   );
 }
 
+/**
+ * Audits a read event, whenever the full guardian or child data is requested.
+ */
 export async function auditRead(guardianId, childId) {
   await createAuditEntry(
     "READ",
@@ -72,10 +90,40 @@ export async function auditRead(guardianId, childId) {
   );
 }
 
+/**
+ * Audits a playground entry event.
+ */
 export async function aduitPlaygroundEntry(childId) {
   await createAuditEntry("ENTRY", "Child entered playground", null, childId);
 }
 
+/**
+ * Audits a playground exit event.
+ */
 export async function auditPlaygroundExit(childId) {
   await createAuditEntry("EXIT", "Child exited playground", null, childId);
+}
+
+/**
+ * Audits an emoji assignment event.
+ */
+export async function auditEmojiAssignment(emoji, childId) {
+  await createAuditEntry(
+    "EMOJISTORE",
+    `${emoji} assigned`,
+    null,
+    childId
+  );
+}
+
+/**
+ * Audits an emoji unassignment event.
+ */
+export async function auditEmojiUnassignment(emoji, childId) {
+  await createAuditEntry(
+    "EMOJISTORE",
+    `${emoji} unassigned`,
+    null,
+    childId
+  );
 }
