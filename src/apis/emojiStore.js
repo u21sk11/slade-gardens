@@ -1,13 +1,20 @@
 import { generateClient } from "aws-amplify/data";
 import outputs from "../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
-import { auditError } from "./audit";
+import {
+  auditEmojiAssignment,
+  auditEmojiUnassignment,
+  auditError,
+} from "./audit";
 
 Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
 });
 
+/**
+ * Gets a specified amount of unassigned emojis
+ */
 export async function getUnassignedEmojis(emojiCount) {
   try {
     let nextToken = null;
@@ -25,12 +32,15 @@ export async function getUnassignedEmojis(emojiCount) {
     } while (nextToken);
     auditError("Not enough unassigned emojis found for allocation.");
   } catch (error) {
-    console.error(
+    auditError(
       "Unknown error whilst getting unassigned emojis: ${error.message}"
     );
   }
 }
 
+/**
+ * Helper function to fetch emojis
+ */
 async function fetchEmojis(nextToken) {
   try {
     const emojiStore = await client.models.EmojiStore.list({
@@ -48,12 +58,59 @@ async function fetchEmojis(nextToken) {
 
     return [emojiStore.data, newNextToken];
   } catch (error) {
-    console.error(
-      "Unknown error whilst fetching emojis: ${error.message}"
-    );
+    auditError("Unknown error whilst fetching emojis: ${error.message}");
   }
 }
 
+/**
+ * Assigns an emoji to a child
+ */
+export async function assignEmoji(emoji, childId) {
+  try {
+    const childIdCheck = await getChildId(emoji);
+    if (childIdCheck !== "none") {
+      auditError(emoji + " already assigned to another child", null, childId);
+      return;
+    }
+
+    const emojiStore = await client.models.EmojiStore.update({
+      emoji: emoji,
+      childId: childId,
+    });
+    const { errors: responseError } = emojiStore;
+    if (responseError) throw new Error(responseError[0].message);
+    auditEmojiAssignment(emoji, childId);
+  } catch (error) {
+    auditError("Unknown error whilst assigning emoji: ${error.message}", null, childId);
+  }
+}
+
+/**
+ * Unassigns an emoji from a child
+ */
+export async function unassignEmoji(emoji) {
+  try {
+    const childId = await getChildId(emoji);
+    if (childId === "none") {
+      auditError(emoji + " is not assigned to a child, could not unassign");
+      return;
+    }
+
+    const emojiStore = await client.models.EmojiStore.update({
+      emoji: emoji,
+      childId: "none",
+    });
+    const { errors: responseError } = emojiStore;
+    if (responseError) throw new Error(responseError[0].message);
+    auditEmojiUnassignment(emoji, childId);
+  } catch (error) {
+    auditError("Unknown error whilst unassigning emoji: ${error.message}");
+  }
+}
+
+/**
+ * Get the child ID assigned to an emoji
+ */
 export async function getChildId(emoji) {
   try {
     const emojiStore = await client.models.EmojiStore.get({
@@ -61,16 +118,15 @@ export async function getChildId(emoji) {
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
-
-    console.log("emojiStore: " + JSON.stringify(emojiStore));
-    console.log("emojiStore childId: " + emojiStore.data.childId);
-
     return emojiStore.data.childId;
   } catch (error) {
-    console.error("Unknown error whilst getting child ID: ${error.message}");
+    auditError("Unknown error whilst getting child ID: ${error.message}");
   }
 }
 
+/**
+ * Seed the emoji store with predefined emojis (Should only be used once and by an admin) m
+ */
 export async function seedEmojiStore() {
   try {
     const emojiStore = await client.models.EmojiStore.list();
@@ -105,9 +161,7 @@ export async function seedEmojiStore() {
           emoji: emoji,
           childId: "none",
         };
-        const emojiStore = await client.models.EmojiStore.create(
-          emojiEntry
-        );
+        const emojiStore = await client.models.EmojiStore.create(emojiEntry);
         const { errors: emojiErrors } = emojiStore;
         if (emojiErrors) throw new Error(emojiErrors[0].message);
       })
