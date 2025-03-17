@@ -47,8 +47,6 @@ export async function createTestData(form) {
       disabilities: "None",
       freeSchoolMeals: true,
       permissionToLeave: true,
-      playgroundEntry: uuidv4(),
-      auditEntry: uuidv4(),
     });
     const { errors: childErrors, data: newChild } = childResponse;
     if (childErrors) {

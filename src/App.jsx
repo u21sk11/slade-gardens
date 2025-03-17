@@ -24,6 +24,7 @@ import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiSto
 
 import { Routes, Route } from 'react-router-dom';
 import About from './app/pages/About';
+import RegistrationForm from "./app/pages/RegistrationForm";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -132,6 +133,7 @@ export default function App() {
     <>
     <Routes>
       <Route path="/about" element={<About />}/>
+      <Route path="/register" element={<RegistrationForm />}/>
     </Routes>
     {/* <Authenticator>
       {({ signOut }) => (
