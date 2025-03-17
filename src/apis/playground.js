@@ -14,20 +14,17 @@ const client = generateClient({
 export async function enterPlayground(childId) {
   try {
     const childInPlayground = await inPlayground(childId);
-    if (childInPlayground) {
-      auditError("Child is already in the playground", null, childId);
-      return;
-    }
+    if (childInPlayground) throw new Error("Child is already in the playground");
 
     const playgroundEntryResponse = await client.models.Playground.create({
       childId: childId,
     });
-    const { errors: createError } = playgroundEntryResponse;
-    if (createError) throw new Error(createError[0].message);
+    const { errors: responseError } = playgroundEntryResponse;
+    if (responseError) throw new Error(responseError[0].message);
 
     aduitPlaygroundEntry(childId);
   } catch (error) {
-    auditError("Error entering playground: " + error);
+    auditError("Error entering playground: " + error, null, childId);
   }
 }
 
@@ -37,10 +34,7 @@ export async function enterPlayground(childId) {
 export async function exitPlayground(childId) {
   try {
     const childInPlayground = await inPlayground(childId);
-    if (!childInPlayground) {
-      auditError("Child is not in the playground");
-      return;
-    }
+    if (!childInPlayground) throw new Error("Child is not in the playground");
 
     await client.models.Playground.delete({
       childId: childId,
