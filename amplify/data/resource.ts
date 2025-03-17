@@ -71,7 +71,7 @@ const schema = a
       })
       .identifier(["emoji"]),
 
-    GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "NA"]),
+    GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "OTHER"]),
 
     EventType: a.enum([
       "CREATE",
