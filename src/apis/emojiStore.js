@@ -111,7 +111,7 @@ export async function unassignEmoji(emoji) {
 export async function getChildId(emoji) {
   try {
     const emojiStore = await client.models.EmojiStore.get({
-      emoj1i: emoji,
+      emoji: emoji,
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
