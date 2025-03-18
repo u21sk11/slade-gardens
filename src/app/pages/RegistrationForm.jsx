@@ -5,7 +5,6 @@ function RegistrationForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
@@ -33,7 +32,7 @@ function RegistrationForm() {
     emails: "",
     terms: "",
   });
-  const [howHeard, setHowHeard] = useState("");
+  const [referralSource, setReferralSource] = useState("");
 
   const handleChildChange = (index, field, value) => {
     const updatedChildren = [...children];
@@ -71,13 +70,13 @@ function RegistrationForm() {
       firstName,
       lastName,
       email,
-      dob,
       addressLine1,
       addressLine2,
       city,
       postcode,
       phoneNumber,
       permissions,
+      referralSource
     };
     console.log("New Guardian Registered:", newGuardian);
     console.log("Children:", children);
@@ -142,19 +141,6 @@ function RegistrationForm() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="dob" className="block text-[#222831] font-medium">
-            Date of Birth:
-          </label>
-          <input
-            type="date"
-            id="dob"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
             className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
             required
           />
@@ -303,7 +289,7 @@ function RegistrationForm() {
                   >
                     <option value="">Gender*</option>
                     <option value="MALE">Male</option>
-                    <option value="female">Female</option>
+                    <option value="FEMALE">Female</option>
                     <option value="NONBINARY">Non-Binary</option>
                     <option value="OTHER">Other</option>
                   </select>
@@ -496,14 +482,14 @@ function RegistrationForm() {
 
             {/* How did you hear */}
             <div className="mb-6">
-              <label htmlFor="howHeard" className="block text-gray-700">
+              <label htmlFor="referralSource" className="block text-gray-700">
                 How did you hear about Slade Gardens?
               </label>
               <input
                 type="text"
-                id="howHeard"
-                value={howHeard}
-                onChange={(e) => setHowHeard(e.target.value)}
+                id="referralSource"
+                value={referralSource}
+                onChange={(e) => setReferralSource(e.target.value)}
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
             </div>

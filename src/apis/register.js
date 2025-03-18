@@ -44,9 +44,9 @@ export async function register(guardian, children) {
 
     for (const child of children) {
       const newChild = await createChild(guardianResponse.data.guardianId, child);
+      // TODO: Function needs added
       if (!newChild) throw new Error("😭 Need to rollback guardian! " + childrenAdded);
 
-      auditCreate(null, newChild);
       childrenAdded.push(newChild);
     }
     console.log("All children added! " + childrenAdded);
