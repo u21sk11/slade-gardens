@@ -17,7 +17,6 @@ import { getUrl } from "aws-amplify/storage";
 import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
-import { createTestData } from "./api";
 import { auditCreate } from "./apis/audit";
 import { enterPlayground, exitPlayground } from "./apis/playground";
 import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiStore";

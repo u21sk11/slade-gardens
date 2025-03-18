@@ -19,6 +19,9 @@ export async function register(guardian, children) {
 
     console.log("!!! Creating Test Data !!!" + guardian);
     console.log("! Form Name: ", guardian?.firstName);
+
+    const phoneNumber = guardian?.phoneNumber?.replace(/^0/, '+44');
+
     const guardianResponse = await client.models.Guardian.create({
       guardianId: uuidv4(),
       firstName: guardian?.firstName,
@@ -28,8 +31,7 @@ export async function register(guardian, children) {
       addressLine2: guardian?.addressLine2,
       city: guardian?.city,
       postcode: guardian?.postcode,
-      phoneNumber: "+447955475235",
-      // phoneNumber: guardian?.phoneNumber,
+      phoneNumber: phoneNumber,
       permissionMedia: guardian?.permissions.photos,
       permissionContact: guardian?.permissions.emails,
       referralSource: guardian?.referralSource,
@@ -42,9 +44,9 @@ export async function register(guardian, children) {
 
     for (const child of children) {
       const newChild = await createChild(guardianResponse.data.guardianId, child);
+      // TODO: Function needs added
       if (!newChild) throw new Error("😭 Need to rollback guardian! " + childrenAdded);
 
-      auditCreate(null, newChild);
       childrenAdded.push(newChild);
     }
     console.log("All children added! " + childrenAdded);
