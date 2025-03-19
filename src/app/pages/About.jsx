@@ -12,7 +12,7 @@ const About = () => {
       <div className="w-full h-48 md:h-64 lg:h-80 rounded-lg overflow-hidden flex items-center justify-center mb-8">
         <img
           className="w-full h-full object-cover"
-          src="./src/assets/slade-about.png"
+          src="./src/assets/slade-group-1.png"
           alt="Slade Gardens Adventure Playground"
         />
       </div>
