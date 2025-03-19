@@ -41,7 +41,7 @@ export default function App() {
              <div className="flex flex-col min-h-screen">
              <Navbar />
 
-            {/* <Button onClick={signOut}>Sign Out</Button> */}
+            
             <div className="flex-grow">
               <Routes>
                 <Route path="/privacy-policy" element={<PrivacyPolicy />}/>

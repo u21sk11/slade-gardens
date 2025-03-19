@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { register } from "../../apis/register";
-import { Authenticator } from "@aws-amplify/ui-react";
+import { Authenticator, Button } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "../../../amplify_outputs.json";
@@ -94,7 +94,9 @@ function Registration() {
   return (
     <Authenticator>
        {({ signOut, user }) => (
+        
         <div className="py-10 bg-white p-10 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+        <Button onClick={signOut}>Sign Out</Button>
         {/* Title and Disclaimer Text */}
         <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
           Register
