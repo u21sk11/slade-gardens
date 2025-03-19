@@ -22,7 +22,9 @@ import { enterPlayground, exitPlayground } from "./apis/playground";
 import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiStore";
 
 import { Routes, Route } from 'react-router-dom';
+import PrivacyPolicy from "./app/pages/PrivacyPolicy";
 import About from './app/pages/About';
+import Contact from "./app/pages/Contact";
 import RegistrationForm from "./app/pages/RegistrationForm";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -135,7 +137,9 @@ export default function App() {
       <Navbar />
       <div className="flex-grow">
         <Routes>
+          <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
           <Route path="/about" element={<About />}/>
+          <Route path="/contact" element={<Contact />}/>
           <Route path="/register" element={<RegistrationForm />}/>
         </Routes>
       </div>
