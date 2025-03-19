@@ -30,11 +30,10 @@ export async function getUnassignedEmojis(emojiCount) {
       }
       nextToken = newNextToken;
     } while (nextToken);
-    auditError("Not enough unassigned emojis found for allocation.");
+
+    auditError("Not enough unassigned emojis found for allocation");
   } catch (error) {
-    auditError(
-      "Unknown error whilst getting unassigned emojis: ${error.message}"
-    );
+    auditError("Error getting unassigned emojis: " + error.message);
   }
 }
 
@@ -58,7 +57,7 @@ async function fetchEmojis(nextToken) {
 
     return [emojiStore.data, newNextToken];
   } catch (error) {
-    auditError("Unknown error whilst fetching emojis: ${error.message}");
+    auditError("Error fetching emojis: " + error.message);
   }
 }
 
@@ -68,10 +67,8 @@ async function fetchEmojis(nextToken) {
 export async function assignEmoji(emoji, childId) {
   try {
     const childIdCheck = await getChildId(emoji);
-    if (childIdCheck !== "none") {
-      auditError(emoji + " already assigned to another child", null, childId);
-      return;
-    }
+    if (childIdCheck !== "none")
+      throw new Error(emoji + " already assigned to another child");
 
     const emojiStore = await client.models.EmojiStore.update({
       emoji: emoji,
@@ -79,9 +76,10 @@ export async function assignEmoji(emoji, childId) {
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
+
     auditEmojiAssignment(emoji, childId);
   } catch (error) {
-    auditError("Unknown error whilst assigning emoji: ${error.message}", null, childId);
+    auditError("Error assigning emoji: " + error.message, null, childId);
   }
 }
 
@@ -91,10 +89,8 @@ export async function assignEmoji(emoji, childId) {
 export async function unassignEmoji(emoji) {
   try {
     const childId = await getChildId(emoji);
-    if (childId === "none") {
-      auditError(emoji + " is not assigned to a child, could not unassign");
-      return;
-    }
+    if (childId === "none")
+      throw new Error(emoji + " is not assigned to a child");
 
     const emojiStore = await client.models.EmojiStore.update({
       emoji: emoji,
@@ -102,9 +98,10 @@ export async function unassignEmoji(emoji) {
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
+
     auditEmojiUnassignment(emoji, childId);
   } catch (error) {
-    auditError("Unknown error whilst unassigning emoji: ${error.message}");
+    auditError("Error unassigning emoji: " + error.message);
   }
 }
 
@@ -120,7 +117,7 @@ export async function getChildId(emoji) {
     if (responseError) throw new Error(responseError[0].message);
     return emojiStore.data.childId;
   } catch (error) {
-    auditError("Unknown error whilst getting child ID: ${error.message}");
+    auditError("Error getting childId for an emoji: " + error.message);
   }
 }
 
@@ -130,12 +127,10 @@ export async function getChildId(emoji) {
 export async function seedEmojiStore() {
   try {
     const emojiStore = await client.models.EmojiStore.list();
-    if (emojiStore.data.length > 0) {
-      auditError("Emoji store already seeded or not empty");
-      return;
-    }
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
+    if (emojiStore.data.length > 0)
+      throw new Error("Emoji store already seeded or not empty");
 
     // Temporary emojis to seed the emoji store
     const predefinedEmojis = ["🍕", "🍔", "🍟", "🍇"];
@@ -162,11 +157,11 @@ export async function seedEmojiStore() {
           childId: "none",
         };
         const emojiStore = await client.models.EmojiStore.create(emojiEntry);
-        const { errors: emojiErrors } = emojiStore;
-        if (emojiErrors) throw new Error(emojiErrors[0].message);
+        const { errors: responseError } = emojiStore;
+        if (responseError) throw new Error(responseError[0].message);
       })
     );
   } catch (error) {
-    auditError("Error seeding emoji store: " + error);
+    auditError("Error seeding emoji store: " + error.message);
   }
 }

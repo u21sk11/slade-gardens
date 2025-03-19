@@ -12,7 +12,7 @@ const About = () => {
       <div className="w-full h-48 md:h-64 lg:h-80 rounded-lg overflow-hidden flex items-center justify-center mb-8">
         <img
           className="w-full h-full object-cover"
-          src="./src/assets/slade-group-1.png"
+          src="./src/assets/slade-about.webp"
           alt="Slade Gardens Adventure Playground"
         />
       </div>
@@ -40,7 +40,7 @@ const About = () => {
           <div className="w-full h-48 rounded-lg overflow-hidden flex items-center justify-center">
             <img
               className="w-full h-full object-cover"
-              src="/slade-about3.png"
+              src="./src/assets/slade-about3.webp"
               alt="Slade Gardens Adventure Playground"
             />
           </div>
@@ -53,7 +53,7 @@ const About = () => {
           <div className="w-full h-48 rounded-lg overflow-hidden flex items-center justify-center">
             <img
               className="w-full h-full object-cover"
-              src="/slade-about4.png"
+              src="./src/assets/slade-about4.webp"
               alt="Slade Gardens Adventure Playground"
             />
           </div>
@@ -78,7 +78,7 @@ const About = () => {
           <div className="w-full h-48 rounded-lg overflow-hidden flex items-center justify-center">
             <img
               className="w-full h-full object-cover"
-              src="/slade-about2.png"
+              src="./src/assets/slade-about2.webp"
               alt="Slade Gardens Adventure Playground"
             />
           </div>

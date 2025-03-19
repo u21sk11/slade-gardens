@@ -17,13 +17,13 @@ import { getUrl } from "aws-amplify/storage";
 import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
-import { createTestData } from "./api";
 import { auditCreate } from "./apis/audit";
 import { enterPlayground, exitPlayground } from "./apis/playground";
 import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiStore";
 
 import { Routes, Route } from 'react-router-dom';
 import About from './app/pages/About';
+import RegistrationForm from "./app/pages/RegistrationForm";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -132,6 +132,7 @@ export default function App() {
     <>
     <Routes>
       <Route path="/about" element={<About />}/>
+      <Route path="/register" element={<RegistrationForm />}/>
     </Routes>
     {/* <Authenticator>
       {({ signOut }) => (
