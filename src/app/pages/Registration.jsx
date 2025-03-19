@@ -149,8 +149,8 @@ function Registration() {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={user.signInDetails.loginId}
+              // onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
               required
             />
