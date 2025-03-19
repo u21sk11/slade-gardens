@@ -24,6 +24,8 @@ import { getUnassignedEmojis, getChildId, seedEmojiStore } from "./apis/emojiSto
 import { Routes, Route } from 'react-router-dom';
 import About from './app/pages/About';
 import RegistrationForm from "./app/pages/RegistrationForm";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -129,11 +131,15 @@ export default function App() {
   }
 
   return (
-    <>
-    <Routes>
-      <Route path="/about" element={<About />}/>
-      <Route path="/register" element={<RegistrationForm />}/>
-    </Routes>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="flex-grow">
+        <Routes>
+          <Route path="/about" element={<About />}/>
+          <Route path="/register" element={<RegistrationForm />}/>
+        </Routes>
+      </div>
+      <Footer className="flex-shrink-0" />
     {/* <Authenticator>
       {({ signOut }) => (
         <Flex
@@ -237,6 +243,6 @@ export default function App() {
         </Flex>
       )}
     </Authenticator> */}
-    </>
+    </div>
   );
 }
