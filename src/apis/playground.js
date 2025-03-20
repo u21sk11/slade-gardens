@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/data";
 import outputs from "../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
-import { aduitPlaygroundEntry, auditError, auditPlaygroundExit } from "./audit";
+import { auditPlaygroundEntry, auditError, auditPlaygroundExit } from "./audit";
 
 Amplify.configure(outputs);
 const client = generateClient({
@@ -22,7 +22,7 @@ export async function enterPlayground(childId) {
     const { errors: responseError } = playgroundEntryResponse;
     if (responseError) throw new Error(responseError[0].message);
 
-    aduitPlaygroundEntry(childId);
+    auditPlaygroundEntry(childId);
   } catch (error) {
     auditError("Error entering playground: " + error, null, childId);
   }
