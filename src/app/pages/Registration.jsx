@@ -16,7 +16,6 @@ function Registration() {
   const [addressLine2, setAddressLine2] = useState("");
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
-  const [role, setRole] = useState("");
   const [error, setError] = useState("");
 
   // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
@@ -150,9 +149,9 @@ function Registration() {
               type="email"
               id="email"
               value={user.signInDetails.loginId}
-              // onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
               required
+              disabled
             />
           </div>
           <div className="mb-4">
@@ -233,29 +232,11 @@ function Registration() {
             </div>
           </div>
   
-          {/* Fields for Role Selection */}
-          <div className="mb-4">
-                      <label htmlFor="role" className="block text-[#222831] font-medium">
-                          Select Role:
-                      </label>
-                      <select
-                          id="role"
-                          value={role}
-                          onChange={(e) => setRole(e.target.value)}
-                          className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                          required
-                      >
-                          <option value="">-- Select Role --</option>
-                          <option value="guardian">Guardian</option>
-                          <option value="volunteer">Volunteer</option>
-                      </select>
-                  </div>
-  
           {/* Additional Fields for Guardian Registration */}
-          {role === "guardian" && (
+          {
             <>
               {children.map((child, index) => (
-                <div key={index} className="mb-6 border-t border-gray-300 pt-4">
+                <div key={child.firstName + index} className="mb-6 border-t border-gray-300 pt-4">
                   <h3 className="text-lg font-semibold text-gray-700 mb-4">
                     Child {index + 1}
                     {children.length > 1 && (
@@ -504,7 +485,7 @@ function Registration() {
                 />
               </div>
             </>
-          )}
+          }
   
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
   
