@@ -107,8 +107,6 @@ function Registration() {
       permissions,
       referralSource,
     };
-    console.log("New Guardian Registered:", newGuardian);
-    console.log("Children:", children);
 
     // Call the register function from the API
     const result = await register(newGuardian, children);
