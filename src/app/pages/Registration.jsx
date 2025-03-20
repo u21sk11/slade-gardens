@@ -78,6 +78,11 @@ function Registration() {
   const handleSubmit = async (e, email) => {
     e.preventDefault();
 
+    if (!permissions.terms !== "yes") {
+      setError("Terms and conditions must be accepted.")
+      return;
+    }
+
     const newGuardian = {
       firstName,
       lastName,
@@ -397,7 +402,7 @@ function Registration() {
                 <div className="mb-4">
                   <label className="block text-gray-700">
                     Do we have your permission for your child's photographs/videos
-                    to be used on our social media or marketing?
+                    to be used on our social media or marketing?*
                   </label>
                   <div className="flex items-center space-x-4">
                     <label>
@@ -412,6 +417,7 @@ function Registration() {
                             photos: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       Yes
                     </label>
@@ -427,6 +433,7 @@ function Registration() {
                             photos: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       No
                     </label>
@@ -435,7 +442,7 @@ function Registration() {
                 <div className="mb-4">
                   <label className="block text-gray-700">
                     May we occasionally email you with news and notices of our
-                    community events?
+                    community events?*
                   </label>
                   <div className="flex items-center space-x-4">
                     <label>
@@ -450,6 +457,7 @@ function Registration() {
                             emails: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       Yes
                     </label>
@@ -465,6 +473,7 @@ function Registration() {
                             emails: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       No
                     </label>
@@ -474,8 +483,8 @@ function Registration() {
                   <label className="block text-gray-700">
                     Do you agree to the{" "}
                     <a href="#" className="text-blue-500 hover:underline">
-                      terms and conditions?
-                    </a>
+                      terms and conditions
+                    </a>?*
                   </label>
                   <div className="flex items-center space-x-4">
                     <label>
@@ -490,6 +499,7 @@ function Registration() {
                             terms: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       Yes
                     </label>
@@ -505,6 +515,7 @@ function Registration() {
                             terms: e.target.value,
                           })
                         }
+                        required
                       />{" "}
                       No
                     </label>
