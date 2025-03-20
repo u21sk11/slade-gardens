@@ -38,7 +38,7 @@ Amplify.configure(outputs);
 export default function App() {
 
   return (
-             <div className="flex flex-col min-h-screen">
+             <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#6EB545" }}>
              <Navbar />
 
             
