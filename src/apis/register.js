@@ -14,13 +14,7 @@ const client = generateClient({
  */
 export async function register(guardian, children) {
   try {
-    console.log(JSON.stringify(guardian));
-    console.log(JSON.stringify(children));
-
-    console.log("!!! Creating Test Data !!!" + guardian);
-    console.log("! Form Name: ", guardian?.firstName);
-
-    const phoneNumber = guardian?.phoneNumber?.replace(/^0/, '+44');
+    const phoneNumber = guardian?.phoneNumber?.replace(/^0/, "+44");
 
     const guardianResponse = await client.models.Guardian.create({
       guardianId: uuidv4(),
@@ -43,13 +37,20 @@ export async function register(guardian, children) {
     const childrenAdded = [];
 
     for (const child of children) {
-      const newChild = await createChild(guardianResponse.data.guardianId, child);
+      const newChild = await createChild(
+        guardianResponse.data.guardianId,
+        child
+      );
       // TODO: Function needs added
-      if (!newChild) throw new Error("😭 Need to rollback guardian! " + childrenAdded);
+      if (!newChild)
+        throw new Error("😭 Need to rollback guardian! " + childrenAdded);
 
       childrenAdded.push(newChild);
     }
     console.log("All children added! " + childrenAdded);
+
+    return { successful: true, childrenAdded: childrenAdded }
+
   } catch (error) {
     auditError("Error registering guardian: " + error);
   }
@@ -69,17 +70,41 @@ async function createChild(guardianId, child) {
       school: child?.school,
       allergies: child?.allergies,
       disabilities: child?.disabilities,
-      // TODO: THESE NEED ADDED TO FRONT END!
-      freeSchoolMeals: false,
-      permissionToLeave: false,
+      freeSchoolMeals: child?.freeSchoolMeals,
+      permissionToLeave: child?.permissionToLeave,
     });
-
     const { errors: childErrors, data: newChild } = childResponse;
     if (childErrors) throw new Error(childErrors[0].message);
+
     auditCreate(null, newChild?.childId);
     return childResponse.data.childId;
   } catch (error) {
     auditError("Error creating child: " + error.message);
-    return null
+    return null;
   }
+}
+
+async function deleteChild(childId) {
+  try {
+    const childResponse = await client.models.Child.delete({
+      childId: childId,
+    });
+
+    const { errors: childErrors, data: newChild } = childResponse;
+    if (childErrors) throw new Error(childErrors[0].message);
+
+    auditCreate(null, newChild?.childId);
+    return childResponse.data.childId;
+  } catch (error) {
+    auditError("Error creating child: " + error.message);
+    return null;
+  }
+}
+
+async function rollback(guardianId, children) {
+  for (const child of children) {
+    const deleteChild = await deleteChild(child.childId);
+  }
+
+  return null;
 }
