@@ -29,7 +29,7 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
     if (responseError) throw new Error(responseError[0].message);
   } catch (error) {
     console.error(
-      "Unknown error whilst creating audit for ${eventType}: ${error.message}"
+      `Unknown error whilst creating audit for ${eventType}: ${error.message}`
     );
   }
 }
@@ -93,7 +93,7 @@ export async function auditRead(guardianId, childId) {
 /**
  * Audits a playground entry event.
  */
-export async function aduitPlaygroundEntry(childId) {
+export async function auditPlaygroundEntry(childId) {
   await createAuditEntry("ENTRY", "Child entered playground", null, childId);
 }
 
@@ -119,7 +119,7 @@ export async function auditEmojiAssignment(emoji, childId) {
 /**
  * Audits an emoji unassignment event.
  */
-export async function auditEmojiUnassignment(emoji, childId) {
+export async function auditEmojiUnassigned(emoji, childId) {
   await createAuditEntry(
     "EMOJISTORE",
     `${emoji} unassigned`,

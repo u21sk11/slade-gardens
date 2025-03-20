@@ -3,7 +3,7 @@ import outputs from "../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 import {
   auditEmojiAssignment,
-  auditEmojiUnassignment,
+  auditEmojiUnassigned,
   auditError,
 } from "./audit";
 
@@ -18,14 +18,14 @@ const client = generateClient({
 export async function getUnassignedEmojis(emojiCount) {
   try {
     let nextToken = null;
-    let usabbleEmojis = [];
+    let usableEmojis = [];
 
     do {
       const [unassignedEmojis, newNextToken] = await fetchEmojis(nextToken);
       if (unassignedEmojis.length > 0) {
         for (const emoji of unassignedEmojis) {
-          usabbleEmojis.push(emoji.emoji);
-          if (usabbleEmojis.length == emojiCount) return usabbleEmojis;
+          usableEmojis.push(emoji.emoji);
+          if (usableEmojis.length == emojiCount) return usableEmojis;
         }
       }
       nextToken = newNextToken;
@@ -84,7 +84,7 @@ export async function assignEmoji(emoji, childId) {
 }
 
 /**
- * Unassigns an emoji from a child
+ * Unassign an emoji from a child
  */
 export async function unassignEmoji(emoji) {
   try {
@@ -99,7 +99,7 @@ export async function unassignEmoji(emoji) {
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
 
-    auditEmojiUnassignment(emoji, childId);
+    auditEmojiUnassigned(emoji, childId);
   } catch (error) {
     auditError("Error unassigning emoji: " + error.message);
   }
