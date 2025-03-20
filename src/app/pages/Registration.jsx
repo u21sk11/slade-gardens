@@ -10,13 +10,16 @@ Amplify.configure(outputs);
 function Registration() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
+
+  const currentYear = new Date().getFullYear();
+  const youngestDob = new Date(currentYear - 6, new Date().getMonth(), new Date().getDate()).toISOString().split('T')[0];
+  const oldestDob = new Date(currentYear - 16, new Date().getMonth(), new Date().getDate()).toISOString().split('T')[0];
 
   // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
 
@@ -30,6 +33,8 @@ function Registration() {
       school: "",
       allergies: "",
       specialNeeds: "",
+      freeSchoolMeals: "",
+      permissionToLeave: "",
     },
   ]);
   const [permissions, setPermissions] = useState({
@@ -57,6 +62,8 @@ function Registration() {
         school: "",
         allergies: "",
         specialNeeds: "",
+        freeSchoolMeals: "",
+        permissionToLeave: "",
       },
     ]);
   };
@@ -68,7 +75,7 @@ function Registration() {
 
   // --------------------------------------------------------------------------------
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e, email) => {
     e.preventDefault();
 
     const newGuardian = {
@@ -87,7 +94,15 @@ function Registration() {
     console.log("Children:", children);
 
     // Call the register function from the API
-    register(newGuardian, children);
+    const result = await register(newGuardian, children);
+    
+    console.log("Result:" + JSON.stringify(result));
+
+    if (result.successful) {
+      // TODO: Registration complete page confirming children's emojis?      
+    } else {
+      setError("Unable to process registration, please try again.")
+    }
   };
 
   return (
@@ -106,7 +121,7 @@ function Registration() {
         </p>
   
         {/* Registration Form */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e,user.signInDetails.loginId)}>
           <div className="mb-4 flex space-x-6">
             <div className="flex-1">
               <label
@@ -303,12 +318,26 @@ function Registration() {
                       type="date"
                       placeholder="Date of Birth*"
                       value={child.dob}
+                      min={oldestDob}
+                      max={youngestDob}
                       onChange={(e) =>
                         handleChildChange(index, "dob", e.target.value)
                       }
                       className="p-3 border border-gray-300 rounded-md"
                       required
                     />
+                    <select
+                      value={child.permissionToLeave}
+                      onChange={(e) =>
+                        handleChildChange(index, "permissionToLeave", e.target.value === "true")
+                      }
+                      className="p-3 border border-gray-300 rounded-md"
+                      required
+                    >
+                      <option value="">Permission to leave?*</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
                     <input
                       type="text"
                       placeholder="School*"
@@ -319,6 +348,18 @@ function Registration() {
                       className="p-3 border border-gray-300 rounded-md"
                       required
                     />
+                    <select
+                      value={child.freeSchoolMeals}
+                      onChange={(e) =>
+                        handleChildChange(index, "freeSchoolMeals", e.target.value === "true")
+                      }
+                      className="p-3 border border-gray-300 rounded-md"
+                      required
+                    >
+                      <option value="">Eligible for free school meals?*</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
                     <input
                       type="text"
                       placeholder="Any Allergies?"
