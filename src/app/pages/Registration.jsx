@@ -68,7 +68,7 @@ function Registration() {
 
   // --------------------------------------------------------------------------------
 
-  const handleSubmit = (e, email) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const newGuardian = {
@@ -106,7 +106,7 @@ function Registration() {
         </p>
   
         {/* Registration Form */}
-        <form onSubmit={(e) => handleSubmit(e,user.signInDetails.loginId)}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4 flex space-x-6">
             <div className="flex-1">
               <label
