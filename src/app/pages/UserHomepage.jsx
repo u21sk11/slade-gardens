@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function UserHomepage({ onLogout, userPool }) {
+function UserHomepage({ onLogout }) {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -10,7 +10,6 @@ function UserHomepage({ onLogout, userPool }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordErrors, setPasswordErrors] = useState([]);
   const [submissionStatus, setSubmissionStatus] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // In here, we originally had the logic to check that if this URL was accessed by someone without
@@ -65,120 +64,125 @@ function UserHomepage({ onLogout, userPool }) {
     <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-14">
       <header className="mb-10 text-center">
         <h2 className="text-4xl font-extrabold text-green-600 mb-4">
-          Home Page
+          Welcome!
         </h2>
       </header>
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Hello! Thanks for being a member of Slade Gardens!
-        </h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        Hello! Please select an option below.
+      </h2>
 
-        {!showChangePassword ? (
-          <>
-            <p className="text-gray-600 text-center mb-6">
-              To amend your details, please contact:{" "}
-              <a
-                href="mailto:example@sladegarden.com"
-                className="text-blue-500 underline"
-              >
-                example@sladegarden.com
-              </a>
-              .
-            </p>
-            <div className="flex flex-col gap-4 items-center">
-              <button
-                onClick={() => setShowChangePassword(true)}
-                className="bg-sladeYellow text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-sladeYellow-dark transition-colors"
-              >
-                Change Password
-              </button>
-              <button
-                onClick={handleUserLogout}
-                className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition-colors"
-              >
-                Log out
-              </button>
+      {/*Default Section, when no other option is selected*/}
+      <>
+        <div className="flex gap-4 justify-center mb-6">
+          <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition-colors flex-1 text-center">
+            View Child Emojis
+          </button>
+          <button
+            onClick={() => setShowChangePassword(!showChangePassword)}
+            className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition-colors flex-1 text-center"
+          >
+            Change Password
+          </button>
+          <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition-colors flex-1 text-center">
+            Update Information
+          </button>
+          <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition-colors flex-1 text-center">
+            View Details
+          </button>
+        </div>
+      </>
+
+      {/* This shows up when the change password option is selected (haven't added logic for one menu being open at a time yet) */}
+      {showChangePassword && (
+        <form onSubmit={handlePasswordChange} className="space-y-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Old Password
+            </label>
+            <input
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              New Password
+            </label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md"
+              required
+            />
+          </div>
+
+          {passwordErrors.length > 0 && (
+            <div className="text-red-600 text-sm space-y-1">
+              {passwordErrors.map((error, index) => (
+                <p key={index}>• {error}</p>
+              ))}
             </div>
-          </>
-        ) : (
-          <form onSubmit={handlePasswordChange} className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Old Password
-              </label>
-              <input
-                type="password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
+          )}
+
+          {submissionStatus === "success" && (
+            <div className="text-green-600 text-sm">
+              Password changed successfully!
             </div>
+          )}
 
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                New Password
-              </label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Confirm New Password
-              </label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            {passwordErrors.length > 0 && (
-              <div className="text-red-600 text-sm space-y-1">
-                {passwordErrors.map((error, index) => (
-                  <p key={index}>• {error}</p>
-                ))}
-              </div>
-            )}
-
-            {submissionStatus === "success" && (
-              <div className="text-green-600 text-sm">
-                Password changed successfully!
-              </div>
-            )}
-
-            <div className="flex gap-4 justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowChangePassword(false);
-                  setSubmissionStatus(null);
-                  setPasswordErrors([]);
-                }}
-                className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
-                disabled={isLoading}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="bg-sladeYellow text-white px-4 py-2 rounded hover:bg-sladeYellow-dark disabled:opacity-50"
-                disabled={isLoading}
-              >
-                {isLoading ? "Changing..." : "Change Password"}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
+          <div className="flex gap-4 justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                setShowChangePassword(false);
+                setSubmissionStatus(null);
+                setPasswordErrors([]);
+              }}
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      )}
+      
+      {/*Default Section, when no other option is selected*/}
+      {!showChangePassword && (
+        <>
+          <div className="flex flex-col gap-4 place-items-start mt-10">
+            <button
+              onClick={handleUserLogout}
+              className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition-colors"
+            >
+              Log out
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
