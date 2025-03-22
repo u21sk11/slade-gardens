@@ -40,7 +40,7 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
 export async function auditError(message, guardianId, childId) {
   console.error(message);
   await createAuditEntry("ERROR", message, guardianId, childId);
-  return { errors : message }
+  return { errors: message };
 }
 
 /**
@@ -109,22 +109,23 @@ export async function auditPlaygroundExit(childId) {
  * Audits an emoji assignment event.
  */
 export async function auditEmojiAssignment(emoji, childId) {
-  await createAuditEntry(
-    "EMOJISTORE",
-    `${emoji} assigned`,
-    null,
-    childId
-  );
+  await createAuditEntry("EMOJISTORE", `${emoji} assigned`, null, childId);
 }
 
 /**
  * Audits an emoji unassignment event.
  */
 export async function auditEmojiUnassigned(emoji, childId) {
-  await createAuditEntry(
-    "EMOJISTORE",
-    `${emoji} unassigned`,
-    null,
-    childId
-  );
+  await createAuditEntry("EMOJISTORE", `${emoji} unassigned`, null, childId);
+}
+
+/**
+ * Audits a volunteer or visitor signin event.
+ */
+export async function auditThirdPartySignin(volunteer, visitor) {
+  const message = volunteer
+    ? `Volunteer signed in, name: ${volunteer.fullName}, organization: ${volunteer.organization}`
+    : `Visitor signed in: ${visitor}`;
+
+  await createAuditEntry(volunteer ? "VOLUNTEER" : "VISITOR", message);
 }

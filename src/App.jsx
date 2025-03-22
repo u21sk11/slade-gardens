@@ -12,6 +12,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Admin from "./app/pages/admin/Admin";
 import GuardianSignin from "./app/pages/admin/GuardianSignin";
+import Home from "./app/pages/Home";
+import VolunteerSignin from "./app/pages/admin/VolunteerSignin";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -28,8 +30,10 @@ export default function App() {
             
             <div className="flex-grow">
               <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/guardian-signin" element={<GuardianSignin />} />
+                <Route path="/admin/volunteer" element={<VolunteerSignin />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
                 <Route path="/about" element={<About />}/>
                 <Route path="/contact" element={<Contact />}/>
