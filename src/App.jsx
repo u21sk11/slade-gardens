@@ -13,6 +13,7 @@ import Admin from "./app/pages/admin/Admin";
 import GuardianSignin from "./app/pages/admin/GuardianSignin";
 import Home from "./app/pages/Home";
 import VolunteerSignin from "./app/pages/admin/VolunteerSignin";
+import VisitorSignin from "./app/pages/admin/VisitorSignin";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/guardian-signin" element={<GuardianSignin />} />
                 <Route path="/admin/volunteer" element={<VolunteerSignin />} />
+                <Route path="/admin/visitor" element={<VisitorSignin />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
                 <Route path="/about" element={<About />}/>
                 <Route path="/contact" element={<Contact />}/>

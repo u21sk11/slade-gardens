@@ -125,7 +125,9 @@ export async function auditEmojiUnassigned(emoji, childId) {
 export async function auditThirdPartySignin(volunteer, visitor) {
   const message = volunteer
     ? `Volunteer signed in, name: ${volunteer.fullName}, organization: ${volunteer.organization}`
-    : `Visitor signed in: ${visitor}`;
+    : `Visitor signed in, name: ${visitor.fullName}, seeing: ${visitor.seeing}`;
 
   await createAuditEntry(volunteer ? "VOLUNTEER" : "VISITOR", message);
+
+  return true;
 }

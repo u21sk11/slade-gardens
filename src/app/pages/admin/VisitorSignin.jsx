@@ -4,23 +4,23 @@ import Input from "../../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { auditThirdPartySignin } from "../../../apis/audit";
 
-function VolunteerSignin() {
+function VisitorPage() {
   const [fullName, setFullName] = useState("");
-  const [organization, setOrganization] = useState("");
+  const [seeing, setSeeing] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const isButtonDisabled = fullName === "" || organization === "";
+  const isButtonDisabled = fullName === "" || seeing === "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const volunteer = {
+    const visitor = {
       fullName,
-      organization,
+      seeing,
     };
 
-   const audit = await auditThirdPartySignin(volunteer);
+    const audit = await auditThirdPartySignin(null, visitor);
     if (audit) {
       navigate("/admin");
     } else {
@@ -37,7 +37,7 @@ function VolunteerSignin() {
       <div className="min-h-[60vh] flex items-center justify-center py-8">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
           <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10">
-            Volunteer Check-in
+            Visitor Check-in
           </h1>
           {error && (
             <div className="text-red-500 text-center mb-4">
@@ -57,10 +57,10 @@ function VolunteerSignin() {
               className="mb-4 w-full"
             />
             <Input
-              id="organization"
-              label="Organisation*"
-              value={organization}
-              onChange={(e) => setOrganization(e.target.value)}
+              id="seeing"
+              label="Who are you here to see?"
+              value={seeing}
+              onChange={(e) => setSeeing(e.target.value)}
               required
               className="mb-4 w-full"
             />
@@ -92,4 +92,4 @@ function VolunteerSignin() {
   );
 }
 
-export default VolunteerSignin;
+export default VisitorPage;
