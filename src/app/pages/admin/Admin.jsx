@@ -49,7 +49,7 @@ function HomePage({ onLogout }) {
             {/* Visitor */}
             <Link
               to="/admin/visitor"
-              className="box bg-gray-500 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center text-white font-semibold text-lg"
+              className="box bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center text-white font-semibold text-lg"
             >
               <div className="text-center">Visitor</div>
             </Link>
