@@ -35,6 +35,10 @@ function YoungPerson() {
 
     const isButtonDisabled = inputs.some(input => input === '');
 
+    const handleGoBack = () => {
+        navigate("/admin");
+      };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -56,10 +60,13 @@ function YoungPerson() {
 
 
     return (
-        <div className="min-h-[60vh] flex flex-col bg-white flex-grow text-sladeOrange items-center justify-center">
+        <>
+        <div className="min-h-[60vh] flex items-center justify-center py-5">
+        {/* <div className="min-h-[60vh] flex flex-col bg-white flex-grow text-sladeOrange items-center justify-center"> */}
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
             <div>
-                <h1 className="text-3xl font-galindo font-bold text-center">Adventure Playground</h1>
-                <h1 className="text-3xl font-galindo font-bold text-center">Login / Logout</h1>
+                <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-1">Adventure Playground</h1>
+                <h1 className="text-3xl font-galindo font-bold text-sladeOrange-light text-center">Login / Logout</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="mt-10">
@@ -81,10 +88,23 @@ function YoungPerson() {
                 </div>
                 <Button type="submit" buttonColor="bg-sladeGreen" placeholderText="OK" disabled={isButtonDisabled} className={`${isButtonDisabled ? '' : "hover:bg-sladeGreen-dark"} w-full text-white text-xl mt-10`} />
             </form>
-            <Link to="/privacy-policy" className="text-gray-700 font-monserrat underline underline-offset-1 hover:text-gray-900 mt-5">
-                Log in with your name instead
-            </Link>.
+            <div className="flex justify-center mt-3">
+                <Link to="/privacy-policy" className="text-gray-700 font-monserrat underline underline-offset-1 hover:text-gray-900">
+                    Log in with your name instead
+                </Link>
+            </div>
         </div>
+    </div>
+
+        <div className="flex justify-center items-center p-3">
+        <button
+          onClick={handleGoBack}
+          className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+        >
+          Go Back
+        </button>
+      </div>
+    </>
     );
 }
 
