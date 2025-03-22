@@ -216,7 +216,9 @@ function Registration() {
       case 1:
         return (
           <div>
-            {/* Parent/Guardian details form fields */}
+            {/* Guardian details form Fields */}
+
+            {/* First Name and Last Name Fields */}
             <div className="mb-4 flex space-x-6">
               <div className="flex-1">
                 <label
@@ -251,6 +253,8 @@ function Registration() {
                 />
               </div>
             </div>
+
+            {/* Email Field */}
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -267,6 +271,8 @@ function Registration() {
                 disabled
               />
             </div>
+
+            {/* Phone Number Field */}
             <div className="mb-4">
               <label
                 htmlFor="phoneNumber"
@@ -284,7 +290,7 @@ function Registration() {
               />
             </div>
 
-            {/* Address Fields */}
+            {/* Address Line 1 Field */}
             <div className="mb-4">
               <label
                 htmlFor="addressLine1"
@@ -301,6 +307,8 @@ function Registration() {
                 required
               />
             </div>
+
+            {/* Address Line 2 Field */}
             <div className="mb-4">
               <label
                 htmlFor="addressLine2"
@@ -316,6 +324,8 @@ function Registration() {
                 className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
               />
             </div>
+
+            {/* City and Postcode Fields */}
             <div className="mb-4 flex space-x-6">
               <div className="flex-1">
                 <label
@@ -351,6 +361,7 @@ function Registration() {
               </div>
             </div>
 
+            {/* Navigation Buttons */}
             <div className="flex justify-center mt-6">
               {step > 1 && (
                 <button
@@ -376,8 +387,7 @@ function Registration() {
       case 2:
         return (
           <div>
-            {/* Child details form fields */}
-            {/* Additional Fields for Guardian Registration */}
+            {/* Children form Fields */}
             {
               <>
                 {children.map((child, index, guardianId) => (
@@ -397,7 +407,10 @@ function Registration() {
                         </button>
                       )}
                     </h3>
+
+                    {/* Child details form Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* First Name Field */}
                       <input
                         type="text"
                         placeholder="First Name*"
@@ -408,6 +421,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Last Name Field */}
                       <input
                         type="text"
                         placeholder="Last Name*"
@@ -418,6 +433,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Gender Selection */}
                       <select
                         value={child.gender}
                         onChange={(e) =>
@@ -432,6 +449,8 @@ function Registration() {
                         <option value="NONBINARY">Non-Binary</option>
                         <option value="OTHER">Other</option>
                       </select>
+
+                      {/* Ethnicity Selection */}
                       <select
                         value={child.ethnicity}
                         onChange={(e) =>
@@ -447,6 +466,8 @@ function Registration() {
                         <option value="mixed">Mixed</option>
                         <option value="other">Other</option>
                       </select>
+
+                      {/* Date of Birth Field */}
                       <input
                         type="date"
                         placeholder="Date of Birth*"
@@ -460,6 +481,8 @@ function Registration() {
                         required
                         onKeyDown={(e) => e.preventDefault()}
                       />
+
+                      {/* Permission to Leave Selection */}
                       <select
                         value={child.permissionToLeave}
                         onChange={(e) =>
@@ -476,6 +499,8 @@ function Registration() {
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                       </select>
+
+                      {/* School Field */}
                       <input
                         type="text"
                         placeholder="School*"
@@ -486,6 +511,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Free School Meals Selection */}
                       <select
                         value={child.freeSchoolMeals}
                         onChange={(e) =>
@@ -504,6 +531,8 @@ function Registration() {
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                       </select>
+
+                      {/* Allergies Field */}
                       <input
                         type="text"
                         placeholder="Any Allergies?"
@@ -513,6 +542,8 @@ function Registration() {
                         }
                         className="p-3 border border-gray-300 rounded-md"
                       />
+
+                      {/* Special Needs Field */}
                       <input
                         type="text"
                         placeholder="Disabilities / Special Needs?"
@@ -530,6 +561,7 @@ function Registration() {
                   </div>
                 ))}
 
+                {/* Add Child Button */}
                 <button
                   type="button"
                   onClick={addChild}
@@ -540,6 +572,7 @@ function Registration() {
               </>
             }
 
+            {/* Navigation Buttons */}
             <div className="flex justify-center mt-6">
               {step > 1 && (
                 <button
@@ -565,14 +598,14 @@ function Registration() {
       case 3:
         return (
           <div>
-            {/* Additional details form fields */}
+            {/* Additional details form Fields */}
 
-            {/* Permissions */}
             <div className="mt-6">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
                 Permissions
               </h3>
               <div className="mb-4">
+                {/* Photo Permissions Fields */}
                 <label className="block text-gray-700">
                   Do we have your permission for your child's photographs/videos
                   to be used on our social media or marketing?*
@@ -612,6 +645,8 @@ function Registration() {
                   </label>
                 </div>
               </div>
+
+              {/* Email Permissions Fields */}
               <div className="mb-4">
                 <label className="block text-gray-700">
                   May we occasionally email you with news and notices of our
@@ -697,7 +732,7 @@ function Registration() {
               </div>
             </div>
 
-            {/* How did you hear */}
+            {/* How did you hear Field */}
             <div className="mb-6">
               <label htmlFor="referralSource" className="block text-gray-700">
                 How did you hear about Slade Gardens?
@@ -711,6 +746,7 @@ function Registration() {
               />
             </div>
 
+            {/* Navigation Buttons */}
             <div className="flex justify-center mt-6">
               <button
                 type="button"
@@ -721,6 +757,7 @@ function Registration() {
               </button>
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
