@@ -2,7 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
-import { auditError, auditCreate } from "./audit";
+import { auditError, auditCreate, auditDelete } from "./audit";
+import { assignEmoji, getUnassignedEmojis } from "./emojiStore";
 
 Amplify.configure(outputs);
 const client = generateClient({
@@ -13,6 +14,81 @@ const client = generateClient({
  * Registers a guardian and their children
  */
 export async function register(guardian, children) {
+  try {
+    const guardianId = await createGuardian(guardian);
+
+    const childrenAdded = [];
+
+    for (const child of children) {
+      const newChild = await createChild(
+        guardianId,
+        child
+      );
+
+      // If creation of current child failed, rollback
+      if (newChild.errors)
+        return rollback(guardianId, childrenAdded);
+
+      childrenAdded.push(newChild);
+    }
+
+    const emojisAvailable = await getUnassignedEmojis(childrenAdded.length);
+
+    for (let i = 0; i < childrenAdded.length; i++) {
+      await assignEmoji(emojisAvailable[i], childrenAdded[i]);
+    }
+
+    return {
+      successful: true,
+      childrenAdded: childrenAdded,
+    };
+  } catch (error) {
+    return auditError("Error registering guardian: " + error);
+  }
+}
+
+async function createChild(guardianId, child) {
+  try {
+    const childResponse = await client.models.Child.create({
+      childId: uuidv4(),
+      guardianId: guardianId,
+      firstName: child?.firstName,
+      lastName: child?.lastName,
+      gender: child?.gender,
+      ethnicity: child?.ethnicity,
+      dob: child?.dob,
+      school: child?.school,
+      allergies: child?.allergies,
+      disabilities: child?.disabilities,
+      freeSchoolMeals: child?.freeSchoolMeals,
+      permissionToLeave: child?.permissionToLeave,
+    });
+    const { errors: createChildError, data: newChild } = childResponse;
+    if (createChildError) throw new Error(createChildError[0].message);
+
+    auditCreate(null, newChild?.childId);
+    return childResponse.data.childId;
+  } catch (error) {
+    return auditError("Error creating child: " + error.message);
+  }
+}
+
+async function deleteChild(childId) {
+  try {
+    const childResponse = await client.models.Child.delete({
+      childId: childId,
+    });
+
+    const { errors: deleteChildError, data: deletedChild } = childResponse;
+    if (deleteChildError) throw new Error(deleteChildError[0].message);
+
+    auditDelete(null, deletedChild?.childId);
+  } catch (error) {
+    return auditError("Error deleting child: " + error.message);
+  }
+}
+
+async function createGuardian(guardian) {
   try {
     const phoneNumber = guardian?.phoneNumber?.replace(/^0/, "+44");
 
@@ -30,81 +106,48 @@ export async function register(guardian, children) {
       permissionContact: guardian?.permissions.emails,
       referralSource: guardian?.referralSource,
     });
-    const { errors: guardianCreateError, data: newGuardian } = guardianResponse;
-    if (guardianCreateError) throw new Error(guardianCreateError[0].message);
+
+    const { errors: createGuardianError, data: newGuardian } = guardianResponse;
+    if (createGuardianError) throw new Error(createGuardianError[0].message);
+
     auditCreate(newGuardian?.guardianId, null);
-
-    const childrenAdded = [];
-
-    for (const child of children) {
-      const newChild = await createChild(
-        guardianResponse.data.guardianId,
-        child
-      );
-      // TODO: Function needs added
-      if (!newChild)
-        throw new Error("😭 Need to rollback guardian! " + childrenAdded);
-
-      childrenAdded.push(newChild);
-    }
-    console.log("All children added! " + childrenAdded);
-
-    return { successful: true, childrenAdded: childrenAdded }
-
+    return newGuardian?.guardianId;
   } catch (error) {
-    auditError("Error registering guardian: " + error);
+    return auditError("Error creating guardian: " + error.message);
   }
 }
 
-async function createChild(guardianId, child) {
+async function deleteGuardian(guardianId) {
   try {
-    const childResponse = await client.models.Child.create({
-      childId: uuidv4(),
+    const childResponse = await client.models.Guardian.delete({
       guardianId: guardianId,
-      firstName: child?.firstName,
-      lastName: child?.lastName,
-      gender: child?.gender,
-
-      ethnicity: child?.ethnicity,
-      dob: child?.dob,
-      school: child?.school,
-      allergies: child?.allergies,
-      disabilities: child?.disabilities,
-      freeSchoolMeals: child?.freeSchoolMeals,
-      permissionToLeave: child?.permissionToLeave,
-    });
-    const { errors: childErrors, data: newChild } = childResponse;
-    if (childErrors) throw new Error(childErrors[0].message);
-
-    auditCreate(null, newChild?.childId);
-    return childResponse.data.childId;
-  } catch (error) {
-    auditError("Error creating child: " + error.message);
-    return null;
-  }
-}
-
-async function deleteChild(childId) {
-  try {
-    const childResponse = await client.models.Child.delete({
-      childId: childId,
     });
 
-    const { errors: childErrors, data: newChild } = childResponse;
-    if (childErrors) throw new Error(childErrors[0].message);
+    const { errors: deleteGuardianError, data: deletedGuardian } =
+      childResponse;
+    if (deleteGuardianError) throw new Error(deleteGuardianError[0].message);
 
-    auditCreate(null, newChild?.childId);
-    return childResponse.data.childId;
+    auditDelete(deletedGuardian?.guardianId);
   } catch (error) {
-    auditError("Error creating child: " + error.message);
-    return null;
+    return auditError("Error deleting guardian: " + error.message);
   }
 }
 
 async function rollback(guardianId, children) {
-  for (const child of children) {
-    const deleteChild = await deleteChild(child.childId);
+  try {
+    for (const child of children) {
+      if (child) {
+        await deleteChild(child);
+      }
+    }
+    await deleteGuardian(guardianId);
+    return auditError(
+      "Error during registration, rollback took place successfully."
+    );
+  } catch (error) {
+    return auditError(
+      "Error performing rollback, please contact an administrator! - " +
+        error.message
+    );
   }
-
-  return null;
 }

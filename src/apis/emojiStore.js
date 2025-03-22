@@ -79,7 +79,7 @@ export async function assignEmoji(emoji, childId) {
 
     auditEmojiAssignment(emoji, childId);
   } catch (error) {
-    auditError("Error assigning emoji: " + error.message, null, childId);
+    return auditError("Error assigning emoji: " + error.message, null, childId);
   }
 }
 

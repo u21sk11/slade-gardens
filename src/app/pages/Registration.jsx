@@ -89,11 +89,12 @@ function Registration() {
 
   const handleSubmit = async (e, email) => {
     e.preventDefault();
+    setError("");
 
-    if (!permissions.terms !== "yes") {
-      setError("Terms and conditions must be accepted.");
+    if (permissions.terms !== "yes") {
+      setError("Terms and conditions must be accepted.")
       return;
-    }
+    } 
 
     const newGuardian = {
       firstName,
