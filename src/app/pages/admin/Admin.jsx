@@ -22,7 +22,7 @@ function HomePage({ onLogout }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {/* Carer / Parent */}
                         <div className="box bg-sladeYellow p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center">
-                            <Link to="/admin/carer-email" className="block text-center text-gray-800 font-semibold text-lg">
+                            <Link to="/admin/guardian-signin" className="block text-center text-gray-800 font-semibold text-lg">
                                 Stay and play parent / carer
                             </Link>
                         </div>
