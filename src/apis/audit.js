@@ -40,6 +40,7 @@ async function createAuditEntry(eventType, message, guardianId, childId) {
 export async function auditError(message, guardianId, childId) {
   console.error(message);
   await createAuditEntry("ERROR", message, guardianId, childId);
+  return { errors : message }
 }
 
 /**
