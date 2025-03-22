@@ -6,6 +6,7 @@ import {
   auditEmojiUnassigned,
   auditError,
 } from "./audit";
+import emojiData from '../data/emojis.json';
 
 Amplify.configure(outputs);
 const client = generateClient({
@@ -132,8 +133,7 @@ export async function seedEmojiStore() {
     if (emojiStore.data.length > 0)
       throw new Error("Emoji store already seeded or not empty");
 
-    // Temporary emojis to seed the emoji store
-    const predefinedEmojis = ["🍕", "🍔", "🍟", "🍇"];
+    const predefinedEmojis = Object.keys(emojiData);
 
     const permutations = [];
     for (const emoji1 of predefinedEmojis) {
@@ -150,17 +150,23 @@ export async function seedEmojiStore() {
       [permutations[i], permutations[j]] = [permutations[j], permutations[i]];
     }
 
-    await Promise.all(
-      permutations.map(async (emoji) => {
+    const BATCH_SIZE = 100; // Number of emojis to process at once
+    
+    for (let i = 0; i < permutations.length; i += BATCH_SIZE) {
+      const batch = permutations.slice(i, i + BATCH_SIZE);
+      await Promise.all(
+      batch.map(async (emoji) => {
         const emojiEntry = {
-          emoji: emoji,
-          childId: "none",
+        emoji: emoji,
+        childId: "none",
         };
         const emojiStore = await client.models.EmojiStore.create(emojiEntry);
         const { errors: responseError } = emojiStore;
         if (responseError) throw new Error(responseError[0].message);
       })
-    );
+      );
+      console.log("Seeded " + (i + batch.length) + " emojis");
+    }
   } catch (error) {
     auditError("Error seeding emoji store: " + error.message);
   }
