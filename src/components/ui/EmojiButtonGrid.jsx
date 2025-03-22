@@ -18,7 +18,7 @@ function EmojiButtonGrid(props) {
     }, []);
     
     return (
-        <div className="grid grid-cols-8 gap-4 p-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4">
             {unicodeData.map((item) => (
                 <EmojiButton
                     key={item.id}
