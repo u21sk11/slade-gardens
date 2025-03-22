@@ -17,6 +17,7 @@ function Registration() {
   const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState(1);
 
   const currentYear = new Date().getFullYear();
   const youngestDob = new Date(
@@ -125,22 +126,99 @@ function Registration() {
     setLoading(false);
   };
 
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
-          <Button onClick={signOut}>Sign Out</Button>
-          {/* Title and Disclaimer Text */}
-          <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-            Registration
-          </h2>
-          <p className="text-sm text-center text-[#6FB545] mb-6">
-            Please note: Slade Gardens Adventure Playground is not a childcare
-            facility.
-          </p>
+  const ProgressBar = ({ step }) => (
+    <div className="flex justify-between mb-6">
+      <div
+        className={`flex-1 ${
+          step >= 1 ? "bg-green-500" : "bg-gray-300"
+        } h-2 rounded-l-lg`}
+      ></div>
+      <div
+        className={`flex-1 ${step >= 2 ? "bg-green-500" : "bg-gray-300"} h-2`}
+      ></div>
+      <div
+        className={`flex-1 ${
+          step >= 3 ? "bg-green-500" : "bg-gray-300"
+        } h-2 rounded-r-lg`}
+      ></div>
+    </div>
+  );
 
-          {/* Registration Form */}
-          <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+  const handleNext = () => {
+    setError("");
+    let isValid = false;
+    switch (step) {
+      case 1:
+        isValid = validateStep1();
+        break;
+      case 2:
+        isValid = validateStep2();
+        break;
+      case 3:
+        isValid = validateStep3();
+        break;
+      default:
+        isValid = true;
+    }
+    if (isValid) {
+      setStep((prevStep) => Math.min(prevStep + 1, 3));
+    }
+  };
+
+  const handlePrevious = () => {
+    setStep((prevStep) => Math.max(prevStep - 1, 1));
+  };
+
+  const validateStep1 = () => {
+    if (
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !addressLine1 ||
+      !city ||
+      !postcode
+    ) {
+      setError("Please fill in all required fields.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateStep2 = () => {
+    for (const child of children) {
+      if (
+        !child.firstName ||
+        !child.lastName ||
+        !child.gender ||
+        !child.ethnicity ||
+        !child.dob ||
+        !child.school ||
+        !child.permissionToLeave ||
+        !child.freeSchoolMeals
+      ) {
+        setError("Please fill in all required fields for each child.");
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const validateStep3 = () => {
+    if (!permissions.photos || !permissions.emails || !permissions.terms) {
+      setError("Please fill in all required fields.");
+      return false;
+    }
+    return true;
+  };
+
+  const renderStepContent = (step, user) => {
+    switch (step) {
+      case 1:
+        return (
+          <div>
+            {/* Guardian details form Fields */}
+
+            {/* First Name and Last Name Fields */}
             <div className="mb-4 flex space-x-6">
               <div className="flex-1">
                 <label
@@ -175,6 +253,8 @@ function Registration() {
                 />
               </div>
             </div>
+
+            {/* Email Field */}
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -191,6 +271,8 @@ function Registration() {
                 disabled
               />
             </div>
+
+            {/* Phone Number Field */}
             <div className="mb-4">
               <label
                 htmlFor="phoneNumber"
@@ -208,7 +290,7 @@ function Registration() {
               />
             </div>
 
-            {/* Address Fields */}
+            {/* Address Line 1 Field */}
             <div className="mb-4">
               <label
                 htmlFor="addressLine1"
@@ -225,6 +307,8 @@ function Registration() {
                 required
               />
             </div>
+
+            {/* Address Line 2 Field */}
             <div className="mb-4">
               <label
                 htmlFor="addressLine2"
@@ -240,6 +324,8 @@ function Registration() {
                 className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
               />
             </div>
+
+            {/* City and Postcode Fields */}
             <div className="mb-4 flex space-x-6">
               <div className="flex-1">
                 <label
@@ -275,12 +361,38 @@ function Registration() {
               </div>
             </div>
 
-            {/* Additional Fields for Guardian Registration */}
+            {/* Navigation Buttons */}
+            <div className="flex justify-center mt-6">
+              {step > 1 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
+                >
+                  Previous
+                </button>
+              )}
+              {step < 3 && (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="bg-[#6FB545] text-white px-4 py-2 rounded-md hover:bg-[#078543] focus:outline-none"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            {/* Children form Fields */}
             {
               <>
-                {children.map((child, index) => (
+                {children.map((child, index, guardianId) => (
                   <div
-                    key={child.firstName + index}
+                    key={guardianId + index}
                     className="mb-6 border-t border-gray-300 pt-4"
                   >
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">
@@ -295,7 +407,10 @@ function Registration() {
                         </button>
                       )}
                     </h3>
+
+                    {/* Child details form Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* First Name Field */}
                       <input
                         type="text"
                         placeholder="First Name*"
@@ -306,6 +421,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Last Name Field */}
                       <input
                         type="text"
                         placeholder="Last Name*"
@@ -316,6 +433,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Gender Selection */}
                       <select
                         value={child.gender}
                         onChange={(e) =>
@@ -330,6 +449,8 @@ function Registration() {
                         <option value="NONBINARY">Non-Binary</option>
                         <option value="OTHER">Other</option>
                       </select>
+
+                      {/* Ethnicity Selection */}
                       <select
                         value={child.ethnicity}
                         onChange={(e) =>
@@ -345,6 +466,8 @@ function Registration() {
                         <option value="mixed">Mixed</option>
                         <option value="other">Other</option>
                       </select>
+
+                      {/* Date of Birth Field */}
                       <input
                         type="date"
                         placeholder="Date of Birth*"
@@ -356,7 +479,10 @@ function Registration() {
                         }
                         className="p-3 border border-gray-300 rounded-md"
                         required
+                        onKeyDown={(e) => e.preventDefault()}
                       />
+
+                      {/* Permission to Leave Selection */}
                       <select
                         value={child.permissionToLeave}
                         onChange={(e) =>
@@ -373,6 +499,8 @@ function Registration() {
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                       </select>
+
+                      {/* School Field */}
                       <input
                         type="text"
                         placeholder="School*"
@@ -383,6 +511,8 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Free School Meals Selection */}
                       <select
                         value={child.freeSchoolMeals}
                         onChange={(e) =>
@@ -401,6 +531,8 @@ function Registration() {
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                       </select>
+
+                      {/* Allergies Field */}
                       <input
                         type="text"
                         placeholder="Any Allergies?"
@@ -410,6 +542,8 @@ function Registration() {
                         }
                         className="p-3 border border-gray-300 rounded-md"
                       />
+
+                      {/* Special Needs Field */}
                       <input
                         type="text"
                         placeholder="Disabilities / Special Needs?"
@@ -427,6 +561,7 @@ function Registration() {
                   </div>
                 ))}
 
+                {/* Add Child Button */}
                 <button
                   type="button"
                   onClick={addChild}
@@ -434,165 +569,230 @@ function Registration() {
                 >
                   + Add Child
                 </button>
-                {/* Permissions */}
-                <div className="mt-6">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                    Permissions
-                  </h3>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">
-                      Do we have your permission for your child's
-                      photographs/videos to be used on our social media or
-                      marketing?*
-                    </label>
-                    <div className="flex items-center space-x-4">
-                      <label>
-                        <input
-                          type="radio"
-                          name="photos"
-                          value="yes"
-                          checked={permissions.photos === "yes"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              photos: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        Yes
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="photos"
-                          value="no"
-                          checked={permissions.photos === "no"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              photos: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        No
-                      </label>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">
-                      May we occasionally email you with news and notices of our
-                      community events?*
-                    </label>
-                    <div className="flex items-center space-x-4">
-                      <label>
-                        <input
-                          type="radio"
-                          name="emails"
-                          value="yes"
-                          checked={permissions.emails === "yes"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              emails: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        Yes
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="emails"
-                          value="no"
-                          checked={permissions.emails === "no"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              emails: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        No
-                      </label>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">
-                      Do you agree to the{" "}
-                      <a href="#" className="text-blue-500 hover:underline">
-                        terms and conditions
-                      </a>
-                      ?*
-                    </label>
-                    <div className="flex items-center space-x-4">
-                      <label>
-                        <input
-                          type="radio"
-                          name="terms"
-                          value="yes"
-                          checked={permissions.terms === "yes"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              terms: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        Yes
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="terms"
-                          value="no"
-                          checked={permissions.terms === "no"}
-                          onChange={(e) =>
-                            setPermissions({
-                              ...permissions,
-                              terms: e.target.value,
-                            })
-                          }
-                          required
-                        />{" "}
-                        No
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                {/* How did you hear */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="referralSource"
-                    className="block text-gray-700"
-                  >
-                    How did you hear about Slade Gardens?
-                  </label>
-                  <input
-                    type="text"
-                    id="referralSource"
-                    value={referralSource}
-                    onChange={(e) => setReferralSource(e.target.value)}
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  />
-                </div>
               </>
             }
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            {/* Navigation Buttons */}
+            <div className="flex justify-center mt-6">
+              {step > 1 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none mr-4"
+                >
+                  Previous
+                </button>
+              )}
+              {step < 3 && (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="bg-[#6FB545] text-white px-4 py-2 rounded-xl hover:bg-[#078543] focus:outline-none ml-4"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      case 3:
+        return (
+          <div>
+            {/* Additional details form Fields */}
 
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Permissions
+              </h3>
+              <div className="mb-4">
+                {/* Photo Permissions Fields */}
+                <label className="block text-gray-700">
+                  Do we have your permission for your child's photographs/videos
+                  to be used on our social media or marketing?*
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="photos"
+                      value="yes"
+                      checked={permissions.photos === "yes"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          photos: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    Yes
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="photos"
+                      value="no"
+                      checked={permissions.photos === "no"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          photos: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    No
+                  </label>
+                </div>
+              </div>
+
+              {/* Email Permissions Fields */}
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  May we occasionally email you with news and notices of our
+                  community events?*
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="emails"
+                      value="yes"
+                      checked={permissions.emails === "yes"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          emails: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    Yes
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="emails"
+                      value="no"
+                      checked={permissions.emails === "no"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          emails: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    No
+                  </label>
+                </div>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Do you agree to the{" "}
+                  <a href="#" className="text-blue-500 hover:underline">
+                    terms and conditions
+                  </a>
+                  ?*
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="terms"
+                      value="yes"
+                      checked={permissions.terms === "yes"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          terms: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    Yes
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="terms"
+                      value="no"
+                      checked={permissions.terms === "no"}
+                      onChange={(e) =>
+                        setPermissions({
+                          ...permissions,
+                          terms: e.target.value,
+                        })
+                      }
+                      required
+                    />{" "}
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* How did you hear Field */}
+            <div className="mb-6">
+              <label htmlFor="referralSource" className="block text-gray-700">
+                How did you hear about Slade Gardens?
+              </label>
+              <input
+                type="text"
+                id="referralSource"
+                value={referralSource}
+                onChange={(e) => setReferralSource(e.target.value)}
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              />
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-center mt-6">
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none"
+              >
+                Previous
+              </button>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
               disabled={loading}
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ? "Registering..." : "Submit"}
             </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
+          <Button onClick={signOut}>Sign Out</Button>
+          {/* Title and Disclaimer Text */}
+          <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
+            Registration
+          </h2>
+          <p className="text-sm text-center text-[#6FB545] mb-6">
+            Please note: Slade Gardens Adventure Playground is not a childcare
+            facility.
+          </p>
+
+          {/* Registration Form */}
+          <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+            <ProgressBar step={step} />
+            {renderStepContent(step, user)}
+            {/* Additional Fields for Guardian Registration */}
+
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           </form>
         </div>
       )}
