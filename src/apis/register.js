@@ -41,6 +41,7 @@ export async function register(guardian, children) {
     return {
       successful: true,
       childrenAdded: childrenAdded,
+      assignedEmojis: emojisAvailable
     };
   } catch (error) {
     return auditError("Error registering guardian: " + error);
