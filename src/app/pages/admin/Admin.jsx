@@ -19,14 +19,14 @@ function HomePage({ onLogout }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Carer / Parent */}
-              <Link
-                to="/admin/guardian"
-                className="box bg-sladeYellow p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center font-semibold text-lg"
-              >
-            <div className="text-center text-gray-800">
+            <Link
+              to="/admin/guardian"
+              className="box bg-sladeYellow p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center font-semibold text-lg"
+            >
+              <div className="text-center text-gray-800">
                 Stay and play parent / carer
-            </div>
-              </Link>
+              </div>
+            </Link>
 
             {/* Young Person */}
             <Link
@@ -56,12 +56,18 @@ function HomePage({ onLogout }) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center p-3">
+      <div className="flex justify-center items-center p-3 space-x-4">
         <button
           onClick={handleAdminSignOut}
           className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
         >
           Admin Sign Out
+        </button>
+        <button
+          onClick={() => navigate("/admin/management")}
+          className="bg-sladeOrange text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+        >
+          Management
         </button>
       </div>
     </>
