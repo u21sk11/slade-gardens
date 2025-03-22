@@ -132,7 +132,7 @@ function Registration() {
           <Button onClick={signOut}>Sign Out</Button>
           {/* Title and Disclaimer Text */}
           <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-            Register
+            Registration
           </h2>
           <p className="text-sm text-center text-[#6FB545] mb-6">
             Please note: Slade Gardens Adventure Playground is not a childcare
@@ -147,7 +147,7 @@ function Registration() {
                   htmlFor="firstName"
                   className="block text-[#222831] font-medium"
                 >
-                  First Name:
+                  First Name*
                 </label>
                 <input
                   type="text"
@@ -163,7 +163,7 @@ function Registration() {
                   htmlFor="lastName"
                   className="block text-[#222831] font-medium"
                 >
-                  Last Name:
+                  Last Name*
                 </label>
                 <input
                   type="text"
@@ -180,7 +180,7 @@ function Registration() {
                 htmlFor="email"
                 className="block text-[#222831] font-medium"
               >
-                Email Address:
+                Email*
               </label>
               <input
                 type="email"
@@ -196,7 +196,7 @@ function Registration() {
                 htmlFor="phoneNumber"
                 className="block text-[#222831] font-medium"
               >
-                Phone Number:
+                Phone Number*
               </label>
               <input
                 type="tel"
@@ -214,7 +214,7 @@ function Registration() {
                 htmlFor="addressLine1"
                 className="block text-[#222831] font-medium"
               >
-                Address Line 1:
+                Address Line 1*
               </label>
               <input
                 type="text"
@@ -230,7 +230,7 @@ function Registration() {
                 htmlFor="addressLine2"
                 className="block text-[#222831] font-medium"
               >
-                Address Line 2:
+                Address Line 2
               </label>
               <input
                 type="text"
@@ -246,7 +246,7 @@ function Registration() {
                   htmlFor="city"
                   className="block text-[#222831] font-medium"
                 >
-                  City:
+                  City*
                 </label>
                 <input
                   type="text"
@@ -262,7 +262,7 @@ function Registration() {
                   htmlFor="postcode"
                   className="block text-[#222831] font-medium"
                 >
-                  Postcode:
+                  Postcode*
                 </label>
                 <input
                   type="text"
