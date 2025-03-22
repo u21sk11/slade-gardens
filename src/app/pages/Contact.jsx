@@ -2,7 +2,7 @@ import React from 'react';
 
 const Contact = () => {
   return (
-    <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-14">
+    <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
       <header className="mb-10 text-center">
         <h2 className="text-4xl font-extrabold text-green-600 mb-4">
           Contact Us

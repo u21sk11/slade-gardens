@@ -128,7 +128,7 @@ function Registration() {
   return (
     <Authenticator>
       {({ signOut, user }) => (
-        <div className="py-10 bg-white p-10 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
           <Button onClick={signOut}>Sign Out</Button>
           {/* Title and Disclaimer Text */}
           <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">

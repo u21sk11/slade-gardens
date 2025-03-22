@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-5">
       {/* Updated h4 with smaller text size */}
       <h4 className="text-2xl font-bold text-center text-green-600 mb-8">
         Our Adventure Playground offers over an acre of safe, staffed space where children & young people can come to play, make new friends, develop skills & try new things.

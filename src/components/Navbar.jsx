@@ -23,13 +23,16 @@ function Navbar() {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex space-x-6"> {/* More spacing between links */}
-                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         Home
                     </Link>
-                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/register" className="text-[#222831] font-bold uppercase hover:bg-orange-400 px-4 py-2 rounded-md transition">
+                        Register
+                    </Link>
+                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         About
                     </Link>
-                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         Contact
                     </Link>
                 </div>
@@ -61,13 +64,16 @@ function Navbar() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="md:hidden flex flex-col space-y-4 mt-4 bg-gray-200 p-4"> {/* Same lighter background for mobile */}
-                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         Home
                     </Link>
-                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/register" className="text-[#222831] font-bold uppercase hover:bg-orange-400 px-4 py-2 rounded-md transition">
+                        Register
+                    </Link>
+                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         About
                     </Link>
-                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-gray-400 px-4 py-2 rounded-md transition">
+                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         Contact
                     </Link>
                 </div>
