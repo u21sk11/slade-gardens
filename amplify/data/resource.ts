@@ -81,7 +81,9 @@ const schema = a
       "ERROR",
       "ENTRY",
       "EXIT",
-      "EMOJISTORE"
+      "EMOJISTORE",
+      "VOLUNTEER",
+      "VISITOR",
     ]),
   })
   .authorization((allow) => [allow.authenticated()]);
