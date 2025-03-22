@@ -17,6 +17,7 @@ function Registration() {
   const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState(1);
 
   const currentYear = new Date().getFullYear();
   const youngestDob = new Date(
@@ -125,22 +126,71 @@ function Registration() {
     setLoading(false);
   };
 
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
-          <Button onClick={signOut}>Sign Out</Button>
-          {/* Title and Disclaimer Text */}
-          <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-            Registration
-          </h2>
-          <p className="text-sm text-center text-[#6FB545] mb-6">
-            Please note: Slade Gardens Adventure Playground is not a childcare
-            facility.
-          </p>
+  const ProgressBar = ({ step }) => (
+    <div className="flex justify-between mb-6">
+      <div className={`flex-1 ${step >= 1 ? 'bg-green-500' : 'bg-gray-300'} h-2 rounded-l-lg`}></div>
+      <div className={`flex-1 ${step >= 2 ? 'bg-green-500' : 'bg-gray-300'} h-2`}></div>
+      <div className={`flex-1 ${step >= 3 ? 'bg-green-500' : 'bg-gray-300'} h-2 rounded-r-lg`}></div>
+    </div>
+  );
 
-          {/* Registration Form */}
-          <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+  const handleNext = () => {
+    setError("");
+    let isValid = false;
+    switch (step) {
+      case 1:
+        isValid = validateStep1();
+        break;
+      case 2:
+        isValid = validateStep2();
+        break;
+      case 3:
+        isValid = validateStep3();
+        break;
+      default:
+        isValid = true;
+    }
+    if (isValid) {
+      setStep((prevStep) => Math.min(prevStep + 1, 3));
+    }
+  };
+  
+  const handlePrevious = () => {
+    setStep((prevStep) => Math.max(prevStep - 1, 1));
+  };
+
+  const validateStep1 = () => {
+    if (!firstName || !lastName || !phoneNumber || !addressLine1 || !city || !postcode) {
+      setError("Please fill in all required fields.");
+      return false;
+    }
+    return true;
+  };
+  
+  const validateStep2 = () => {
+    for (const child of children) {
+      if (!child.firstName || !child.lastName || !child.gender || !child.ethnicity || !child.dob || !child.school || !child.permissionToLeave || !child.freeSchoolMeals) {
+        setError("Please fill in all required fields for each child.");
+        return false;
+      }
+    }
+    return true;
+  };
+  
+  const validateStep3 = () => {
+    if (!permissions.photos || !permissions.emails || !permissions.terms) {
+      setError("Please fill in all required fields.");
+      return false;
+    }
+    return true;
+  };
+
+  const renderStepContent = (step, user) => {
+    switch (step) {
+      case 1:
+        return (
+          <div>
+            {/* Parent/Guardian details form fields */}
             <div className="mb-4 flex space-x-6">
               <div className="flex-1">
                 <label
@@ -275,12 +325,38 @@ function Registration() {
               </div>
             </div>
 
-            {/* Additional Fields for Guardian Registration */}
-            {
+          <div className="flex justify-center mt-6">
+            {step > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
+              >
+                Previous
+              </button>
+            )}
+            {step < 3 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="bg-[#6FB545] text-white px-4 py-2 rounded-md hover:bg-[#078543] focus:outline-none"
+              >
+                Next
+              </button>
+            )}
+          </div>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            {/* Child details form fields */}
+                        {/* Additional Fields for Guardian Registration */}
+                        {
               <>
-                {children.map((child, index) => (
+                {children.map((child, index, guardianId) => (
                   <div
-                    key={child.firstName + index}
+                    key={guardianId + index}
                     className="mb-6 border-t border-gray-300 pt-4"
                   >
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">
@@ -434,6 +510,37 @@ function Registration() {
                 >
                   + Add Child
                 </button>
+              </>
+            }
+
+          <div className="flex justify-center mt-6">
+            {step > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none mr-4"
+              >
+                Previous
+              </button>
+            )}
+            {step < 3 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="bg-[#6FB545] text-white px-4 py-2 rounded-xl hover:bg-[#078543] focus:outline-none ml-4"
+              >
+                Next
+              </button>
+            )}
+          </div>
+
+          </div>
+        );
+      case 3:
+        return (
+          <div>
+            {/* Additional details form fields */}
+            
                 {/* Permissions */}
                 <div className="mt-6">
                   <h3 className="text-lg font-semibold text-gray-700 mb-2">
@@ -581,18 +688,56 @@ function Registration() {
                     className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   />
                 </div>
-              </>
-            }
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            <div className="flex justify-center mt-6">
+
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none"
+              >
+                Previous
+              </button>
+              </div>
 
             <button
               type="submit"
               className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
               disabled={loading}
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ? "Registering..." : "Submit"}
             </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
+          <Button onClick={signOut}>Sign Out</Button>
+          {/* Title and Disclaimer Text */}
+          <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
+            Registration
+          </h2>
+          <p className="text-sm text-center text-[#6FB545] mb-6">
+            Please note: Slade Gardens Adventure Playground is not a childcare
+            facility.
+          </p>
+
+          {/* Registration Form */}
+          <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+            <ProgressBar step={step} />
+            {renderStepContent(step, user)}
+            {/* Additional Fields for Guardian Registration */}
+            
+
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+            
           </form>
         </div>
       )}
