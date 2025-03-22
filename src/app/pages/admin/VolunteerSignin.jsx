@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../../../components/Button";
-import Input from "../../../components/Input";
+import Button from "../../../components/form/Button";
+import Input from "../../../components/form/Input";
 import { useNavigate } from "react-router-dom";
 import { auditThirdPartySignin } from "../../../apis/audit";
 
