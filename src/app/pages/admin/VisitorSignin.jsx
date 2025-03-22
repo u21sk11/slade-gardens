@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../../../components/Button";
-import Input from "../../../components/Input";
+import Button from "../../../components/form/Button";
+import Input from "../../../components/form/Input";
 import { useNavigate } from "react-router-dom";
 import { auditThirdPartySignin } from "../../../apis/audit";
 
@@ -34,7 +34,7 @@ function VisitorPage() {
 
   return (
     <>
-      <div className="min-h-[60vh] flex items-center justify-center py-8">
+      <div className="min-h-[60vh] flex items-center justify-center py-5">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
           <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10">
             Visitor Check-in
@@ -80,7 +80,7 @@ function VisitorPage() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center p-3">
         <button
           onClick={handleGoBack}
           className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
