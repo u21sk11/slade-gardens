@@ -3,7 +3,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input.jsx';
 import { useNavigate } from 'react-router-dom';
 
-function VolunteerPage() {
+function Volunteer() {
     const [email, setEmail] = useState('');
     const [organization, setOrganization] = useState('');
     const navigate = useNavigate();
@@ -65,4 +65,4 @@ function VolunteerPage() {
     );
 }
 
-export default VolunteerPage;
+export default Volunteer;
