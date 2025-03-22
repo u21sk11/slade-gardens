@@ -16,6 +16,7 @@ function Registration() {
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const currentYear = new Date().getFullYear();
   const youngestDob = new Date(
@@ -90,11 +91,13 @@ function Registration() {
   const handleSubmit = async (e, email) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     if (permissions.terms !== "yes") {
-      setError("Terms and conditions must be accepted.")
+      setError("Terms and conditions must be accepted.");
+      setLoading(false);
       return;
-    } 
+    }
 
     const newGuardian = {
       firstName,
@@ -119,6 +122,7 @@ function Registration() {
     } else {
       setError("Unable to process registration, please try again.");
     }
+    setLoading(false);
   };
 
   return (
@@ -585,8 +589,9 @@ function Registration() {
             <button
               type="submit"
               className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
+              disabled={loading}
             >
-              Register
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
         </div>
