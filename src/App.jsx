@@ -7,7 +7,6 @@ import PrivacyPolicy from "./app/pages/PrivacyPolicy";
 import About from './app/pages/About';
 import Contact from "./app/pages/Contact";
 import Registration from "./app/pages/Registration";
-import Volunteer from "./app/pages/Volunteer";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Admin from "./app/pages/admin/Admin";
@@ -38,7 +37,6 @@ export default function App() {
                 <Route path="/about" element={<About />}/>
                 <Route path="/contact" element={<Contact />}/>
                 <Route path="/register" element={<Registration />}/>
-                <Route path="/volunteer" element={<Volunteer />}/>
               </Routes>
             </div>
 
