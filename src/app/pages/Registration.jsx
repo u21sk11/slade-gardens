@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { register } from "../../apis/register";
 import { Authenticator, Button } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "../../../amplify_outputs.json";
 
 Amplify.configure(outputs);
 
 function Registration() {
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -119,7 +122,12 @@ function Registration() {
     console.log("Result:" + JSON.stringify(result));
 
     if (result.successful) {
-      // TODO: Registration complete page confirming children's emojis?
+      navigate("/confirmation", {
+        state: {
+          firstNames: children.map(child => child.firstName),
+          emojis: result.assignedEmojis,
+        },
+      });
     } else {
       setError("Unable to process registration, please try again.");
     }
