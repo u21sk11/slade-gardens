@@ -194,9 +194,11 @@ function Registration() {
         !child.dob ||
         !child.school ||
         child.permissionToLeave === "" ||
-        child.freeSchoolMeals === ""
+        child.freeSchoolMeals === "" ||
+        new Date(child.dob) < new Date(oldestDob) ||
+        new Date(child.dob) > new Date(youngestDob)
       ) {
-        setError("Please fill in all required fields for each child.");
+        setError("Please fill in all required fields for each child and ensure the date of birth is within the valid range.");
         return false;
       }
     }
@@ -479,7 +481,6 @@ function Registration() {
                         }
                         className="p-3 border border-gray-300 rounded-md"
                         required
-                        onKeyDown={(e) => e.preventDefault()}
                       />
 
                       {/* Permission to Leave Selection */}
