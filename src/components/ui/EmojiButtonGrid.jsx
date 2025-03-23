@@ -24,7 +24,7 @@ function EmojiButtonGrid(props) {
                     key={item.id}
                     unicode={item.unicode}
                     alt={item.alt}
-                    buttonColor="bg-white hover:bg-green-100"
+                    buttonColor="bg-gray-200 hover:bg-green-100"
                     onClick={() => onEmojiClick(item.unicode)}
                 />
             ))}
