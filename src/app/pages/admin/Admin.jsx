@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Admin({ onLogout }) {
+function HomePage({ onLogout }) {
   const navigate = useNavigate();
 
   const handleAdminSignOut = () => {
@@ -74,4 +74,4 @@ function Admin({ onLogout }) {
   );
 }
 
-export default Admin;
+export default HomePage;
