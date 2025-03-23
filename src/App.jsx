@@ -15,6 +15,7 @@ import Home from "./app/pages/Home";
 import VolunteerSignin from "./app/pages/admin/VolunteerSignin";
 import VisitorSignin from "./app/pages/admin/VisitorSignin";
 import YoungPerson from "./app/pages/admin/YoungPerson";
+import YoungPersonConfirm from "./app/pages/admin/YoungPersonConfirm";
 import ManagementPage from "./app/pages/admin/Management";
 import Confirmation from "./app/pages/Confirmation";
 
@@ -26,10 +27,7 @@ Amplify.configure(outputs);
 
 export default function App() {
   return (
-    <div
-      className="flex flex-col min-h-screen"
-      style={{ backgroundColor: "#6EB545" }}
-    >
+    <div className="flex flex-col min-h-screen bg-sladeGreen">
       <Navbar />
 
       <div className="flex-grow">
@@ -41,6 +39,7 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/guardian" element={<GuardianSignin />} />
           <Route path="/admin/young-person" element={<YoungPerson />} />
+          <Route path="/admin/young-person-confirm" element={<YoungPersonConfirm />} />
           <Route path="/admin/volunteer" element={<VolunteerSignin />} />
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />
