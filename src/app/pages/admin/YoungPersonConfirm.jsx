@@ -38,7 +38,7 @@ function YoungPersonConfirm() {
         <h1 className="text-3xl text-sladeGreen font-galindo font-bold text-center">
           {alertMessage || `Are you ${firstName} ${lastName}?`}
         </h1>
-        <div className="flex flex-col sm:flex-row justify-center w-full sm:w-1/2 gap-x-4 mt-2">
+        <div className="flex flex-col sm:flex-row justify-center items-center w-full gap-x-4 mt-2">
           <Button
             type="button"
             onClick={handleSuccess}
