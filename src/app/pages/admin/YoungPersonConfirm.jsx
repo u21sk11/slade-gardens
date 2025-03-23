@@ -18,15 +18,10 @@ function YoungPersonConfirm() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Code to run on page load
-        console.log("Page loaded");
-
         const playgroundCheck = await inPlayground(childId);
         setPlaygroundCheck(
           playgroundCheck ? "Ready to leave?" : "Ready to play?"
         );
-
-        console.log("Playground check:", JSON.stringify(playgroundCheck));
       } catch (error) {
         console.error("Error loading page:", error);
       }
