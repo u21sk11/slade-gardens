@@ -10,19 +10,18 @@ function Navbar() {
     };
 
     return (
-        <nav className="bg-white shadow-md p-4 sticky top-0 w-full z-10"> {/* Lighter navbar color and sticky */}
+        <nav className="bg-white shadow-md p-2 sticky top-0 w-full z-10">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/" className="text-gray-800 text-2xl font-semibold">
-                    {/* Larger logo size */}
                     <img
                         src="/src/assets/slade-social-media.webp"
                         alt="Logo"
-                        className="h-32" // Adjust size to be larger
+                        className="h-24 md:h-32"
                     />
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-6"> {/* More spacing between links */}
+                <div className="hidden md:flex space-x-6">
                     <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
                         Home
                     </Link>
@@ -63,7 +62,7 @@ function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden flex flex-col space-y-4 mt-4 bg-gray-200 p-4"> {/* Same lighter background for mobile */}
+                <div className="md:hidden flex flex-col space-y-4 mt-2 bg-gray-200 p-2">
                     <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition" onClick={toggleMenu}>
                         Home
                     </Link>
