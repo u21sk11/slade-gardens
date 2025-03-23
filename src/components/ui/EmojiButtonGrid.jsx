@@ -18,14 +18,13 @@ function EmojiButtonGrid(props) {
     }, []);
     
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4">
+        <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4">
             {unicodeData.map((item) => (
                 <EmojiButton
                     key={item.id}
                     unicode={item.unicode}
                     alt={item.alt}
                     buttonColor="bg-white hover:bg-green-100"
-                    className="transition duration-200"
                     onClick={() => onEmojiClick(item.unicode)}
                 />
             ))}
