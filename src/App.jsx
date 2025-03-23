@@ -18,6 +18,8 @@ import YoungPerson from "./app/pages/admin/YoungPerson";
 import YoungPersonConfirm from "./app/pages/admin/YoungPersonConfirm";
 import ManagementPage from "./app/pages/admin/Management";
 import Confirmation from "./app/pages/Confirmation";
+import YoungPersonLogin from "./app/pages/admin/YoungPersonLogin";
+import YoungPersonLogout from "./app/pages/admin/YoungPersonLogout";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -40,6 +42,8 @@ export default function App() {
           <Route path="/admin/guardian" element={<GuardianSignin />} />
           <Route path="/admin/young-person" element={<YoungPerson />} />
           <Route path="/admin/young-person-confirm" element={<YoungPersonConfirm />} />
+          <Route path="/admin/young-person/login" element={<YoungPersonLogin />} />
+          <Route path="/admin/young-person/logout" element={<YoungPersonLogout />} />
           <Route path="/admin/volunteer" element={<VolunteerSignin />} />
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />
