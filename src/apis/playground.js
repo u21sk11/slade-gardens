@@ -48,7 +48,7 @@ export async function exitPlayground(childId) {
 /**
  * Helper function to check if a child is in the playground, returns a boolean
  */
-async function inPlayground(childId) {
+export async function inPlayground(childId) {
   const playgroundCheck = await client.models.Playground.get({
     childId: childId,
   });

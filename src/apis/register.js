@@ -20,14 +20,10 @@ export async function register(guardian, children) {
     const childrenAdded = [];
 
     for (const child of children) {
-      const newChild = await createChild(
-        guardianId,
-        child
-      );
+      const newChild = await createChild(guardianId, child);
 
       // If creation of current child failed, rollback
-      if (newChild.errors)
-        return rollback(guardianId, childrenAdded);
+      if (newChild.errors) return rollback(guardianId, childrenAdded);
 
       childrenAdded.push(newChild);
     }
@@ -35,13 +31,18 @@ export async function register(guardian, children) {
     const emojisAvailable = await getUnassignedEmojis(childrenAdded.length);
 
     for (let i = 0; i < childrenAdded.length; i++) {
-      await assignEmoji(emojisAvailable[i], childrenAdded[i]);
+      await assignEmoji(
+        emojisAvailable[i],
+        childrenAdded[i],
+        children[i].firstName,
+        children[i].lastName
+      );
     }
 
     return {
       successful: true,
       childrenAdded: childrenAdded,
-      assignedEmojis: emojisAvailable
+      assignedEmojis: emojisAvailable,
     };
   } catch (error) {
     return auditError("Error registering guardian: " + error);

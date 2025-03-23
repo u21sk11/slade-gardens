@@ -63,12 +63,12 @@ export default function App() {
   }
 
   async function handleCheckEmoji() {
-    console.log(await getChildId("🍔🍕🍟"));
+    console.log(await getChildId("🍗⏰🥄"));
   }
 
   async function handleAssignEmoji() {
     try {
-      const assign = await assignEmoji("🍔🍕🍟", "1234");
+      const assign = await assignEmoji("🍗⏰🥄", "1234", "Craig", "Scott");
       console.log(assign);
     } catch (error) {
       console.error(error);
@@ -78,7 +78,7 @@ export default function App() {
 
   async function handleUnassignEmoji() {
     try {
-      const unassign = await unassignEmoji("🍔🍕🍟");
+      const unassign = await unassignEmoji("🍗⏰🥄");
 
     } catch (error) {
       console.error(error);
@@ -127,13 +127,13 @@ export default function App() {
             GET UNASSIGNED EMOJI - 5 emojis printed to console
           </Button>
           <Button onClick={handleCheckEmoji} variation="link">
-            CHECK EMOJI - 🍔🍕🍟
+            CHECK EMOJI - 🍗⏰🥄
           </Button>
           <Button onClick={handleAssignEmoji} variation="link">
-            ASSIGN EMOJI - 🍔🍕🍟 to "1234"
+            ASSIGN EMOJI - 🍗⏰🥄 to "1234"
           </Button>
           <Button onClick={handleUnassignEmoji} variation="link">
-            UNASSIGN EMOJI - 🍔🍕🍟 from "1234"
+            UNASSIGN EMOJI - 🍗⏰🥄 from "1234"
           </Button>
           <Divider/>
 

@@ -37,7 +37,7 @@ const schema = a
         freeSchoolMeals: a.boolean(),
         permissionToLeave: a.boolean(),
         playgroundEntry: a.hasOne("Playground", "childId"),
-        assignedEmoji: a.hasOne("EmojiStore", "childId"),
+        assignedEmoji: a.hasOne("AssignedEmojis", "childId"),
         auditEntry: a.hasMany("Audit", "childId"),
       })
       .identifier(["childId"]),
@@ -66,8 +66,16 @@ const schema = a
     EmojiStore: a
       .model({
         emoji: a.id().required(),
-        childId: a.id(),
+      })
+      .identifier(["emoji"]),
+
+    AssignedEmojis: a
+      .model({
+        emoji: a.id().required(),
+        childId: a.id().required(),
         child: a.belongsTo("Child", "childId"),
+        firstName: a.string().required(),
+        lastName: a.string().required(),
       })
       .identifier(["emoji"]),
 
