@@ -13,7 +13,6 @@ function VolunteerSignin() {
   const isButtonDisabled = fullName === "" || organization === "";
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -36,22 +35,28 @@ function VolunteerSignin() {
     navigate("/admin");
   };
 
+  const ErrorMessage = ({ message }) => (
+    <div className="text-red-500 text-center mb-4 font-bold">{message}</div>
+  );
+
   return (
       <div className="min-h-[85vh] flex items-center justify-center py-5"
       style={{
-        backgroundImage: 'url(/user-login-bg.webp)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    }}>
-        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl opacity-95">
-          <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10">
+        backgroundImage: "url(/user-login-bg.webp)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="relative w-full max-w-4xl shadow-lg">
+        <div className="absolute inset-0 bg-white opacity-85 rounded-lg shadow-md"></div>
+        <div className="relative p-6">
+          <h1
+            className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10"
+            style={{ textShadow: "1px 1px 1px black" }}
+          >
             Volunteer Check-in
           </h1>
-          {error && (
-            <div className="text-red-500 text-center mb-4">
-              {error}
-            </div>
-          )}
+          {error && <ErrorMessage message={error} />}
           <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center"
@@ -92,6 +97,7 @@ function VolunteerSignin() {
         >
           Go Back
         </button>
+          </div>
       </div>
         </div>
       </div>
