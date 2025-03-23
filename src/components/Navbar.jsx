@@ -64,16 +64,16 @@ function Navbar() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="md:hidden flex flex-col space-y-4 mt-4 bg-gray-200 p-4"> {/* Same lighter background for mobile */}
-                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
+                    <Link to="/" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition" onClick={toggleMenu}>
                         Home
                     </Link>
-                    <Link to="/register" className="text-[#222831] font-bold uppercase hover:bg-orange-400 px-4 py-2 rounded-md transition">
+                    <Link to="/register" className="text-[#222831] font-bold uppercase hover:bg-orange-400 px-4 py-2 rounded-md transition" onClick={toggleMenu}>
                         Register
                     </Link>
-                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
+                    <Link to="/about" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition" onClick={toggleMenu}>
                         About
                     </Link>
-                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition">
+                    <Link to="/contact" className="text-[#222831] font-bold uppercase hover:bg-green-400 px-4 py-2 rounded-md transition" onClick={toggleMenu}>
                         Contact
                     </Link>
                 </div>
