@@ -4,12 +4,7 @@ import Button from "../../../components/form/Button";
 import BackButton from "../../../components/form/BackButton";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {
-  inPlayground,
-  enterPlayground,
-  exitPlayground,
-} from "../../../apis/playground";
-import { getChildId } from "../../../apis/emojiStore";
+import { getChildFromEmoji } from "../../../apis/emojiStore";
 
 function YoungPerson() {
   const [inputs, setInputs] = useState(["", "", ""]);
@@ -51,31 +46,19 @@ function YoungPerson() {
     const password = inputs.join("");
     console.log("Password:", password);
 
-    const childId = await getChildId(password);
-    console.log("childId:", childId);
+    const child = await getChildFromEmoji(password);
+    console.log("child:", child);
 
-    if (childId === "notAssigned") {
+    if (child === "notAssigned") {
       window.scrollTo(0, 0);
       setError("Oh no! We cannot find you!");
       return;
     }
 
-    const playgroundCheck = await inPlayground(childId);
-    if (playgroundCheck) {
-      // Confirm and check ready to log out
-      if (window.confirm("Are you ready to log out?")) {
-        // Log out
-        await exitPlayground(childId);
-        alert("You have been logged out!");
-        navigate("/admin");
-      }
-    } else {
-      // Check if the child is in the playground
-      // If not, log in
-      await enterPlayground(childId);
-      alert("You have been logged in!");
-      navigate("/admin");
-    }
+    navigate("/admin/young-person-confirm", {
+      state: { childId: child.childId, firstName:
+      child.firstName, lastName: child.lastName },
+    });
   };
 
   return (

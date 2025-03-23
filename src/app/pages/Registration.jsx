@@ -116,7 +116,6 @@ function Registration() {
       referralSource,
     };
 
-    // Call the register function from the API
     const result = await register(newGuardian, children);
 
     console.log("Result:" + JSON.stringify(result));
