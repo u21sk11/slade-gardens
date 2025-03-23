@@ -44,12 +44,7 @@ export async function getUnassignedEmojis(emojiCount) {
 async function fetchEmojis(nextToken) {
   try {
     const emojiStore = await client.models.EmojiStore.list({
-      filter: {
-        childId: {
-          eq: "none",
-        },
-      },
-      limit: 3,
+      limit: 10,
       nextToken: nextToken,
     });
 
@@ -65,15 +60,26 @@ async function fetchEmojis(nextToken) {
 /**
  * Assigns an emoji to a child
  */
-export async function assignEmoji(emoji, childId) {
+export async function assignEmoji(emoji, childId, firstName, lastName) {
   try {
+    // Check if emoji is already assigned to a child
     const childIdCheck = await getChildId(emoji);
-    if (childIdCheck !== "none")
+    if (childIdCheck !== "notAssigned")
       throw new Error(emoji + " already assigned to another child");
 
-    const emojiStore = await client.models.EmojiStore.update({
+    // Assign emoji to child
+    const assignedEmojis = await client.models.AssignedEmojis.create({
       emoji: emoji,
       childId: childId,
+      firstName: firstName,
+      lastName: lastName,
+    });
+    const { errors: createError } = assignedEmojis;
+    if (createError) throw new Error(createError[0].message);
+
+    // Remove from EmojiStore
+    const emojiStore = await client.models.EmojiStore.delete({
+      emoji: emoji,
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
@@ -89,16 +95,24 @@ export async function assignEmoji(emoji, childId) {
  */
 export async function unassignEmoji(emoji) {
   try {
+    // Check if emoji is assigned to a child
     const childId = await getChildId(emoji);
-    if (childId === "none")
+    if (childId === "notAssigned")
       throw new Error(emoji + " is not assigned to a child");
 
-    const emojiStore = await client.models.EmojiStore.update({
+    // Add to EmojiStore
+    const emojiStore = await client.models.EmojiStore.create({
       emoji: emoji,
-      childId: "none",
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
+
+    // Remove from AssignedEmojis
+    const assignedEmojis = await client.models.AssignedEmojis.delete({
+      emoji: emoji,
+    });
+    const { errors: deleteError } = assignedEmojis;
+    if (deleteError) throw new Error(deleteError[0].message);
 
     auditEmojiUnassigned(emoji, childId);
   } catch (error) {
@@ -111,11 +125,14 @@ export async function unassignEmoji(emoji) {
  */
 export async function getChildId(emoji) {
   try {
-    const emojiStore = await client.models.EmojiStore.get({
+    const emojiStore = await client.models.AssignedEmojis.get({
       emoji: emoji,
     });
     const { errors: responseError } = emojiStore;
     if (responseError) throw new Error(responseError[0].message);
+
+    if (!emojiStore.data) return "notAssigned";
+
     return emojiStore.data.childId;
   } catch (error) {
     auditError("Error getting childId for an emoji: " + error.message);
@@ -158,7 +175,6 @@ export async function seedEmojiStore() {
       batch.map(async (emoji) => {
         const emojiEntry = {
         emoji: emoji,
-        childId: "none",
         };
         const emojiStore = await client.models.EmojiStore.create(emojiEntry);
         const { errors: responseError } = emojiStore;
@@ -167,6 +183,7 @@ export async function seedEmojiStore() {
       );
       console.log("Seeded " + (i + batch.length) + " emojis");
     }
+    console.log("Emoji store seeded successfully");
   } catch (error) {
     auditError("Error seeding emoji store: " + error.message);
   }

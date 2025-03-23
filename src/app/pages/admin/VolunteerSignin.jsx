@@ -11,9 +11,12 @@ function VolunteerSignin() {
   const navigate = useNavigate();
 
   const isButtonDisabled = fullName === "" || organization === "";
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const volunteer = {
       fullName,
@@ -24,6 +27,7 @@ function VolunteerSignin() {
     if (audit) {
       navigate("/admin");
     } else {
+      setIsLoading(false);
       setError("Failed to check-in. Please try again.");
     }
   };
@@ -68,10 +72,10 @@ function VolunteerSignin() {
               type="submit"
               buttonColor="bg-sladeGreen"
               onClick={handleSubmit}
-              placeholderText="OK"
-              disabled={isButtonDisabled}
+              placeholderText={isLoading ? "Submitting..." : "Submit"}
+              disabled={isButtonDisabled || isLoading}
               className={`w-full ${
-                isButtonDisabled
+                isButtonDisabled || isLoading
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-sladeGreen-dark"
               } text-white text-xl mt-6`}

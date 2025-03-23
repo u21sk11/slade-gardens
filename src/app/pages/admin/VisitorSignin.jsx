@@ -11,9 +11,11 @@ function VisitorPage() {
   const navigate = useNavigate();
 
   const isButtonDisabled = fullName === "" || seeing === "";
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const visitor = {
       fullName,
@@ -24,6 +26,7 @@ function VisitorPage() {
     if (audit) {
       navigate("/admin");
     } else {
+      setIsLoading(false);
       setError("Failed to check-in. Please try again.");
     }
   };
@@ -70,10 +73,10 @@ const ErrorMessage = ({ message }) => (
               type="submit"
               buttonColor="bg-sladeGreen"
               onClick={handleSubmit}
-              placeholderText="OK"
-              disabled={isButtonDisabled}
+              placeholderText={isLoading ? "Submitting..." : "Submit"}
+              disabled={isButtonDisabled || isLoading}
               className={`w-full ${
-                isButtonDisabled
+                isButtonDisabled || isLoading
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-sladeGreen-dark"
               } text-white text-xl mt-6`}

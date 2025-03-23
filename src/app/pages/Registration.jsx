@@ -16,7 +16,7 @@ function Registration() {
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
 
   const currentYear = new Date().getFullYear();
@@ -92,11 +92,11 @@ function Registration() {
   const handleSubmit = async (e, email) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setIsLoading(true);
 
     if (permissions.terms !== "yes") {
       setError("Terms and conditions must be accepted.");
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
@@ -123,7 +123,7 @@ function Registration() {
     } else {
       setError("Unable to process registration, please try again.");
     }
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const ProgressBar = ({ step }) => (
@@ -193,8 +193,8 @@ function Registration() {
         !child.ethnicity ||
         !child.dob ||
         !child.school ||
-        !child.permissionToLeave ||
-        !child.freeSchoolMeals
+        child.permissionToLeave === "" ||
+        child.freeSchoolMeals === ""
       ) {
         setError("Please fill in all required fields for each child.");
         return false;
@@ -746,6 +746,15 @@ function Registration() {
               />
             </div>
 
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
+              disabled={isLoading}
+            >
+              {isLoading ? "Registering..." : "Submit"}
+            </button>
+
             {/* Navigation Buttons */}
             <div className="flex justify-center mt-6">
               <button
@@ -756,15 +765,6 @@ function Registration() {
                 Previous
               </button>
             </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
-              disabled={loading}
-            >
-              {loading ? "Registering..." : "Submit"}
-            </button>
           </div>
         );
       default:
