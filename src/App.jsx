@@ -31,19 +31,24 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-sladeGreen">
       <Navbar />
-
       <div className="flex-grow">
         <Routes>
-          {/* Keep admin on top during testing */}
-          <Route path="/" element={<Admin />} />
-
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/guardian" element={<GuardianSignin />} />
           <Route path="/admin/young-person" element={<YoungPerson />} />
-          <Route path="/admin/young-person-confirm" element={<YoungPersonConfirm />} />
-          <Route path="/admin/young-person/login" element={<YoungPersonLogin />} />
-          <Route path="/admin/young-person/logout" element={<YoungPersonLogout />} />
+          <Route
+            path="/admin/young-person-confirm"
+            element={<YoungPersonConfirm />}
+          />
+          <Route
+            path="/admin/young-person/login"
+            element={<YoungPersonLogin />}
+          />
+          <Route
+            path="/admin/young-person/logout"
+            element={<YoungPersonLogout />}
+          />
           <Route path="/admin/volunteer" element={<VolunteerSignin />} />
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />
@@ -54,7 +59,6 @@ export default function App() {
           <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </div>
-
       <Footer className="flex-shrink-0" />
     </div>
   );

@@ -5,7 +5,15 @@ import { Authenticator } from "@aws-amplify/ui-react";
 
 function Home() {
   return (
-    <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(./src/assets/user-login-bg.webp)] bg-cover bg-center">
+    <div>
+      <header className="flex justify-center mt-12">
+        <img
+          className="w-64 h-auto"
+          src="./src/assets/slade-social-media.webp"
+          alt="Slade Gardens Adventure Playground"
+        />
+      </header>
+
       <Authenticator>
         {({ signOut, user }) => (
           <div className="min-h-screen flex flex-col">
