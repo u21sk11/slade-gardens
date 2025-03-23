@@ -52,7 +52,7 @@ function VolunteerSignin() {
         <div className="relative p-6">
           <h1
             className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10"
-            style={{ textShadow: "1px 1px 1px black" }}
+            style={{ textShadow: "0.75px 0.75px 0.75px black" }}
           >
             Volunteer Check-in
           </h1>

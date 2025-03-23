@@ -56,26 +56,37 @@ function YoungPerson() {
     }
 
     navigate("/admin/young-person-confirm", {
-      state: { childId: child.childId, firstName:
-      child.firstName, lastName: child.lastName },
+      state: {
+        childId: child.childId,
+        firstName: child.firstName,
+        lastName: child.lastName,
+      },
     });
   };
 
   return (
-      <div
-        className="min-h-[85vh] flex items-center justify-center py-5"
-        style={{
-          backgroundImage: "url(/user-login-bg.webp)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-4xl opacity-95">
+    <div
+      className="min-h-[85vh] flex items-center justify-center py-5"
+      style={{
+        backgroundImage: "url(/user-login-bg.webp)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="relative w-full max-w-4xl shadow-lg">
+        <div className="absolute inset-0 bg-white opacity-85 rounded-lg shadow-md"></div>
+        <div className="relative p-6">
           <div>
-            <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-1">
+            <h1
+              className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-1"
+              style={{ textShadow: "0.75px 0.75px 0.75px black" }}
+            >
               Adventure Playground
             </h1>
-            <h1 className="text-3xl font-galindo font-bold text-sladeOrange-light text-center">
+            <h1
+              className="text-3xl font-galindo font-bold text-sladeOrange-light text-center"
+              style={{ textShadow: "0.75px 0.75px 0.75px black" }}
+            >
               Login / Logout
             </h1>
           </div>
@@ -132,6 +143,7 @@ function YoungPerson() {
           </div>
         </div>
       </div>
+    </div>
   );
 }
 
