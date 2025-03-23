@@ -15,7 +15,7 @@ function Navbar() {
                 <Link to="/" className="text-gray-800 text-2xl font-semibold">
                     {/* Larger logo size */}
                     <img
-                        src="./src/assets/slade-social-media.webp"
+                        src="/src/assets/slade-social-media.webp"
                         alt="Logo"
                         className="h-32" // Adjust size to be larger
                     />
