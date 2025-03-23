@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const Accordian = ({ items }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -6,7 +6,7 @@ const Accordian = ({ items }) => {
   return (
     <div className="max-w-3xl mx-auto">
       {items.map((item, index) => (
-        <div key={item.id} className="mb-4 border rounded-lg shadow-sm">
+        <div key={index} className="mb-4 border rounded-lg shadow-sm">
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
             className="flex items-center justify-between w-full p-6 transition-colors hover:bg-gray-50"
@@ -16,7 +16,7 @@ const Accordian = ({ items }) => {
             </h3>
             <svg
               className={`w-6 h-6 transform transition-transform duration-200 ${
-                openIndex === index ? 'rotate-180' : ''
+                openIndex === index ? "rotate-180" : ""
               }`}
               fill="none"
               stroke="currentColor"
@@ -32,10 +32,18 @@ const Accordian = ({ items }) => {
           </button>
           <div
             className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              openIndex === index ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+              openIndex === index
+                ? "max-h-[1000px] opacity-100"
+                : "max-h-0 opacity-0"
             }`}
           >
-            <div className="p-6 pt-0 text-gray-600">{item.details}</div>
+            <div className="p-6 pt-0 text-gray-600">
+              <ul className="list-disc list-inside text-gray-600 space-y-1 mt-2 pl-5">
+                {item.details.map((detail, i) => (
+                  <li key={i}>{detail}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       ))}

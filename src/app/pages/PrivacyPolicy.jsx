@@ -5,19 +5,16 @@ const PrivacyPolicy = () => {
 
     const policyItems = [
       {
-        id: 1,
         section: "What is React?",
-        details: "React is a JavaScript library for building user interfaces."
+        details: ["React is a JavaScript library for building user interfaces.", "this is number 2"]
       },
       {
-        id: 2,
         section: "How do I use Tailwind CSS?",
-        details: "Tailwind CSS is a utility-first CSS framework. You can style elements by applying pre-defined classes directly in your markup."
+        details: ["Tailwind CSS is a utility-first CSS framework. You can style elements by applying pre-defined classes directly in your markup."]
       },
       {
-        id: 3,
         section: "Is Vite good for React?",
-        details: "Yes, Vite is a modern build tool that provides fast development server and optimized builds for React applications."
+        details: ["Yes, Vite is a modern build tool that provides fast development server and optimized builds for React applications."]
       }
     ];
 
