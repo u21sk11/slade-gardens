@@ -16,7 +16,7 @@ function Navbar() {
                     <img
                         src="/src/assets/slade-social-media.webp"
                         alt="Logo"
-                        className="h-24 md:h-32"
+                        className="h-16 md:h-24"
                     />
                 </Link>
 

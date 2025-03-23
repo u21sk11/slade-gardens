@@ -79,9 +79,15 @@ function YoungPerson() {
   };
 
   return (
-    <>
-      <div className="min-h-[60vh] flex items-center justify-center py-5">
-        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
+      <div
+        className="min-h-[100vh] flex items-center justify-center py-5"
+        style={{
+          backgroundImage: "url(/user-login-bg.webp)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl opacity-95">
           <div>
             <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-1">
               Adventure Playground
@@ -133,18 +139,16 @@ function YoungPerson() {
               Log in with your name instead
             </Link>
           </div>
+          <div className="flex justify-center items-center p-3">
+            <button
+              onClick={handleGoBack}
+              className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+            >
+              Go Back
+            </button>
+          </div>
         </div>
       </div>
-
-      <div className="flex justify-center items-center p-3">
-        <button
-          onClick={handleGoBack}
-          className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
-        >
-          Go Back
-        </button>
-      </div>
-    </>
   );
 }
 

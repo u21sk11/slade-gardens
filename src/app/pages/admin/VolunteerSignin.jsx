@@ -37,9 +37,13 @@ function VolunteerSignin() {
   };
 
   return (
-    <>
-      <div className="min-h-[60vh] flex items-center justify-center py-5">
-        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
+      <div className="min-h-[100vh] flex items-center justify-center py-5"
+      style={{
+        backgroundImage: 'url(/user-login-bg.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    }}>
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl opacity-95">
           <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10">
             Volunteer Check-in
           </h1>
@@ -81,9 +85,6 @@ function VolunteerSignin() {
               } text-white text-xl mt-6`}
             />
           </form>
-        </div>
-      </div>
-
       <div className="flex justify-center items-center p-3">
         <button
           onClick={handleGoBack}
@@ -92,7 +93,8 @@ function VolunteerSignin() {
           Go Back
         </button>
       </div>
-    </>
+        </div>
+      </div>
   );
 }
 

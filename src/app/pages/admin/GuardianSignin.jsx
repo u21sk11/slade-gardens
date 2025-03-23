@@ -25,9 +25,9 @@ function GuardianSignin() {
     };
 
     return (
-        <div className="min-h-[60vh] bg-gray-50 flex items-center justify-center py-4"
+        <div className="min-h-[100vh] bg-gray-50 flex items-center justify-center py-4"
              style={{
-                 backgroundImage: 'url(/carer-email-bg.jpg)',
+                 backgroundImage: 'url(/user-login-bg.webp)',
                  backgroundSize: 'cover',
                  backgroundPosition: 'center',
              }}
