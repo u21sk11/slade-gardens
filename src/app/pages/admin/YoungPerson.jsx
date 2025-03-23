@@ -63,14 +63,14 @@ function YoungPerson() {
 
   return (
       <div
-        className="min-h-[100vh] flex items-center justify-center py-5"
+        className="min-h-[85vh] flex items-center justify-center py-5"
         style={{
           backgroundImage: "url(/user-login-bg.webp)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl opacity-95">
+        <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-4xl opacity-95">
           <div>
             <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-1">
               Adventure Playground
@@ -80,7 +80,7 @@ function YoungPerson() {
             </h1>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="mt-10">
+            <div className="mt-6">
               <div className="flex space-x-4 justify-center items-center">
                 {inputs.map((input, index) => (
                   <div
@@ -101,7 +101,7 @@ function YoungPerson() {
                 </p>
               )}
             </div>
-            <div className="mt-6">
+            <div className="mt-4">
               <EmojiButtonGrid onEmojiClick={handleEmojiClick} />
             </div>
             <Button
@@ -111,7 +111,7 @@ function YoungPerson() {
               disabled={isButtonDisabled}
               className={`${
                 isButtonDisabled ? "" : "hover:bg-sladeGreen-dark"
-              } w-full text-white text-xl mt-10`}
+              } w-full text-white text-xl mt-8`}
             />
           </form>
           <div className="flex justify-center mt-3">

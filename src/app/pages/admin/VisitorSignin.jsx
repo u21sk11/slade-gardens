@@ -42,7 +42,7 @@ const ErrorMessage = ({ message }) => (
 );
 
   return (
-      <div className="min-h-[100vh] flex items-center justify-center py-5"
+      <div className="min-h-[85vh] flex items-center justify-center py-5"
       style={{
         backgroundImage: 'url(/user-login-bg.webp)',
         backgroundSize: 'cover',
