@@ -32,6 +32,12 @@ function VisitorPage() {
     navigate("/admin");
   };
 
+const ErrorMessage = ({ message }) => (
+    <div className="text-red-500 text-center mb-4 font-bold">
+        {message}
+    </div>
+);
+
   return (
     <>
       <div className="min-h-[60vh] flex items-center justify-center py-5">
@@ -39,11 +45,7 @@ function VisitorPage() {
           <h1 className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10">
             Visitor Check-in
           </h1>
-          {error && (
-            <div className="text-red-500 text-center mb-4">
-              {error}
-            </div>
-          )}
+          {error && <ErrorMessage message={error} />}
           <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center"
