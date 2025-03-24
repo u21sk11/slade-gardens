@@ -29,7 +29,7 @@ Amplify.configure(outputs);
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-sladeGreen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="flex-grow">
         <Routes>
