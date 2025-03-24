@@ -38,11 +38,7 @@ const Accordian = ({ items }) => {
             }`}
           >
             <div className="p-6 pt-0 text-gray-600">
-              <ul className="list-disc list-inside text-gray-600 space-y-1 mt-2 pl-5">
-                {item.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-                ))}
-              </ul>
+                {item.details}
             </div>
           </div>
         </div>
