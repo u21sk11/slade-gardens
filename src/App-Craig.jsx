@@ -17,11 +17,12 @@ import { register } from "./apis/register";
 import { enterPlayground, exitPlayground } from "./apis/playground";
 import {
   getUnassignedEmojis,
-  getChildId,
+  getChildFromEmoji,
   seedEmojiStore,
   assignEmoji,
   unassignEmoji,
 } from "./apis/emojiStore";
+import { newDay, increaseVisitorCount, increaseChildrenCount } from "./apis/statistics";
 
 
 
@@ -85,6 +86,20 @@ export default function App() {
     }
   }
 
+  // Statistic Test Functions
+
+  async function handleNewDay() {
+    await newDay();
+  }
+
+  async function handleIncreaseVisitorCount() {
+    await increaseVisitorCount();
+  }
+
+  async function handleIncreaseChildrenCount() {
+    await increaseChildrenCount();
+  }
+
   return (
     <Authenticator>
       {({ signOut }) => (
@@ -117,6 +132,18 @@ export default function App() {
               </Button>
             </Flex>
           </View>
+          <Divider/>
+
+          <Heading level={2}>Statistics</Heading>
+          <Button onClick={handleNewDay} variation="link">
+            New Day
+          </Button>
+          <Button onClick={handleIncreaseVisitorCount} variation="link">
+            Increase Visitor Count
+          </Button>
+          <Button onClick={handleIncreaseChildrenCount} variation="link">
+            Increase Children Count
+          </Button>
           <Divider/>
 
           <Heading level={2}>EmojiStore</Heading>

@@ -44,10 +44,8 @@ function YoungPerson() {
     e.preventDefault();
 
     const password = inputs.join("");
-    console.log("Password:", password);
 
     const child = await getChildFromEmoji(password);
-    console.log("child:", child);
 
     if (child === "notAssigned") {
       window.scrollTo(0, 0);

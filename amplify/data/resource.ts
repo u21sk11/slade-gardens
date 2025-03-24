@@ -79,6 +79,17 @@ const schema = a
       })
       .identifier(["emoji"]),
 
+    Statistics: a
+      .model({
+        fullDate: a.id().required(),
+        day: a.string().required(),
+        month: a.string().required(),
+        year: a.string().required(),
+        totalVisitors: a.integer().required(),
+        totalChildren: a.integer().required(),
+      })
+      .identifier(["fullDate"]),
+
     GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "OTHER"]),
 
     EventType: a.enum([

@@ -17,6 +17,7 @@ import VisitorSignin from "./app/pages/admin/VisitorSignin";
 import YoungPerson from "./app/pages/admin/YoungPerson";
 import YoungPersonConfirm from "./app/pages/admin/YoungPersonConfirm";
 import ManagementPage from "./app/pages/admin/Management";
+import RollCall from "./app/pages/admin/RollCall";
 import Confirmation from "./app/pages/Confirmation";
 import YoungPersonLogin from "./app/pages/admin/YoungPersonLogin";
 import YoungPersonLogout from "./app/pages/admin/YoungPersonLogout";
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="/admin/volunteer" element={<VolunteerSignin />} />
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />
+          <Route path="/admin/roll-call" element={<RollCall />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
