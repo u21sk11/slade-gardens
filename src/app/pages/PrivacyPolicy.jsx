@@ -131,13 +131,13 @@ const PrivacyPolicy = () => {
   ];
 
   return (
-    <div className="py-8 min-h-screen bg-gray-50 items-center justify-center bg-[url(./src/assets/user-login-bg.webp)] bg-cover bg-top bg-blend-luminosity">
+<div className="py-8 min-h-screen bg-gray-50 items-center justify-center bg-[url(./src/assets/user-login-bg.webp)] bg-cover bg-top bg-fixed bg-blend-luminosity">
       <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5 mb-5">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Privacy Policy
         </h1>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-900 mb-6">
           Welcome to <strong>Slade Gardens!</strong> Your privacy is important
           to us, and we want to be transparent about how we collect, use, and
           protect your information when you sign in and out of our facilities.
@@ -147,7 +147,7 @@ const PrivacyPolicy = () => {
           <Accordian items={policyItems} />
         </div>
 
-        <p className="text-center text-gray-600 mt-6">
+        <p className="text-center text-gray-900 mt-6">
           Thank you for being part of our community and helping us create a
           safe, welcoming space for everyone!
         </p>

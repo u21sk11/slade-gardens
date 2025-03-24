@@ -9,7 +9,7 @@ const Accordian = ({ items }) => {
         <div key={index} className="mb-4 border rounded-lg shadow-sm">
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="flex items-center justify-between w-full p-6 transition-colors hover:bg-gray-50"
+            className="flex items-center justify-between w-full p-4 transition-colors hover:bg-gray-50"
           >
             <h3 className="text-base font-medium text-left text-gray-900">
               {item.section}
