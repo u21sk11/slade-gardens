@@ -28,7 +28,12 @@ export async function increaseVisitorCount() {
 export async function increaseChildrenCount() {
   try {
     const today = await getToday();
-    console.log(JSON.stringify(today));
+
+    if (today === undefined) {
+      await newDay();
+      return;
+    }
+
     today.totalChildren++;
     const increase = await client.models.Statistics.update(today);
     const { errors: responseError } = increase;
@@ -63,6 +68,12 @@ export async function getToday() {
     });
     const { errors: responseError } = today;
     if (responseError) throw new Error(responseError[0].message);
+
+    if (today.data === null) {
+      await newDay();
+      return await getToday();
+    }
+
     return today.data;
   } catch (error) {
     auditError("Error getting today's statistics: " + error);
