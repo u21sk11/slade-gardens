@@ -93,7 +93,7 @@ export async function getChildren() {
 export async function rollCall() {
   try {
     const children = await getChildren();
-    let childrenNames = [];
+    let rollCall = [];
 
     for (const child of children) {
       const childData = await client.models.Child.get({
@@ -102,11 +102,13 @@ export async function rollCall() {
       const { errors: responseError } = childData;
       if (responseError) throw new Error(responseError[0].message);
 
-      childrenNames.push(
-        childData.data.firstName + " " + childData.data.lastName
+      rollCall.push(
+        {fullName: childData.data.firstName + " " + childData.data.lastName,
+        childId: child.childId
+        }
       );
     }
-    return childrenNames;
+    return rollCall;
   } catch (error) {
     auditError("Error getting roll call: " + error);
   }

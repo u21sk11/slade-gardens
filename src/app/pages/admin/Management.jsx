@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { headcount, rollCall } from "../../../apis/playground";
 import { getToday } from "../../../apis/statistics";
+import { Link } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -38,10 +39,9 @@ function ManagementPage() {
   // Mock data for demonstration purposes
   useEffect(() => {
     const fetchStats = async () => {
-
       const inPlayground = await headcount();
       const todaysStats = await getToday();
-      
+
       // Simulate an API call
       // Replace this with call to dynamoDB
       const data = {
@@ -90,21 +90,27 @@ function ManagementPage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Statistics */}
-          <div className="bg-sladeGreen text-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">
-              Total People in Playground
-            </h3>
-            <p className="text-3xl font-bold mt-2">
-              {playgroundStats.totalPeople}
-            </p>
-          </div>
+          <Link to="/admin/roll-call">
+            <div className="bg-sladeGreen text-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold">
+                Total People in Playground
+              </h3>
+              <p className="text-3xl font-bold mt-2">
+                {playgroundStats.totalPeople}
+              </p>
+            </div>
+          </Link>
           <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">Total Children Today</h3>
-            <p className="text-3xl font-bold mt-2">{playgroundStats.childrenToday}</p>
+            <p className="text-3xl font-bold mt-2">
+              {playgroundStats.childrenToday}
+            </p>
           </div>
           <div className="bg-yellow-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">Visitors/Volunteers Today</h3>
-            <p className="text-3xl font-bold mt-2">{playgroundStats.visitorsToday}</p>
+            <p className="text-3xl font-bold mt-2">
+              {playgroundStats.visitorsToday}
+            </p>
           </div>
           <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">Total Visitors This Month</h3>

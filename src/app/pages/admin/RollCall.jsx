@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../../../components/form/Button";
 import Input from "../../../components/form/Input";
 import { useNavigate } from "react-router-dom";
-import { rollCall } from "../../../apis/playground";
+import { exitPlayground, rollCall } from "../../../apis/playground";
 
 function VolunteerSignin() {
   const [fullName, setFullName] = useState("");
@@ -20,9 +20,12 @@ function VolunteerSignin() {
 
   const [childrenNames, setChildrenNames] = useState([]);
 
-  const handleLogout = (name) => {
-    // Implement logout functionality here
-    console.log(`${name} logged out`);
+  const handleLogout = (childId) => {
+    exitPlayground(childId);
+    setChildrenNames((prevChildrenNames) =>
+      prevChildrenNames.filter((child) => child.childId !== childId)
+    );
+    console.log(`${childId} logged out`);
   };
 
   const handleGoBack = () => {
@@ -54,12 +57,12 @@ function VolunteerSignin() {
           {error && <ErrorMessage message={error} />}
           <table className="min-w-full bg-white">
             <tbody>
-              {childrenNames.map((name, index) => (
+              {childrenNames.map((child, index) => (
                 <tr key={index}>
-                  <td className="py-2 px-4 border-b">{name}</td>
+                  <td className="py-2 px-4 border-b">{child.fullName}</td>
                   <td className="py-2 px-4 border-b text-right">
                     <button
-                      onClick={() => handleLogout(name)}
+                      onClick={() => handleLogout(child.childId)}
                       className="bg-sladeYellow-light text-white font-semibold py-1 px-3 rounded shadow hover:bg-sladeYellow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition"
                     >
                       Logout
