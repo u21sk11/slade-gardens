@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import YoungPerson from "./YoungPerson"; // Import YoungPerson component
 
 function Admin({ onLogout }) {
+  const [showYoungPerson, setShowYoungPerson] = useState(false);
   const navigate = useNavigate();
 
   const handleAdminSignOut = () => {
     onLogout();
     navigate("/");
   };
+
+  if (showYoungPerson) {
+    return <YoungPerson />;
+  }
 
   return (
     <div
@@ -35,14 +41,14 @@ function Admin({ onLogout }) {
           </Link>
 
           {/* Young Person */}
-          <Link
-            to="/admin/young-person"
+          <button
+            onClick={() => setShowYoungPerson(true)}
             className="box bg-sladeGreen p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center text-white font-semibold text-lg"
           >
             <div className="text-center">
               APG <br /> Young person
             </div>
-          </Link>
+          </button>
 
           {/* Volunteer */}
           <Link
