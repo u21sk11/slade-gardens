@@ -9,6 +9,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { headcount, rollCall } from "../../../apis/playground";
+import { getToday } from "../../../apis/statistics";
+import { Link } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -22,8 +25,8 @@ ChartJS.register(
 function ManagementPage() {
   const [playgroundStats, setPlaygroundStats] = useState({
     totalPeople: 0,
-    under18: 0,
-    daily: 0,
+    childrenToday: 0,
+    visitorsToday: 0,
     weekly: 0,
     monthly: 0,
     categories: {
@@ -35,19 +38,22 @@ function ManagementPage() {
 
   // Mock data for demonstration purposes
   useEffect(() => {
-    const fetchStats = () => {
+    const fetchStats = async () => {
+      const inPlayground = await headcount();
+      const todaysStats = await getToday();
+
       // Simulate an API call
       // Replace this with call to dynamoDB
       const data = {
-        totalPeople: 45,
-        under18: 30,
-        daily: 60,
-        weekly: 300,
-        monthly: 1200,
+        totalPeople: inPlayground,
+        childrenToday: todaysStats.totalChildren,
+        visitorsToday: todaysStats.totalVisitors,
+        weekly: 0,
+        monthly: 0,
         categories: {
-          Adults: 15,
-          "Young Person": 20,
-          Children: 10,
+          Adults: todaysStats.totalVisitors,
+          "Young Person": 0,
+          Children: todaysStats.totalChildren,
         },
       };
       setPlaygroundStats(data);
@@ -84,21 +90,27 @@ function ManagementPage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Statistics */}
-          <div className="bg-sladeGreen text-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">
-              Total People in Playground
-            </h3>
+          <Link to="/admin/roll-call">
+            <div className="bg-sladeGreen text-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold">
+                Total People in Playground
+              </h3>
+              <p className="text-3xl font-bold mt-2">
+                {playgroundStats.totalPeople}
+              </p>
+            </div>
+          </Link>
+          <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Total Children Today</h3>
             <p className="text-3xl font-bold mt-2">
-              {playgroundStats.totalPeople}
+              {playgroundStats.childrenToday}
             </p>
           </div>
-          <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">Visitors Under 18</h3>
-            <p className="text-3xl font-bold mt-2">{playgroundStats.under18}</p>
-          </div>
           <div className="bg-yellow-500 text-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">Total Visitors Today</h3>
-            <p className="text-3xl font-bold mt-2">{playgroundStats.daily}</p>
+            <h3 className="text-xl font-semibold">Visitors/Volunteers Today</h3>
+            <p className="text-3xl font-bold mt-2">
+              {playgroundStats.visitorsToday}
+            </p>
           </div>
           <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">Total Visitors This Month</h3>

@@ -8,14 +8,6 @@ const Confirmation = () => {
     emojis: [],
   };
 
-  React.useEffect(() => {
-    console.log("Location state:", location.state);
-    console.log(
-      `Emoji's split:`,
-      emojis.map((emoji) => emoji.split(""))
-    );
-  }, [location.state]);
-
 return (
     <div className="min-h-[60vh] flex items-center justify-center py-5">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl text-center">

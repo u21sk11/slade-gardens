@@ -118,8 +118,6 @@ function Registration() {
 
     const result = await register(newGuardian, children);
 
-    console.log("Result:" + JSON.stringify(result));
-
     if (result.successful) {
       navigate("/confirmation", {
         state: {
