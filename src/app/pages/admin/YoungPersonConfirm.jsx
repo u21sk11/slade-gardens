@@ -22,7 +22,7 @@ function YoungPersonConfirm() {
       navigate("/admin/young-person/logout");
     } else {
       // If not, log in
-      await enterPlayground(childId);
+      await enterPlayground(childId, firstName + " " + lastName);
 
       navigate("/admin/young-person/login");
     }

@@ -21,6 +21,7 @@ import RollCall from "./app/pages/admin/RollCall";
 import Confirmation from "./app/pages/Confirmation";
 import YoungPersonLogin from "./app/pages/admin/YoungPersonLogin";
 import YoungPersonLogout from "./app/pages/admin/YoungPersonLogout";
+import NameSearch from "./app/pages/admin/NameSearch";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -50,6 +51,7 @@ export default function App() {
             path="/admin/young-person/logout"
             element={<YoungPersonLogout />}
           />
+          <Route path="/admin/name-search" element={<NameSearch />} />
           <Route path="/admin/volunteer" element={<VolunteerSignin />} />
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />

@@ -46,6 +46,7 @@ const schema = a
       .model({
         childId: a.id().required(),
         child: a.belongsTo("Child", "childId"),
+        fullName: a.string().required(),
       })
       .identifier(["childId"]),
 
