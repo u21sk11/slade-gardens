@@ -4,7 +4,7 @@ import Input from "../../../components/form/Input";
 import { useNavigate } from "react-router-dom";
 import { nameSearch } from "../../../apis/emojiStore";
 
-function VisitorPage() {
+function NameSearch() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
@@ -38,8 +38,17 @@ function VisitorPage() {
 
   const handleSelect = (child) => {
     console.log(child);
+    alert(child.emoji);
+  };
 
-    setSeeing(`${child.firstName} ${child.lastName}`);
+  const handleClear = (e) => {
+    e.preventDefault();
+    setFirstName("");
+    setLastName("");
+    setSearchResults([]);
+    document.getElementById("FN").value = "";
+    document.getElementById("LN").value = "";
+    document.getElementById("FN").focus();
   };
 
   const handleGoBack = () => {
@@ -100,6 +109,7 @@ function VisitorPage() {
             />
             <Button
               buttonColor="bg-sladeYellow"
+              onClick={handleClear}
               placeholderText={isLoading ? "Searching..." : "Clear"}
               disabled={isButtonDisabled || isLoading}
               className={`w-full ${
@@ -110,32 +120,34 @@ function VisitorPage() {
             />
           </form>
           {searchResults.length > 0 && (
-            <table className="min-w-full mt-6">
-              <tbody>
-                {searchResults.map((child) => (
-                  <tr key={child.childId}>
-                    <td className="border px-4 py-2">{child.firstName}</td>
-                    <td className="border px-4 py-2">{child.lastName}</td>
-                    <td className="border px-4 py-2 text-center">
-                      <button
-                        onClick={() => handleSelect(child)}
-                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition"
-                      >
-                        In / Out
-                      </button>
-                    </td>
-                    <td className="border px-4 py-2 text-center">
-                      <button
-                        onClick={() => handleSelect(child)}
-                        className="bg-sladeOrange text-white font-semibold py-2 px-4 rounded shadow hover:bg-sladeOrange-dark focus:outline-none focus:ring-2 focus:ring-sladeOrange-dark focus:ring-opacity-50 transition"
-                      >
-                        Emoji
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto mt-6">
+              <table className="min-w-full">
+                <tbody>
+                  {searchResults.map((child) => (
+                    <tr key={child.childId}>
+                      <td className="border px-4 py-2">{child.firstName}</td>
+                      <td className="border px-4 py-2">{child.lastName}</td>
+                      <td className="border px-4 py-2 text-center">
+                        <button
+                          onClick={() => handleSelect(child)}
+                          className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition"
+                        >
+                          APG
+                        </button>
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        <button
+                          onClick={() => handleSelect(child)}
+                          className="bg-sladeOrange text-white font-semibold py-2 px-4 rounded shadow hover:bg-sladeOrange-dark focus:outline-none focus:ring-2 focus:ring-sladeOrange-dark focus:ring-opacity-50 transition"
+                        >
+                          Emoji
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
           <div className="flex justify-center items-center p-3">
             <button
@@ -151,4 +163,4 @@ function VisitorPage() {
   );
 }
 
-export default VisitorPage;
+export default NameSearch;
