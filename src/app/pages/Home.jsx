@@ -1,10 +1,20 @@
 import React from "react";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { Hub } from "aws-amplify/utils";
+
+Hub.listen("auth", async (data) => {
+  console.log(data);
+  console.log(await printUserGroups());
+});
 
 const printUserGroups = async () => {
   const session = await fetchAuthSession();
-  return session.tokens.accessToken.payload["cognito:groups"][0];
+  const groups = session.tokens.accessToken.payload["cognito:groups"];
+
+  if (groups) return groups[0];
+
+  return [];
 };
 
 function Home() {
@@ -13,7 +23,7 @@ function Home() {
       <Authenticator>
         {({ signOut, user }) => {
           const isAdmin = true;
-          // console.log(printUserGroups());
+
           if (isAdmin) {
             return (
               <div className="min-h-screen flex flex-col">

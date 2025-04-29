@@ -121,7 +121,7 @@ function Registration() {
     if (result.successful) {
       navigate("/confirmation", {
         state: {
-          firstNames: children.map(child => child.firstName),
+          firstNames: children.map((child) => child.firstName),
           emojis: result.assignedEmojis,
         },
       });
@@ -203,7 +203,9 @@ function Registration() {
         new Date(child.dob) < new Date(oldestDob) ||
         new Date(child.dob) > new Date(youngestDob)
       ) {
-        setError("Please fill in all required fields for each child and ensure the date of birth is within the valid range.");
+        setError(
+          "Please fill in all required fields for each child and ensure the date of birth is within the valid range."
+        );
         return false;
       }
     }
@@ -780,28 +782,32 @@ function Registration() {
 
   return (
     <Authenticator>
-      {({ signOut, user }) => (
-        <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
-          <Button onClick={signOut}>Sign Out</Button>
-          {/* Title and Disclaimer Text */}
-          <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-            Registration
-          </h2>
-          <p className="text-sm text-center text-[#6FB545] mb-6">
-            Please note: Slade Gardens Adventure Playground is not a childcare
-            facility.
-          </p>
+      {({ signOut, user }) => {
+        return (
+          <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
+            <Button onClick={signOut}>Sign Out</Button>
+            {/* Title and Disclaimer Text */}
+            <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
+              Registration
+            </h2>
+            <p className="text-sm text-center text-[#6FB545] mb-6">
+              Please note: Slade Gardens Adventure Playground is not a childcare
+              facility.
+            </p>
 
-          {/* Registration Form */}
-          <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
-            <ProgressBar step={step} />
-            {renderStepContent(step, user)}
-            {/* Additional Fields for Guardian Registration */}
+            {/* Registration Form */}
+            <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+              <ProgressBar step={step} />
+              {renderStepContent(step, user)}
+              {/* Additional Fields for Guardian Registration */}
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          </form>
-        </div>
-      )}
+              {error && (
+                <p className="text-red-500 text-center mb-4">{error}</p>
+              )}
+            </form>
+          </div>
+        );
+      }}
     </Authenticator>
   );
 }
