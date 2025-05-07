@@ -19,7 +19,7 @@ const printUserGroups = async () => {
 
 function Home() {
   return (
-    <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(./src/assets/user-login-bg.webp)] bg-cover bg-center">
+    <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-center">
       <Authenticator>
         {({ signOut, user }) => {
           const isAdmin = true;
