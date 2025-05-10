@@ -31,7 +31,7 @@ function Registration() {
     .toISOString()
     .split("T")[0];
   const oldestDob = new Date(
-    currentYear - 16,
+    currentYear - 21,
     new Date().getMonth(),
     new Date().getDate()
   )
