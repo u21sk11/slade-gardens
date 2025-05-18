@@ -610,54 +610,60 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
-
+                                          
                       {/* Ethnicity Main Group Selection */}
-                      <select
-                        value={child.ethnicityMainGroup || ""}
-                        onChange={e => {
-                          handleChildChange(index, "ethnicityMainGroup", e.target.value);
-                          handleChildChange(index, "ethnicity", "");
-                        }}
-                        className="p-3 border border-gray-300 rounded-md"
-                        required
-                      >
-                        {ethnicityMainGroups.map(opt => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
-
-                      {/* Ethnicity Sub-group Selection */}
-                      {child.ethnicityMainGroup && child.ethnicityMainGroup !== "" && (
+                      <div className="col-span-full">
                         <select
-                          value={child.ethnicity}
-                          onChange={e => handleChildChange(index, "ethnicity", e.target.value)}
-                          className="p-3 border border-gray-300 rounded-md"
+                          value={child.ethnicityMainGroup || ""}
+                          onChange={e => {
+                            handleChildChange(index, "ethnicityMainGroup", e.target.value);
+                            handleChildChange(index, "ethnicity", "");
+                          }}
+                          className="p-3 border border-gray-300 rounded-md w-full"
                           required
                         >
-                          <option value="">Select Sub-group*</option>
-                          {ethnicityGroups[child.ethnicityMainGroup].map(opt => (
+                          {ethnicityMainGroups.map(opt => (
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
                           ))}
                         </select>
+                      </div>
+
+                      {/* Ethnicity Sub-group Selection */}
+                      {child.ethnicityMainGroup && child.ethnicityMainGroup !== "" && (
+                        <div className="col-span-full">
+                          <select
+                            value={child.ethnicity}
+                            onChange={e => handleChildChange(index, "ethnicity", e.target.value)}
+                            className="p-3 border border-gray-300 rounded-md w-full"
+                            required
+                          >
+                            <option value="">Select Sub-group*</option>
+                            {ethnicityGroups[child.ethnicityMainGroup].map(opt => (
+                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                          </select>
+                        </div>
                       )}
 
                       {/* Permission to Leave Selection */}
-                      <select
-                        value={child.permissionToLeave}
-                        onChange={(e) =>
-                          handleChildChange(
-                            index,
-                            "permissionToLeave",
-                            e.target.value === "true"
-                          )
-                        }
-                        className="p-3 border border-gray-300 rounded-md"
-                        required
-                      >
-                        <option value="">Permission to leave?*</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                      </select>
+                      <div className="col-span-full">
+                        <select
+                          value={child.permissionToLeave}
+                          onChange={(e) =>
+                            handleChildChange(
+                              index,
+                              "permissionToLeave",
+                              e.target.value === "true"
+                            )
+                          }
+                          className="p-3 border border-gray-300 rounded-md w-full"
+                          required
+                          >
+                          <option value="">Permission to leave?*</option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                      </div>
 
                       {/* School Field */}
                       <input
