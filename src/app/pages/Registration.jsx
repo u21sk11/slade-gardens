@@ -547,8 +547,9 @@ function Registration() {
                         <option value="">Gender*</option>
                         <option value="MALE">Male</option>
                         <option value="FEMALE">Female</option>
-                        <option value="NONBINARY">Non-Binary</option>
+                        <option value="NON_BINARY">Non-binary</option>
                         <option value="OTHER">Other</option>
+                        <option value="SKIP">Prefer not to say</option>
                       </select>
 
                       {/* Ethnicity Selection */}
@@ -561,11 +562,58 @@ function Registration() {
                         required
                       >
                         <option value="">Ethnicity*</option>
-                        <option value="white">White</option>
-                        <option value="black">Black</option>
-                        <option value="asian">Asian</option>
-                        <option value="mixed">Mixed</option>
-                        <option value="other">Other</option>
+                        <option value="" disabled>
+                          -- Asian or Asian British --
+                        </option>
+                        <option value="INDIAN">Indian</option>
+                        <option value="PAKISTANI">Pakistani</option>
+                        <option value="BANGLADESHI">Bangladeshi</option>
+                        <option value="CHINESE">Chinese</option>
+                        <option value="OTHER_ASIAN">
+                          Any other Asian background
+                        </option>
+                        <option value="" disabled>
+                          -- Black, African, Caribbean or Black British --
+                        </option>
+                        <option value="AFRICAN">African</option>
+                        <option value="CARIBBEAN">Caribbean</option>
+                        <option value="OTHER_BLACK">
+                          Any other Black, Black British, or Caribbean
+                          background
+                        </option>
+                        <option value="" disabled>
+                          -- Mixed or multiple ethnic groups --
+                        </option>
+                        <option value="WHITE_AND_BLACK_CARIBBEAN">
+                          White and Black Caribbean
+                        </option>
+                        <option value="WHITE_AND_BLACK_AFRICAN">
+                          White and Black African
+                        </option>
+                        <option value="WHITE_AND_ASIAN">White and Asian</option>
+                        <option value="OTHER_MIXED">
+                          Any other Mixed or multiple ethnic background
+                        </option>
+                        <option value="" disabled>
+                          -- White --
+                        </option>
+                        <option value="WHITE_BRITISH">
+                          English, Welsh, Scottish, Northern Irish or British
+                        </option>
+                        <option value="WHITE_IRISH">Irish</option>
+                        <option value="WHITE_GYPSY_TRAVELLER">
+                          Gypsy or Irish Traveller
+                        </option>
+                        <option value="ROMA">Roma</option>
+                        <option value="WHITE_OTHER">
+                          Any other White background
+                        </option>
+                        <option value="" disabled>
+                          -- Other ethnic group --
+                        </option>
+                        <option value="ARAB">Arab</option>
+                        <option value="OTHER">Any other ethnic group</option>
+                        <option value="SKIP">Prefer not to say</option>
                       </select>
 
                       {/* Date of Birth Field */}

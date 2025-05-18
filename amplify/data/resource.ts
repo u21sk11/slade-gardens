@@ -29,7 +29,7 @@ const schema = a
         firstName: a.string().required(),
         lastName: a.string().required(),
         gender: a.ref("GenderEnum").required(),
-        ethnicity: a.string().required(),
+        ethnicity: a.ref("EthnicityEnum").required(),
         dob: a.date().required(),
         school: a.string().required(),
         allergies: a.string(),
@@ -90,7 +90,36 @@ const schema = a
       })
       .identifier(["fullDate"]),
 
-    GenderEnum: a.enum(["MALE", "FEMALE", "NONBINARY", "OTHER"]),
+    GenderEnum: a.enum([
+      "MALE",
+      "FEMALE",
+      "NON_BINARY",
+      "OTHER",
+      "SKIP"
+    ]),
+
+    EthnicityEnum: a.enum([
+      "INDIAN",
+      "PAKISTANI",
+      "BANGLADESHI",
+      "CHINESE",
+      "OTHER_ASIAN",
+      "AFRICAN",
+      "CARIBBEAN",
+      "OTHER_BLACK",
+      "WHITE_AND_BLACK_CARIBBEAN",
+      "WHITE_AND_BLACK_AFRICAN",
+      "WHITE_AND_ASIAN",
+      "OTHER_MIXED",
+      "WHITE_BRITISH",
+      "WHITE_IRISH",
+      "WHITE_GYPSY_TRAVELLER",
+      "ROMA",
+      "WHITE_OTHER",
+      "ARAB",
+      "OTHER",
+      "SKIP"
+    ]),
 
     EventType: a.enum([
       "CREATE",
