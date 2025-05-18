@@ -24,3 +24,12 @@ body {
 .container {
     flex-grow: 1; /* Allow content to grow and push footer down */
 }
+
+[data-amplify-authenticator] {
+    --amplify-components-button-primary-background-color: theme('colors.sladeGreen.dark');
+    --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px theme('colors.sladeGreen.dark');
+    --amplify-components-tabs-item-active-border-color: theme('colors.sladeGreen.dark');
+    --amplify-components-tabs-item-color: theme('colors.sladeGreen.dark');
+    --amplify-components-tabs-item-active-color: theme('colors.sladeGreen.dark');
+    --amplify-components-button-link-color: theme('colors.sladeGreen.dark');
+  }
