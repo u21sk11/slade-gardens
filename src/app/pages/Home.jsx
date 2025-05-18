@@ -1,52 +1,64 @@
-import React from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
+import React, { useEffect, useState } from "react";
+import { Authenticator, View, Image, Text, useTheme } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { Hub } from "aws-amplify/utils";
+import Admin from "./admin/Admin";
+import Registration from "./Registration";
 
-const printUserGroups = async () => {
-  const session = await fetchAuthSession();
-  return session.tokens.accessToken.payload["cognito:groups"][0];
-};
+const components = {
+    Header() {
+        const { tokens } = useTheme();
 
-function Home() {
-  return (
-    <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(./src/assets/user-login-bg.webp)] bg-cover bg-center">
-      <Authenticator>
-        {({ signOut, user }) => {
-          const isAdmin = true;
-          // console.log(printUserGroups());
-          if (isAdmin) {
-            return (
-              <div className="min-h-screen flex flex-col">
-                <h1 className="text-3xl font-semibold text-center mt-12">
-                  admin
-                </h1>
-                <button
-                  className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition mt-8 mx-auto"
-                  onClick={signOut}
-                >
-                  Sign Out
-                </button>
-              </div>
-            );
-          }
-
-          return (
-            <div className="min-h-screen flex flex-col">
-              <h1 className="text-3xl font-semibold text-center mt-12">
-                Not an admin
-              </h1>
-              <button
-                className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition mt-8 mx-auto"
-                onClick={signOut}
-              >
-                Sign Out
-              </button>
-            </div>
-          );
-        }}
-      </Authenticator>
-    </div>
-  );
+        return (
+            <View textAlign="center" padding={tokens.space.large}>
+                <Image
+                    alt="Slade Gardens Logo"
+                    src="https://sladeadventure.co.uk/wp-content/uploads/2019/07/slade-gardens-logo-no-bg.png"
+                />
+            </View>
+        );
+    }
 }
+
+const Home = () => {
+    const [group, setGroup] = useState("");
+    const [loadingGroups, isLoadingGroups] = useState(true);
+
+    useEffect(() => {
+        const unsubscribe = Hub.listen("auth", async (data) => {
+            if (data.payload.event === "signedIn") {
+                printUserGroups().then((result) => {
+                    console.log(result);
+                    setGroup(result);
+                });
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        }
+    }, []);
+
+    const printUserGroups = async () => {
+        const session = await fetchAuthSession();
+        const groups = session.tokens.accessToken.payload["cognito:groups"];
+
+        if (groups) return groups[0];
+
+        return "";
+    };
+
+    return (
+        <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-center bg-blend-luminosity">
+            <Authenticator components={components}>
+                {({ signOut, user }) => {
+                    if (group === "ADMINS") return <Admin />;
+
+                    return <Registration />;
+                }}
+            </Authenticator>
+        </div>
+    );
+};
 
 export default Home;

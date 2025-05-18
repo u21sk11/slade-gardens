@@ -3,12 +3,7 @@ import "@aws-amplify/ui-react/styles.css";
 import outputs from "../amplify_outputs.json";
 
 import { Routes, Route } from "react-router-dom";
-import PrivacyPolicy from "./app/pages/PrivacyPolicy";
-import About from "./app/pages/About";
-import Contact from "./app/pages/Contact";
 import Registration from "./app/pages/Registration";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import Admin from "./app/pages/admin/Admin";
 import GuardianSignin from "./app/pages/admin/GuardianSignin";
 import Home from "./app/pages/Home";
@@ -32,7 +27,6 @@ Amplify.configure(outputs);
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -56,14 +50,10 @@ export default function App() {
           <Route path="/admin/visitor" element={<VisitorSignin />} />
           <Route path="/admin/management" element={<ManagementPage />} />
           <Route path="/admin/roll-call" element={<RollCall />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </div>
-      <Footer className="flex-shrink-0" />
     </div>
   );
 }
