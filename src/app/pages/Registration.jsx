@@ -38,6 +38,48 @@ function Registration() {
     .toISOString()
     .split("T")[0];
 
+  const ethnicityGroups = {
+    ASIAN: [
+      { value: "INDIAN", label: "Indian" },
+      { value: "PAKISTANI", label: "Pakistani" },
+      { value: "BANGLADESHI", label: "Bangladeshi" },
+      { value: "CHINESE", label: "Chinese" },
+      { value: "OTHER_ASIAN", label: "Any other Asian background" },
+    ],
+    BLACK: [
+      { value: "AFRICAN", label: "African" },
+      { value: "CARIBBEAN", label: "Caribbean" },
+      { value: "OTHER_BLACK", label: "Any other Black, Black British, or Caribbean background" },
+    ],
+    MIXED: [
+      { value: "WHITE_AND_BLACK_CARIBBEAN", label: "White and Black Caribbean" },
+      { value: "WHITE_AND_BLACK_AFRICAN", label: "White and Black African" },
+      { value: "WHITE_AND_ASIAN", label: "White and Asian" },
+      { value: "OTHER_MIXED", label: "Any other Mixed or multiple ethnic background" },
+    ],
+    WHITE: [
+      { value: "WHITE_BRITISH", label: "English, Welsh, Scottish, Northern Irish or British" },
+      { value: "WHITE_IRISH", label: "Irish" },
+      { value: "WHITE_GYPSY_TRAVELLER", label: "Gypsy or Irish Traveller" },
+      { value: "ROMA", label: "Roma" },
+      { value: "WHITE_OTHER", label: "Any other White background" },
+    ],
+    OTHER: [
+      { value: "ARAB", label: "Arab" },
+      { value: "OTHER", label: "Any other ethnic group" },
+      { value: "SKIP", label: "Prefer not to say" },
+    ],
+  };
+
+  const ethnicityMainGroups = [
+    { value: "", label: "Select Ethnicity Group*" },
+    { value: "ASIAN", label: "Asian or Asian British" },
+    { value: "BLACK", label: "Black, African, Caribbean or Black British" },
+    { value: "MIXED", label: "Mixed or multiple ethnic groups" },
+    { value: "WHITE", label: "White" },
+    { value: "OTHER", label: "Other ethnic group" },
+  ];
+
   // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
 
   const [children, setChildren] = useState([
@@ -45,6 +87,7 @@ function Registration() {
       firstName: "",
       lastName: "",
       gender: "",
+      ethnicityMainGroup: "",
       ethnicity: "",
       dob: "",
       school: "",
@@ -74,6 +117,7 @@ function Registration() {
         firstName: "",
         lastName: "",
         gender: "",
+        ethnicityMainGroup: "",
         ethnicity: "",
         dob: "",
         school: "",
@@ -195,6 +239,7 @@ function Registration() {
         !child.firstName ||
         !child.lastName ||
         !child.gender ||
+        !child.ethnicityMainGroup ||
         !child.ethnicity ||
         !child.dob ||
         !child.school ||
@@ -552,70 +597,6 @@ function Registration() {
                         <option value="SKIP">Prefer not to say</option>
                       </select>
 
-                      {/* Ethnicity Selection */}
-                      <select
-                        value={child.ethnicity}
-                        onChange={(e) =>
-                          handleChildChange(index, "ethnicity", e.target.value)
-                        }
-                        className="p-3 border border-gray-300 rounded-md"
-                        required
-                      >
-                        <option value="">Ethnicity*</option>
-                        <option value="" disabled>
-                          -- Asian or Asian British --
-                        </option>
-                        <option value="INDIAN">Indian</option>
-                        <option value="PAKISTANI">Pakistani</option>
-                        <option value="BANGLADESHI">Bangladeshi</option>
-                        <option value="CHINESE">Chinese</option>
-                        <option value="OTHER_ASIAN">
-                          Any other Asian background
-                        </option>
-                        <option value="" disabled>
-                          -- Black, African, Caribbean or Black British --
-                        </option>
-                        <option value="AFRICAN">African</option>
-                        <option value="CARIBBEAN">Caribbean</option>
-                        <option value="OTHER_BLACK">
-                          Any other Black, Black British, or Caribbean
-                          background
-                        </option>
-                        <option value="" disabled>
-                          -- Mixed or multiple ethnic groups --
-                        </option>
-                        <option value="WHITE_AND_BLACK_CARIBBEAN">
-                          White and Black Caribbean
-                        </option>
-                        <option value="WHITE_AND_BLACK_AFRICAN">
-                          White and Black African
-                        </option>
-                        <option value="WHITE_AND_ASIAN">White and Asian</option>
-                        <option value="OTHER_MIXED">
-                          Any other Mixed or multiple ethnic background
-                        </option>
-                        <option value="" disabled>
-                          -- White --
-                        </option>
-                        <option value="WHITE_BRITISH">
-                          English, Welsh, Scottish, Northern Irish or British
-                        </option>
-                        <option value="WHITE_IRISH">Irish</option>
-                        <option value="WHITE_GYPSY_TRAVELLER">
-                          Gypsy or Irish Traveller
-                        </option>
-                        <option value="ROMA">Roma</option>
-                        <option value="WHITE_OTHER">
-                          Any other White background
-                        </option>
-                        <option value="" disabled>
-                          -- Other ethnic group --
-                        </option>
-                        <option value="ARAB">Arab</option>
-                        <option value="OTHER">Any other ethnic group</option>
-                        <option value="SKIP">Prefer not to say</option>
-                      </select>
-
                       {/* Date of Birth Field */}
                       <input
                         type="date"
@@ -629,6 +610,36 @@ function Registration() {
                         className="p-3 border border-gray-300 rounded-md"
                         required
                       />
+
+                      {/* Ethnicity Main Group Selection */}
+                      <select
+                        value={child.ethnicityMainGroup || ""}
+                        onChange={e => {
+                          handleChildChange(index, "ethnicityMainGroup", e.target.value);
+                          handleChildChange(index, "ethnicity", "");
+                        }}
+                        className="p-3 border border-gray-300 rounded-md"
+                        required
+                      >
+                        {ethnicityMainGroups.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+
+                      {/* Ethnicity Sub-group Selection */}
+                      {child.ethnicityMainGroup && child.ethnicityMainGroup !== "" && (
+                        <select
+                          value={child.ethnicity}
+                          onChange={e => handleChildChange(index, "ethnicity", e.target.value)}
+                          className="p-3 border border-gray-300 rounded-md"
+                          required
+                        >
+                          <option value="">Select Sub-group*</option>
+                          {ethnicityGroups[child.ethnicityMainGroup].map(opt => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                      )}
 
                       {/* Permission to Leave Selection */}
                       <select
