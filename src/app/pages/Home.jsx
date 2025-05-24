@@ -22,13 +22,15 @@ const components = {
 
 const Home = () => {
     const [group, setGroup] = useState("");
-    const [loadingGroups, isLoadingGroups] = useState(true);
 
     useEffect(() => {
+        getUserGroups().then((result) => {
+            setGroup(result);
+        });
+
         const unsubscribe = Hub.listen("auth", async (data) => {
             if (data.payload.event === "signedIn") {
-                printUserGroups().then((result) => {
-                    console.log(result);
+                getUserGroups().then((result) => {
                     setGroup(result);
                 });
             }
@@ -39,10 +41,11 @@ const Home = () => {
         }
     }, []);
 
-    const printUserGroups = async () => {
+    const getUserGroups = async () => {
         const session = await fetchAuthSession();
-        const groups = session.tokens.accessToken.payload["cognito:groups"];
+        if (!session || !session.tokens) return ""
 
+        const groups = session.tokens.accessToken.payload["cognito:groups"];
         if (groups) return groups[0];
 
         return "";
