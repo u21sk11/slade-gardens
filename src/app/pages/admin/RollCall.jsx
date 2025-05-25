@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../components/form/Button";
-import Input from "../../../components/form/Input";
-import { useNavigate } from "react-router-dom";
 import { exitPlayground, rollCall } from "../../../apis/playground";
 
 function VolunteerSignin() {
-  const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchRollCall = async () => {
       const childrenNames = await rollCall();
@@ -28,14 +21,6 @@ function VolunteerSignin() {
     console.log(`${childId} logged out`);
   };
 
-  const handleGoBack = () => {
-    navigate("/admin");
-  };
-
-  const ErrorMessage = ({ message }) => (
-    <div className="text-red-500 text-center mb-4 font-bold">{message}</div>
-  );
-
   return (
     <div className="w-full flex items-center justify-center">
       <div className="relative w-full max-w-4xl shadow-lg">
@@ -47,12 +32,13 @@ function VolunteerSignin() {
           >
             Roll Call
           </h1>
-          {error && <ErrorMessage message={error} />}
           <table className="min-w-full bg-white">
             <tbody>
               {childrenNames.map((child, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b text-center">{child.fullName}</td>
+                <tr key={index + child.childId}>
+                  <td className="py-2 px-4 border-b text-center">
+                    {child.fullName}
+                  </td>
                   <td className="py-2 px-4 border-b text-center">
                     <button
                       onClick={() => handleLogout(child.childId)}
