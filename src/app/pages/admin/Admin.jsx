@@ -8,6 +8,7 @@ import VolunteerSignin from "./VolunteerSignin";
 import VisitorSignin from "./VisitorSignin";
 import ManagementPage from "./Management";
 import RollCall from "./RollCall";
+import NameSearch from "./NameSearch";
 
 function Admin({ onLogout }) {
   const [view, setView] = useState("menu");
@@ -35,6 +36,10 @@ function Admin({ onLogout }) {
     setView("roll-call"); 
   };
 
+  const handleNameSearch = () => {
+    setView("name-search");
+  }
+
   // Render logic
   let content;
   switch (view) {
@@ -46,11 +51,20 @@ function Admin({ onLogout }) {
         </>
       );
       break;
+    case "name-search":
+      content = (
+        <>
+          <NameSearch />
+          <BackButton onClick={handleBackToMenu} />
+        </>
+      );
+      break;
     case "young-person":
       content = (
         <>
           <YoungPerson
             onConfirm={(state) => handleYoungPersonConfirm(state)}
+            onNameSearch={handleNameSearch}
           />
           <BackButton onClick={handleBackToMenu} />
         </>

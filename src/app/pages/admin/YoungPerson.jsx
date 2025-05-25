@@ -5,7 +5,7 @@ import BackButton from "../../../components/form/BackButton";
 import { Link } from "react-router-dom";
 import { getChildFromEmoji } from "../../../apis/emojiStore";
 
-function YoungPerson({ onConfirm }) {
+function YoungPerson({ onConfirm , onNameSearch }) {
   const [inputs, setInputs] = useState(["", "", ""]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState("");
@@ -109,12 +109,13 @@ function YoungPerson({ onConfirm }) {
             />
           </form>
           <div className="flex justify-center mt-3">
-            <Link
+            <button
+              onClick={onNameSearch}
               to="/privacy-policy"
               className="text-gray-700 font-monserrat underline underline-offset-1 hover:text-gray-900"
             >
               Log in with your name instead
-            </Link>
+            </button>
           </div>
           <div className="flex justify-center items-center p-3"></div>
         </div>

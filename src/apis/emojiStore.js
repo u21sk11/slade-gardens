@@ -143,20 +143,38 @@ export async function getChildFromEmoji(emoji) {
  * Search for a child by name
  */
 export async function nameSearch(firstName, lastName) {
-  try {     
+  try {
+
+    let fullSearch = false;
+
     if (!firstName)
       firstName = " ";
-    if (!lastName)
+    else if (!lastName)
       lastName = " ";
+    else {
+      fullSearch = true;
+    }
 
-    const search = await client.models.AssignedEmojis.list({
+    let search;
+    if (fullSearch){
+      search = await client.models.AssignedEmojis.list({
       filter: {
-        or: [
+        and: [
           { firstName: { beginsWith: firstName } },
           { lastName: { beginsWith: lastName } },
         ]
       },
     });
+    } else {
+      search = await client.models.AssignedEmojis.list({
+        filter: {
+          or: [
+            { firstName: { beginsWith: firstName } },
+            { lastName: { beginsWith: lastName } },
+          ]
+        },
+      });
+    }
     const { errors: responseError } = search;
     if (responseError) throw new Error(responseError[0].message);
 

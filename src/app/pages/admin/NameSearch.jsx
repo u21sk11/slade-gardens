@@ -60,15 +60,8 @@ function NameSearch() {
   );
 
   return (
-    <div
-      className="min-h-[85vh] flex items-center justify-center py-5"
-      style={{
-        backgroundImage: "url(/user-login-bg.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="relative w-full max-w-4xl shadow-lg">
+    <div className="w-full flex items-center justify-center">
+      <div className="relative w-full max-w-4xl shadow-md">
         <div className="absolute inset-0 bg-white opacity-85 rounded-lg shadow-md"></div>
         <div className="relative p-6">
           <h1
@@ -116,7 +109,7 @@ function NameSearch() {
                 isButtonDisabled || isLoading
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-sladeYellow-dark"
-              } text-white text-xl mt-6`}
+              } text-gray-800 text-xl mt-6`}
             />
           </form>
           {searchResults.length > 0 && (
@@ -149,14 +142,6 @@ function NameSearch() {
               </table>
             </div>
           )}
-          <div className="flex justify-center items-center p-3">
-            <button
-              onClick={handleGoBack}
-              className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
-            >
-              Go Back
-            </button>
-          </div>
         </div>
       </div>
     </div>
