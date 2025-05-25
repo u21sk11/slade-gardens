@@ -47,7 +47,11 @@ function GuardianSignin() {
                         </div>
                         <button
                             type="submit"
-                            className="w-full py-3 bg-sladeYellow text-white font-semibold rounded-lg hover:bg-sladeYellow-dark focus:outline-none"
+                            disabled={!email}
+                            className={
+                                "w-full py-3 bg-sladeYellow text-gray-800 font-semibold rounded-lg focus:outline-none " +
+                                (!email ? "opacity-50 cursor-not-allowed" : "hover:bg-sladeYellow-dark")
+                            }
                         >
                             Next
                         </button>
