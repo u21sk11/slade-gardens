@@ -51,9 +51,9 @@ function NameSearch() {
     setLastName("");
     setSearchResults([]);
     setError("");
-    document.getElementById("FN").value = "";
-    document.getElementById("LN").value = "";
-    document.getElementById("FN").focus();
+    document.getElementById("firstName").value = "";
+    document.getElementById("firstName").focus();
+    document.getElementById("lastName").value = "";
   };
 
   const ErrorMessage = ({ message }) => (
@@ -78,7 +78,7 @@ function NameSearch() {
             autoComplete="off"
           >
             <Input
-              id="fullName"
+              id="firstName"
               label="First Name"
               type="text"
               onChange={(e) => setFirstName(e.target.value)}
