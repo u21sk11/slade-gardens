@@ -884,10 +884,12 @@ function Registration() {
               <div className="mb-4">
                 <label className="block text-gray-700">
                   Do you agree to the{" "}
-                  <a href="#" className="text-blue-500 hover:underline">
-                    terms and conditions
-                  </a>
-                  ?*
+                  <button
+                    type="button"
+                    className="text-blue-500 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
+                    onClick={() => setStep(0)}>
+                      terms and conditions
+                  </button>?*
                 </label>
                 <div className="flex items-center space-x-4">
                   <label>
@@ -970,7 +972,7 @@ function Registration() {
     <Authenticator>
       {({ signOut, user }) => {
         return (
-          <div className="max-w-4xl mx-auto p-10 bg-white shadow-lg rounded-xl mt-5">
+          <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl mt-5">
             <Button onClick={signOut}>Sign Out</Button>
             {/* Title and Disclaimer Text */}
             <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
@@ -985,8 +987,8 @@ function Registration() {
             <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
               <ProgressBar step={step} />
               {renderStepContent(step, user)}
-              {/* Additional Fields for Guardian Registration */}
 
+              {/* Error Messages */}
               {error && (
                 <p className="text-red-500 text-center mb-4">{error}</p>
               )}

@@ -25,14 +25,8 @@ function GuardianSignin() {
     };
 
     return (
-        <div className="min-h-[85vh] bg-gray-50 flex items-center justify-center py-4"
-             style={{
-                 backgroundImage: 'url(/user-login-bg.webp)',
-                 backgroundSize: 'cover',
-                 backgroundPosition: 'center',
-             }}
-        >
-            <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <div className="w-full flex items-center justify-center">
+            <div className="relative bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
                 <header className="text-center mb-4">
                     <h2 className="text-2xl font-semibold font-galindo text-gray-800">Enter your Email</h2>
                 </header>
@@ -53,7 +47,11 @@ function GuardianSignin() {
                         </div>
                         <button
                             type="submit"
-                            className="w-full py-3 bg-sladeYellow text-white font-semibold rounded-lg hover:bg-sladeYellow-dark focus:outline-none"
+                            disabled={!email}
+                            className={
+                                "w-full py-3 bg-sladeYellow text-gray-800 font-semibold rounded-lg focus:outline-none " +
+                                (!email ? "opacity-50 cursor-not-allowed" : "hover:bg-sladeYellow-dark")
+                            }
                         >
                             Next
                         </button>

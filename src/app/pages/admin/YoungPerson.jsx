@@ -3,14 +3,12 @@ import EmojiButtonGrid from "../../../components/ui/EmojiButtonGrid";
 import Button from "../../../components/form/Button";
 import BackButton from "../../../components/form/BackButton";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { getChildFromEmoji } from "../../../apis/emojiStore";
 
-function YoungPerson() {
+function YoungPerson({ onConfirm }) {
   const [inputs, setInputs] = useState(["", "", ""]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleEmojiClick = (emoji) => {
     if (currentIndex < 3) {
@@ -36,10 +34,6 @@ function YoungPerson() {
 
   const isButtonDisabled = inputs.some((input) => input === "");
 
-  const handleGoBack = () => {
-    navigate("/admin");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,25 +47,16 @@ function YoungPerson() {
       return;
     }
 
-    navigate("/admin/young-person-confirm", {
-      state: {
-        childId: child.childId,
-        firstName: child.firstName,
-        lastName: child.lastName,
-      },
+    onConfirm({
+      childId: child.childId,
+      firstName: child.firstName,
+      lastName: child.lastName,
     });
   };
 
   return (
-    <div
-      className="min-h-[85vh] flex items-center justify-center py-5"
-      style={{
-        backgroundImage: "url(/user-login-bg.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="relative w-full max-w-4xl shadow-lg">
+    <div className="w-full flex items-center justify-center">
+      <div className="relative w-full max-w-4xl shadow-md">
         <div className="absolute inset-0 bg-white opacity-85 rounded-lg shadow-md"></div>
         <div className="relative p-6">
           <div>
@@ -131,14 +116,7 @@ function YoungPerson() {
               Log in with your name instead
             </Link>
           </div>
-          <div className="flex justify-center items-center p-3">
-            <button
-              onClick={handleGoBack}
-              className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
-            >
-              Go Back
-            </button>
-          </div>
+          <div className="flex justify-center items-center p-3"></div>
         </div>
       </div>
     </div>

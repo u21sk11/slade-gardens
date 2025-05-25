@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-function ManagementPage() {
+function ManagementPage({ rollCall }) {
   const [playgroundStats, setPlaygroundStats] = useState({
     totalPeople: 0,
     childrenToday: 0,
@@ -42,8 +42,6 @@ function ManagementPage() {
       const inPlayground = await headcount();
       const todaysStats = await getToday();
 
-      // Simulate an API call
-      // Replace this with call to dynamoDB
       const data = {
         totalPeople: inPlayground,
         childrenToday: todaysStats.totalChildren,
@@ -76,22 +74,15 @@ function ManagementPage() {
   };
 
   return (
-    <div
-      className="min-h-[60vh] bg-gray-50 flex items-center justify-center py-8"
-      style={{
-        backgroundImage: "url(/management-bg.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="w-full flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-5xl">
         <h2 className="text-3xl font-semibold  text-gray-800 mb-6 text-center">
           Playground Management Dashboard
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Statistics */}
-          <Link to="/admin/roll-call">
-            <div className="bg-sladeGreen text-white p-6 rounded-lg shadow-md">
+          <button onClick={rollCall}>
+            <div className="text-left bg-sladeGreen text-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold">
                 Total People in Playground
               </h3>
@@ -99,7 +90,7 @@ function ManagementPage() {
                 {playgroundStats.totalPeople}
               </p>
             </div>
-          </Link>
+          </button>
           <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">Total Children Today</h3>
             <p className="text-3xl font-bold mt-2">
@@ -119,10 +110,7 @@ function ManagementPage() {
         </div>
 
         {/* Chart Section */}
-        <div className="mt-8 p-6 bg-white rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-            Visitor Breakdown by Category
-          </h3>
+        <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
           <Bar
             data={categoryChartData}
             options={{
@@ -133,12 +121,12 @@ function ManagementPage() {
                 },
                 title: {
                   display: true,
-                  text: "Visitor Categories",
+                  text: "Visitor Breakdown by Category",
                   font: {
-                    size: 16,
+                    size: 20,
                     weight: "bold",
                   },
-                  color: "#333",
+                  color: "#333", 
                 },
               },
               scales: {
@@ -149,7 +137,7 @@ function ManagementPage() {
                 },
                 y: {
                   grid: {
-                    color: "#e5e7eb", // Light gray grid lines
+                    color: "#b7b8bc", // Medium gray grid lines
                   },
                   beginAtZero: true,
                 },

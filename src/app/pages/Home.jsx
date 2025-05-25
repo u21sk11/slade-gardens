@@ -22,13 +22,15 @@ const components = {
 
 const Home = () => {
     const [group, setGroup] = useState("");
-    const [loadingGroups, isLoadingGroups] = useState(true);
 
     useEffect(() => {
+        getUserGroups().then((result) => {
+            setGroup(result);
+        });
+
         const unsubscribe = Hub.listen("auth", async (data) => {
             if (data.payload.event === "signedIn") {
-                printUserGroups().then((result) => {
-                    console.log(result);
+                getUserGroups().then((result) => {
                     setGroup(result);
                 });
             }
@@ -39,24 +41,27 @@ const Home = () => {
         }
     }, []);
 
-    const printUserGroups = async () => {
+    const getUserGroups = async () => {
         const session = await fetchAuthSession();
-        const groups = session.tokens.accessToken.payload["cognito:groups"];
+        if (!session || !session.tokens) return ""
 
+        const groups = session.tokens.accessToken.payload["cognito:groups"];
         if (groups) return groups[0];
 
         return "";
     };
 
     return (
-        <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-center bg-blend-luminosity">
-            <Authenticator components={components}>
-                {({ signOut, user }) => {
-                    if (group === "ADMINS") return <Admin />;
-
-                    return <Registration />;
-                }}
-            </Authenticator>
+        <div className="py-1 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-fixed bg-blend-luminosity">
+            <div className="w-full p-2">
+                <Authenticator components={components}>
+                    {({ signOut, user }) => {
+                        if (group === "ADMINS") return <Admin onLogout={signOut}/>;
+                        
+                        return <Registration />;
+                    }}
+                </Authenticator>
+            </div>
         </div>
     );
 };
