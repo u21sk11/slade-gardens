@@ -25,14 +25,8 @@ function GuardianSignin() {
     };
 
     return (
-        <div className="min-h-[85vh] bg-gray-50 flex items-center justify-center py-4"
-             style={{
-                 backgroundImage: 'url(/user-login-bg.webp)',
-                 backgroundSize: 'cover',
-                 backgroundPosition: 'center',
-             }}
-        >
-            <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <div className="w-full flex items-center justify-center">
+            <div className="relative bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
                 <header className="text-center mb-4">
                     <h2 className="text-2xl font-semibold font-galindo text-gray-800">Enter your Email</h2>
                 </header>

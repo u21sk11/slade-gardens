@@ -37,14 +37,7 @@ function VolunteerSignin() {
   );
 
   return (
-    <div
-      className="min-h-[85vh] flex items-center justify-center py-5"
-      style={{
-        backgroundImage: "url(/user-login-bg.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="w-full flex items-center justify-center">
       <div className="relative w-full max-w-4xl shadow-lg">
         <div className="absolute inset-0 bg-white opacity-85 rounded-lg shadow-md"></div>
         <div className="relative p-6">
@@ -59,8 +52,8 @@ function VolunteerSignin() {
             <tbody>
               {childrenNames.map((child, index) => (
                 <tr key={index}>
-                  <td className="py-2 px-4 border-b">{child.fullName}</td>
-                  <td className="py-2 px-4 border-b text-right">
+                  <td className="py-2 px-4 border-b text-center">{child.fullName}</td>
+                  <td className="py-2 px-4 border-b text-center">
                     <button
                       onClick={() => handleLogout(child.childId)}
                       className="bg-sladeYellow-light text-white font-semibold py-1 px-3 rounded shadow hover:bg-sladeYellow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition"
@@ -72,14 +65,6 @@ function VolunteerSignin() {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-center items-center p-3">
-            <button
-              onClick={handleGoBack}
-              className="bg-red-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
-            >
-              Go Back
-            </button>
-          </div>
         </div>
       </div>
     </div>
