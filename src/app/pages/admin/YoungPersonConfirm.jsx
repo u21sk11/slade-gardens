@@ -1,39 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { inPlayground, enterPlayground, exitPlayground } from "../../../apis/playground";
 import Button from "../../../components/form/Button";
-import {
-  inPlayground,
-  enterPlayground,
-  exitPlayground,
-} from "../../../apis/playground";
 
-function YoungPersonConfirm() {
-  const location = useLocation();
-  const { childId, firstName, lastName } = location.state || {};
-  const navigate = useNavigate();
-  const [alertMessage, setAlertMessage] = useState("");
+function YoungPersonConfirm({ childId, firstName, lastName, onLogin, onLogout, onRetry }) {
+  const [alertMessage] = useState("");
 
   const handleSuccess = async () => {
     const playgroundCheck = await inPlayground(childId);
     if (playgroundCheck) {
       // Log out if the child is in the playground
       await exitPlayground(childId);
-
-      navigate("/admin/young-person/logout");
+      onLogout();
     } else {
       // If not, log in
       await enterPlayground(childId);
-
-      navigate("/admin/young-person/login");
+      onLogin();
     }
   };
 
   const handleTryAgain = () => {
-    navigate("/admin/young-person");
+    onRetry();
   };
 
   return (
-    <div className="min-h-[60vh] flex flex-col h-full flex-grow items-center justify-center p-2">
+    <div className="w-full flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
         <h1 className="text-3xl text-sladeGreen font-galindo font-bold text-center">
           {alertMessage || `Are you ${firstName} ${lastName}?`}
