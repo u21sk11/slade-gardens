@@ -884,7 +884,14 @@ function Registration() {
               <div className="mb-4">
                 <label className="block text-gray-700">
                   Do you agree to the{" "}
-                  <a href="#" className="text-blue-500 hover:underline">
+                  <a
+                    href="#"
+                    className="text-blue-500 hover:underline"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setStep(0);
+                    }}
+                  >
                     terms and conditions
                   </a>
                   ?*
