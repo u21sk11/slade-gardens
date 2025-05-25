@@ -24,7 +24,6 @@ function NameSearch() {
       return;
     }
 
-    
     const results = await nameSearch(firstName, lastName);
     
     if (results){
@@ -51,6 +50,7 @@ function NameSearch() {
     setFirstName("");
     setLastName("");
     setSearchResults([]);
+    setError("");
     document.getElementById("FN").value = "";
     document.getElementById("LN").value = "";
     document.getElementById("FN").focus();
@@ -78,14 +78,14 @@ function NameSearch() {
             autoComplete="off"
           >
             <Input
-              id="FN"
+              id="fullName"
               label="First Name"
               type="text"
               onChange={(e) => setFirstName(e.target.value)}
               className="mb-4 w-full"
             />
             <Input
-              id="LN"
+              id="lastName"
               label="Last Name"
               type="text"
               onChange={(e) => setLastName(e.target.value)}
