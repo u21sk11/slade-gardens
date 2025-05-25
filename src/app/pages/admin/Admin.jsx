@@ -170,7 +170,7 @@ function Admin({ onLogout }) {
               onClick={handleAdminSignOut}
               className="bg-sladeRed text-white font-semibold py-2 px-4 rounded shadow hover:shadow-xl transition"
             >
-              Admin Sign Out
+              Sign Out
             </button>
           </div>
         </div>
