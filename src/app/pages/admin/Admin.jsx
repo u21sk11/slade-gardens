@@ -189,7 +189,7 @@ function BackButton({ onClick }) {
     <div className="flex justify-center items-center p-3">
       <button
         onClick={onClick}
-        className="bg-sladeYellow hover:bg-sladeYellow-dark text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+        className="bg-sladeYellow hover:bg-sladeYellow-dark text-gray-800 font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
       >
         Back
       </button>
