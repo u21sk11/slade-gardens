@@ -9,9 +9,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { headcount, rollCall } from "../../../apis/playground";
+import { headcount } from "../../../apis/playground";
 import { getToday } from "../../../apis/statistics";
-import { Link } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -126,7 +125,7 @@ function ManagementPage({ rollCall }) {
                     size: 20,
                     weight: "bold",
                   },
-                  color: "#333", 
+                  color: "#333",
                 },
               },
               scales: {
