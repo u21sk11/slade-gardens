@@ -12,7 +12,7 @@ const client = generateClient({
 /**
  * Add a child to the playground
  */
-export async function enterPlayground(childId) {
+export async function enterPlayground(childId, fullName) {
   try {
     const childInPlayground = await inPlayground(childId);
     if (childInPlayground)
@@ -20,6 +20,7 @@ export async function enterPlayground(childId) {
 
     const playgroundEntryResponse = await client.models.Playground.create({
       childId: childId,
+      fullName: fullName,
     });
     const { errors: responseError } = playgroundEntryResponse;
     if (responseError) throw new Error(responseError[0].message);
@@ -69,7 +70,7 @@ export async function inPlayground(childId) {
  */
 export async function headcount() {
   try {
-    const totalChildren = await getChildren();
+    const totalChildren = await rollCall();
     return totalChildren.length;
   } catch (error) {
     auditError("Error getting headcount: " + error);
@@ -79,36 +80,12 @@ export async function headcount() {
 /**
  * Get all children in the playground
  */
-export async function getChildren() {
+export async function rollCall() {
   try {
     const playgroundEntries = await client.models.Playground.list();
     const { errors: responseError } = playgroundEntries;
     if (responseError) throw new Error(responseError[0].message);
     return playgroundEntries.data;
-  } catch (error) {
-    auditError("Error getting roll call: " + error);
-  }
-}
-
-export async function rollCall() {
-  try {
-    const children = await getChildren();
-    let rollCall = [];
-
-    for (const child of children) {
-      const childData = await client.models.Child.get({
-        childId: child.childId,
-      });
-      const { errors: responseError } = childData;
-      if (responseError) throw new Error(responseError[0].message);
-
-      rollCall.push(
-        {fullName: childData.data.firstName + " " + childData.data.lastName,
-        childId: child.childId
-        }
-      );
-    }
-    return rollCall;
   } catch (error) {
     auditError("Error getting roll call: " + error);
   }

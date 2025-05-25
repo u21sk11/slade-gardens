@@ -1,12 +1,10 @@
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "../amplify_outputs.json";
-
 import { Routes, Route } from "react-router-dom";
 import Registration from "./app/pages/Registration";
 import Home from "./app/pages/Home";
 import Confirmation from "./app/pages/Confirmation";
-
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}

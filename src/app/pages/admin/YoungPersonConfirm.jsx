@@ -13,7 +13,7 @@ function YoungPersonConfirm({ childId, firstName, lastName, onLogin, onLogout, o
       onLogout();
     } else {
       // If not, log in
-      await enterPlayground(childId);
+      await enterPlayground(childId, firstName + " " + lastName);
       onLogin();
     }
   };

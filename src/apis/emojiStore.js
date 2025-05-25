@@ -140,6 +140,52 @@ export async function getChildFromEmoji(emoji) {
 }
 
 /**
+ * Search for a child by name
+ */
+export async function nameSearch(firstName, lastName) {
+  try {
+
+    let fullSearch = false;
+
+    if (!firstName)
+      firstName = " ";
+    else if (!lastName)
+      lastName = " ";
+    else {
+      fullSearch = true;
+    }
+
+    let search;
+    if (fullSearch){
+      search = await client.models.AssignedEmojis.list({
+      filter: {
+        and: [
+          { firstName: { beginsWith: firstName } },
+          { lastName: { beginsWith: lastName } },
+        ]
+      },
+    });
+    } else {
+      search = await client.models.AssignedEmojis.list({
+        filter: {
+          or: [
+            { firstName: { beginsWith: firstName } },
+            { lastName: { beginsWith: lastName } },
+          ]
+        },
+      });
+    }
+    const { errors: responseError } = search;
+    if (responseError) throw new Error(responseError[0].message);
+
+    return search.data;
+  } catch (error) {
+    auditError("Error searching for child: " + error.message);
+  }
+  
+}
+
+/**
  * Seed the emoji store with predefined emojis (Should only be used once and by an admin) m
  */
 export async function seedEmojiStore() {
