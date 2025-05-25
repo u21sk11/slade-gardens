@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../../components/form/Button";
 import Input from "../../../components/form/Input";
-import { useNavigate } from "react-router-dom";
 import { nameSearch } from "../../../apis/emojiStore";
 
 function NameSearch() {
@@ -9,7 +8,6 @@ function NameSearch() {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate();
 
   const isButtonDisabled = false;
   const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +24,18 @@ function NameSearch() {
       return;
     }
 
-    try {
-      const results = await nameSearch(firstName, lastName);
+    
+    const results = await nameSearch(firstName, lastName);
+    
+    if (results){
+      if (results.length === 0) {
+        setIsLoading(false);
+        setError("No results found. Please try again.");
+        return;
+      }
       setSearchResults(results);
       setIsLoading(false);
-    } catch (error) {
+    } else {
       setIsLoading(false);
       setError("Failed to search. Please try again.");
     }
@@ -49,10 +54,6 @@ function NameSearch() {
     document.getElementById("FN").value = "";
     document.getElementById("LN").value = "";
     document.getElementById("FN").focus();
-  };
-
-  const handleGoBack = () => {
-    navigate("/admin");
   };
 
   const ErrorMessage = ({ message }) => (
