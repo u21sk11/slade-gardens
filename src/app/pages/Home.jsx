@@ -53,13 +53,15 @@ const Home = () => {
 
     return (
         <div className="py-8 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-center bg-blend-luminosity">
-            <Authenticator components={components}>
-                {({ signOut, user }) => {
-                    if (group === "ADMINS") return <Admin />;
-
-                    return <Registration />;
-                }}
-            </Authenticator>
+            <div className="w-full p-2">
+                <Authenticator components={components}>
+                    {({ signOut, user }) => {
+                        if (group === "ADMINS") return <Admin onLogout={signOut}/>;
+                        
+                        return <Registration />;
+                    }}
+                </Authenticator>
+            </div>
         </div>
     );
 };

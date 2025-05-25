@@ -12,11 +12,6 @@ function Admin({ onLogout }) {
   return (
     <div
       className="min-h-[85vh] flex flex-col items-center justify-center py-5"
-      style={{
-        backgroundImage: "url(/user-login-bg.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl mb-6">
         <h2 className="text-3xl font-semibold font-galindo text-center text-sladeOrange mb-6">
