@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GuardianSignin from "./GuardianSignin";
+import GuardianConfirm from "./GuardianConfirm";
 import YoungPerson from "./YoungPerson";
 import YoungPersonConfirm from "./YoungPersonConfirm";
 import YoungPersonLogin from "./YoungPersonLogin";
@@ -13,6 +14,7 @@ import NameSearch from "./NameSearch";
 function Admin({ onLogout }) {
   const [view, setView] = useState("menu");
   const [youngPersonState, setYoungPersonState] = useState(null);
+  const [emailState, setEmailState] = useState(null);
 
   const handleAdminSignOut = () => {
     onLogout();
@@ -40,13 +42,31 @@ function Admin({ onLogout }) {
     setView("name-search");
   }
 
+  const handleGuardianSignin = (email) => {
+    setEmailState({email});
+    setView("guardian-confirm");
+  }
+
   // Render logic
   let content;
   switch (view) {
     case "guardian":
       content = (
         <>
-          <GuardianSignin />
+          <GuardianSignin 
+            onConfirm={(state) => handleGuardianSignin(state)}
+          />
+          <BackButton onClick={handleBackToMenu} />
+        </>
+      );
+      break;
+    case "guardian-confirm":
+      content = (
+        <>
+          <GuardianConfirm 
+            {...emailState || {}}
+            // onConfirm={(state) => handleGuardianSignin(state)}
+          />
           <BackButton onClick={handleBackToMenu} />
         </>
       );
