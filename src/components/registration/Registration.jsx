@@ -147,9 +147,9 @@ function Registration() {
     // --------------------------------------------------------------------------------
 
   const handleSubmit = async (e, email, username) => {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
+        e.preventDefault();
+        setError("");
+        setIsLoading(true);
 
         if (permissions.terms !== "yes") {
             setError("Terms and conditions must be accepted.");
@@ -172,7 +172,7 @@ function Registration() {
 
         const result = await register(newGuardian, children);
 
-    if (result.successful) {
+        if (result.successful) {
     const client = generateClient({authMode: "userPool"});
 
     await client.mutations.addUserToGroup({
@@ -181,30 +181,14 @@ function Registration() {
 
     await client.mutations.removeUserFromGroup({
       userId: username,
-    });
+            });
 
     navigate(0);
-    } else {
-      setError("Unable to process registration, please try again.");
-    }
-    setIsLoading(false);
-  };
-
-  const ProgressBar = ({ step }) => (
-    <div className="flex justify-between mb-6">
-      <div
-        className={`flex-1 ${step >= 1 ? "bg-green-500" : "bg-gray-300"
-          } h-2 rounded-l-lg`}
-      ></div>
-      <div
-        className={`flex-1 ${step >= 2 ? "bg-green-500" : "bg-gray-300"} h-2`}
-      ></div>
-      <div
-        className={`flex-1 ${step >= 3 ? "bg-green-500" : "bg-gray-300"
-          } h-2 rounded-r-lg`}
-      ></div>
-    </div>
-  );
+        } else {
+            setError("Unable to process registration, please try again.");
+        }
+        setIsLoading(false);
+    };
 
     const handleNext = () => {
         setError("");
@@ -893,21 +877,21 @@ function Registration() {
                             facility.
                         </p>
 
-            {/* Registration Form */}
-            <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId, user.username)}>
-              <ProgressBar step={step} />
-              {renderStepContent(step, user)}
-
-              {/* Error Messages */}
-              {error && (
-                <p className="text-red-500 text-center mb-4">{error}</p>
-              )}
-            </form>
-          </div>
-        );
-      }}
-    </Authenticator>
-  );
+                        {/* Registration Form */}
+                        <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId, user.username)}>
+                            <Loader variation="linear" isDeterminate isPercentageTextHidden percentage={step / 4 * 100} />
+                            {renderStepContent(step, user)}
+                            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut}>Sign Out</Button>
+                            {/* Error Messages */}
+                            {error && (
+                                <p className="text-red-500 text-center mb-4">{error}</p>
+                            )}
+                        </form>
+                    </div>
+                );
+            }}
+        </Authenticator>
+    );
 }
 
 export default Registration;
