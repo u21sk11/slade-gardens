@@ -1,4 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { addUserToGroup } from "./add-user-to-group/resource";
+import { removeUserFromGroup } from "./remove-user-from-group/resource";
 
 const schema = a
   .schema({
@@ -133,6 +135,25 @@ const schema = a
       "VOLUNTEER",
       "VISITOR",
     ]),
+
+    addUserToGroup: a
+      .mutation()
+      .arguments({
+        userId: a.id().required(),
+      })
+      .authorization((allow) => [allow.authenticated()])
+      .handler(a.handler.function(addUserToGroup))
+      .returns(a.json()),
+
+    removeUserFromGroup: a
+      .mutation()
+      .arguments({
+        userId: a.id().required(),
+      })
+      .authorization((allow) => [allow.authenticated()])
+      .handler(a.handler.function(removeUserFromGroup))
+      .returns(a.json()),
+      
   })
   .authorization((allow) => [allow.authenticated()]);
 
