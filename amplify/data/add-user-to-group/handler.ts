@@ -10,8 +10,6 @@ const client = new CognitoIdentityProviderClient()
 
 export const handler: Handler = async (event) => {
   const { userId } = event.arguments
-  console.log("Adding user to GUARDIANS", { userId })
-  console.log(env)
   const command = new AdminAddUserToGroupCommand({
     Username: userId,
     GroupName: "GUARDIAN",

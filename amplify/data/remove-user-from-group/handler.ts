@@ -10,7 +10,6 @@ const client = new CognitoIdentityProviderClient()
 
 export const handler: Handler = async (event) => {
   const { userId } = event.arguments
-
   const command = new AdminRemoveUserFromGroupCommand({
     Username: userId,
     GroupName: "registered",

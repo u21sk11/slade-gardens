@@ -22,7 +22,6 @@ export async function getGuardian(guardianId) {
 
 export async function getChildren(guardianId) {
   try {
-    console.log("Fetching children for guardianId:", guardianId);
     const children = await client.models.Child.list({
       filter: {
         guardianId: {
@@ -30,7 +29,6 @@ export async function getChildren(guardianId) {
         },
       },
     });
-    console.log("Fetched data:", children);
 
     // Get the emoji data from the emoji store
     for (const child of children.data) {
