@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import EmojiButtonGrid from "../../../components/ui/EmojiButtonGrid";
 import Button from "../../../components/form/Button";
 import BackButton from "../../../components/form/BackButton";
-import { Link } from "react-router-dom";
 import { getChildFromEmoji } from "../../../apis/emojiStore";
 
 function YoungPerson({ onConfirm , onNameSearch }) {
