@@ -19,3 +19,38 @@ export async function getGuardian(guardianId) {
     throw error;
   }
 }
+
+export async function getChildren(guardianId) {
+  try {
+    console.log("Fetching children for guardianId:", guardianId);
+    const children = await client.models.Child.list({
+      filter: {
+        guardianId: {
+          eq: guardianId,
+        },
+      },
+    });
+    console.log("Fetched data:", children);
+
+    // Get the emoji data from the emoji store
+    for (const child of children.data) {
+      const emoji = await client.models.AssignedEmojis.list({
+      filter: {
+        childId: { eq: child.childId },
+      },
+    })
+      child.emoji = emoji.data[0].emoji; // Assuming emoji is a field in the EmojiStore model
+    }
+
+    // Process the children data to extract relevant information, firstName and childId
+    const childrenData = children.data.map((child) => ({
+      firstName: child.firstName,
+      emoji: child.emoji,
+    }));
+
+    return childrenData;
+  } catch (error) {
+    auditError("Error fetching children for guardian: " + error);
+    throw error;
+  }
+}
