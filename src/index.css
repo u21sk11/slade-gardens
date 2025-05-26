@@ -47,4 +47,10 @@ body {
 .amplify-loader {
   --amplify-components-loader-stroke-filled: theme("colors.sladeGreen.dark");
   --amplify-components-loader-stroke-empty: theme("colors.sladeYellow.dark");
+  --amplify-components-loader-linear-stroke-filled: theme(
+    "colors.sladeGreen.dark"
+  );
+  --amplify-components-loader-linear-stroke-empty: theme(
+    "colors.sladeYellow.dark"
+  );
 }
