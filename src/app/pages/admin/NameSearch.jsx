@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../../../components/form/Button";
 import Input from "../../../components/form/Input";
 import { nameSearch } from "../../../apis/emojiStore";

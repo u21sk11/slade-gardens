@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import EmojiButtonGrid from "../../../components/ui/EmojiButtonGrid";
 import Button from "../../../components/form/Button";
 import BackButton from "../../../components/form/BackButton";

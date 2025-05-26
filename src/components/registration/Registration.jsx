@@ -4,6 +4,7 @@ import { Authenticator, Button, Loader } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import "@aws-amplify/ui-react/styles.css";
 import Disclaimer from "./steps/Disclaimer";
+import { generateClient } from "aws-amplify/data"
 
 function Registration() {
     const navigate = useNavigate();
@@ -145,10 +146,10 @@ function Registration() {
 
     // --------------------------------------------------------------------------------
 
-    const handleSubmit = async (e, email) => {
-        e.preventDefault();
-        setError("");
-        setIsLoading(true);
+  const handleSubmit = async (e, email, username) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
         if (permissions.terms !== "yes") {
             setError("Terms and conditions must be accepted.");
@@ -171,18 +172,39 @@ function Registration() {
 
         const result = await register(newGuardian, children);
 
-        if (result.successful) {
-            navigate("/confirmation", {
-                state: {
-                    firstNames: children.map((child) => child.firstName),
-                    emojis: result.assignedEmojis,
-                },
-            });
-        } else {
-            setError("Unable to process registration, please try again.");
-        }
-        setIsLoading(false);
-    };
+    if (result.successful) {
+    const client = generateClient({authMode: "userPool"});
+
+    await client.mutations.addUserToGroup({
+      userId: username,
+    });
+
+    await client.mutations.removeUserFromGroup({
+      userId: username,
+    });
+
+    navigate(0);
+    } else {
+      setError("Unable to process registration, please try again.");
+    }
+    setIsLoading(false);
+  };
+
+  const ProgressBar = ({ step }) => (
+    <div className="flex justify-between mb-6">
+      <div
+        className={`flex-1 ${step >= 1 ? "bg-green-500" : "bg-gray-300"
+          } h-2 rounded-l-lg`}
+      ></div>
+      <div
+        className={`flex-1 ${step >= 2 ? "bg-green-500" : "bg-gray-300"} h-2`}
+      ></div>
+      <div
+        className={`flex-1 ${step >= 3 ? "bg-green-500" : "bg-gray-300"
+          } h-2 rounded-r-lg`}
+      ></div>
+    </div>
+  );
 
     const handleNext = () => {
         setError("");
@@ -871,21 +893,21 @@ function Registration() {
                             facility.
                         </p>
 
-                        {/* Registration Form */}
-                        <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
-                            <Loader variation="linear" isDeterminate isPercentageTextHidden percentage={step / 4 * 100} />
-                            {renderStepContent(step, user)}
-                            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut}>Sign Out</Button>
-                            {/* Error Messages */}
-                            {error && (
-                                <p className="text-red-500 text-center mb-4">{error}</p>
-                            )}
-                        </form>
-                    </div>
-                );
-            }}
-        </Authenticator>
-    );
+            {/* Registration Form */}
+            <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId, user.username)}>
+              <ProgressBar step={step} />
+              {renderStepContent(step, user)}
+
+              {/* Error Messages */}
+              {error && (
+                <p className="text-red-500 text-center mb-4">{error}</p>
+              )}
+            </form>
+          </div>
+        );
+      }}
+    </Authenticator>
+  );
 }
 
 export default Registration;

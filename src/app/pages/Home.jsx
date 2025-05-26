@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Amplify } from 'aws-amplify';
 import { Authenticator, View, Image, useTheme, Loader } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import Admin from "./admin/Admin";
+import Confirmation from "./Confirmation";
 import Registration from "../../components/registration/Registration";
 import outputs from "../../../amplify_outputs.json";
 
@@ -48,6 +49,7 @@ const Home = () => {
     }, []);
 
     const getUserGroups = async () => {
+        await fetchAuthSession({forceRefresh: true});
         const session = await fetchAuthSession();
         if (!session || !session.tokens) return ""
 
@@ -67,9 +69,9 @@ const Home = () => {
                                 <Loader width="6rem" height="6rem" />
                             </div>
                         )
-
                         if (group === "ADMINS") return <Admin onLogout={signOut} />;
-
+                        if (group === "GUARDIAN") return <Confirmation />;
+ 
                         return <Registration />;
                     }}
                 </Authenticator>
