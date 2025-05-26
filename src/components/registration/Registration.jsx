@@ -173,12 +173,17 @@ function Registration() {
         const result = await register(newGuardian, children);
 
     if (result.successful) {
-      navigate("/confirmation", {
-        state: {
-          firstNames: children.map((child) => child.firstName),
-          emojis: result.assignedEmojis,
-        },
-      });
+    const client = generateClient({authMode: "userPool"});
+
+    await client.mutations.addUserToGroup({
+      userId: username,
+    });
+
+    await client.mutations.removeUserFromGroup({
+      userId: username,
+    });
+
+    navigate(0);
     } else {
       setError("Unable to process registration, please try again.");
     }
@@ -889,7 +894,7 @@ function Registration() {
                         </p>
 
             {/* Registration Form */}
-            <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId)}>
+            <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId, user.username)}>
               <ProgressBar step={step} />
               {renderStepContent(step, user)}
 

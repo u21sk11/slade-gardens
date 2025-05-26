@@ -1,6 +1,6 @@
 import { getChildren } from "../../apis/guardian";
 import { Authenticator } from "@aws-amplify/ui-react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Confirmation = () => {
   const [children, setChildren] = useState([]);
@@ -27,7 +27,11 @@ const Confirmation = () => {
   return (
     <Authenticator>
       {({ user }) => {
-        setGuardianId(user.signInDetails.loginId);
+        useEffect(() => {
+          if (user && user.signInDetails && user.signInDetails.loginId) {
+            setGuardianId(user.signInDetails.loginId);
+          }
+        }, [user]);
         return (
           <div className="min-h-[60vh] flex items-center justify-center py-5">
             <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl text-center">
@@ -59,8 +63,8 @@ const Confirmation = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {children.map((child) => (
-                        <tr key={child.childId}>
+                      {children.map((child, idx) => (
+                        <tr key={child.childId || idx}>
                           <td className="border px-4 py-2">{child.firstName}</td>
                           <td className="border px-4 py-2 text-2xl">{child.emoji}</td>
                         </tr>
