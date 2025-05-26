@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Authenticator, View, Image, Text, useTheme } from "@aws-amplify/ui-react";
+import { Amplify } from 'aws-amplify';
+import { Authenticator, View, Image, useTheme, Loader } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import Admin from "./admin/Admin";
-import Registration from "./Registration";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import Registration from "../../components/registration/Registration";
+import outputs from "../../../amplify_outputs.json";
 
+Amplify.configure(outputs);
 
 const components = {
     Header() {
@@ -58,14 +59,13 @@ const Home = () => {
 
     return (
         <div className="py-1 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-fixed bg-blend-luminosity">
-
             <div className="w-full p-2">
                 <Authenticator components={components}>
                     {({ signOut }) => {
                         if (loading) return (
-                            <Box className="flex items-center justify-center text-sladeGreen">
-                                <CircularProgress color="inherit" size="6rem" />
-                            </Box>
+                            <div className="flex items-center justify-center">
+                                <Loader width="6rem" height="6rem" />
+                            </div>
                         )
 
                         if (group === "ADMINS") return <Admin onLogout={signOut} />;
