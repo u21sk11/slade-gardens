@@ -1,5 +1,3 @@
-import React from "react";
-
 function YoungPersonLogin() {
   return (
     <div className="w-full flex items-center justify-center" >

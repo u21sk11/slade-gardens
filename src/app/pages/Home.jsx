@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Amplify } from 'aws-amplify';
 import { Authenticator, View, Image, useTheme, Loader } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
@@ -69,7 +69,6 @@ const Home = () => {
                                 <Loader width="6rem" height="6rem" />
                             </div>
                         )
-                        console.log("User group:", group);
                         if (group === "ADMINS") return <Admin onLogout={signOut} />;
                         if (group === "GUARDIAN") return <Confirmation />;
  

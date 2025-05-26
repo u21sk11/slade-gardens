@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { inPlayground, enterPlayground, exitPlayground } from "../../../apis/playground";
 import Button from "../../../components/form/Button";
 
