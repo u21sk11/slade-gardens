@@ -1,5 +1,5 @@
 import type { Schema } from "../resource"
-import { env } from "$amplify/env/remove-user-from-registered"
+import { env } from "$amplify/env/remove-user-from-group"
 import {
   AdminRemoveUserFromGroupCommand,
   CognitoIdentityProviderClient,
