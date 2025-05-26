@@ -72,7 +72,7 @@ const Home = () => {
                         if (group === "ADMINS") return <Admin onLogout={signOut} />;
                         if (group === "GUARDIAN") return <Confirmation />;
 
-                        return <Registration user={user} />;
+                        return <Registration signOut={signOut} user={user} />;
                     }}
                 </Authenticator>
             </div>

@@ -245,7 +245,7 @@ function Registration(props) {
         return true;
     };
 
-    const renderStepContent = (step, user) => {
+    const renderStepContent = (step) => {
         switch (step) {
             case 0:
                 return <Disclaimer setStep={setStep} />
@@ -695,31 +695,20 @@ function Registration(props) {
     };
 
     return (
-        <Authenticator>
-            {({ signOut, user }) => {
-                return (
-                    <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl m-10">
-                        {/* Title and Disclaimer Text */}
-                        <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-                            Registration
-                        </h2>
-                        <p className="text-sm text-center text-sladeGreen-dark mb-6">
-                            Please note: Slade Gardens Adventure Playground is not a childcare
-                            facility.
-                        </p>
-
-                        {/* Registration Form */}
-                        <form onSubmit={(e) => handleSubmit(e, user.signInDetails.loginId, user.username)}>
-                            <Loader variation="linear" isDeterminate isPercentageTextHidden percentage={step / 4 * 100} />
-                            {renderStepContent(step, user)}
-                            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut}>Sign Out</Button>
-                            {/* Error Messages */}
-                            {error && <p className="text-red-800 text-center mb-4 mt-2">{error}</p>}
-                        </form>
-                    </div>
-                );
-            }}
-        </Authenticator>
+        <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl m-10">
+            <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
+                Registration
+            </h2>
+            <p className="text-sm text-center text-sladeGreen-dark mb-6">
+                Please note: Slade Gardens Adventure Playground is not a childcare facility.
+            </p>
+            <form onSubmit={(e) => handleSubmit(e, props.user.signInDetails.loginId, props.user.username)}>
+                <Loader variation="linear" isDeterminate isPercentageTextHidden percentage={step / 4 * 100} />
+                {renderStepContent(step)}
+                <Button isFullWidth={true} variation="link" colorTheme="success" onClick={props.signOut}>Sign Out</Button>
+                {error && <p className="text-red-800 text-center mb-4 mt-2">{error}</p>}
+            </form>
+        </div>
     );
 }
 
