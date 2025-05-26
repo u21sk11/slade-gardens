@@ -95,10 +95,9 @@ async function createGuardian(guardian) {
     const phoneNumber = guardian?.phoneNumber?.replace(/^0/, "+44");
 
     const guardianResponse = await client.models.Guardian.create({
-      guardianId: uuidv4(),
+      guardianId: guardian?.email,
       firstName: guardian?.firstName,
       lastName: guardian?.lastName,
-      email: guardian?.email,
       addressLine1: guardian?.addressLine1,
       addressLine2: guardian?.addressLine2,
       city: guardian?.city,
