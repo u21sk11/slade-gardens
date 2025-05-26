@@ -3,12 +3,19 @@ import { register } from "../../apis/register";
 import { Authenticator, Button, Loader } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import "@aws-amplify/ui-react/styles.css";
-import Disclaimer from "./steps/Disclaimer";
 import { generateClient } from "aws-amplify/data"
 
-function Registration() {
-    const navigate = useNavigate();
+import Disclaimer from "./steps/Disclaimer";
+import FirstStep from "./steps/FirstStep";
 
+function Registration(props) {
+    const navigate = useNavigate();
+    // Common State
+    const [isLoading, setIsLoading] = useState(false);
+    const [step, setStep] = useState(0);
+    const [error, setError] = useState("");
+
+    // Step 1 State
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -16,9 +23,6 @@ function Registration() {
     const [addressLine2, setAddressLine2] = useState("");
     const [city, setCity] = useState("");
     const [postcode, setPostcode] = useState("");
-    const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(0);
 
     const currentYear = new Date().getFullYear();
     const youngestDob = new Date(
@@ -144,9 +148,7 @@ function Registration() {
         setChildren(updatedChildren);
     };
 
-    // --------------------------------------------------------------------------------
-
-  const handleSubmit = async (e, email, username) => {
+    const handleSubmit = async (e, email, username) => {
         e.preventDefault();
         setError("");
         setIsLoading(true);
@@ -173,27 +175,28 @@ function Registration() {
         const result = await register(newGuardian, children);
 
         if (result.successful) {
-    const client = generateClient({authMode: "userPool"});
+            const client = generateClient({ authMode: "userPool" });
 
-    await client.mutations.addUserToGroup({
-      userId: username,
-    });
-
-    await client.mutations.removeUserFromGroup({
-      userId: username,
+            await client.mutations.addUserToGroup({
+                userId: username,
             });
 
-    navigate(0);
+            await client.mutations.removeUserFromGroup({
+                userId: username,
+            });
+
+            navigate(0);
         } else {
             setError("Unable to process registration, please try again.");
         }
         setIsLoading(false);
     };
 
-    const handleNext = () => {
+    const handleNext = (nextStep) => {
         setError("");
         let isValid = false;
-        switch (step) {
+
+        switch (nextStep) {
             case 1:
                 isValid = validateStep1();
                 break;
@@ -206,28 +209,8 @@ function Registration() {
             default:
                 isValid = true;
         }
-        if (isValid) {
-            setStep((prevStep) => Math.min(prevStep + 1, 3));
-        }
-    };
 
-    const handlePrevious = () => {
-        setStep((prevStep) => Math.max(prevStep - 1, 1));
-    };
-
-    const validateStep1 = () => {
-        if (
-            !firstName ||
-            !lastName ||
-            !phoneNumber ||
-            !addressLine1 ||
-            !city ||
-            !postcode
-        ) {
-            setError("Please fill in all required fields.");
-            return false;
-        }
-        return true;
+        if (isValid) setStep(nextStep);
     };
 
     const validateStep2 = () => {
@@ -267,176 +250,24 @@ function Registration() {
             case 0:
                 return <Disclaimer setStep={setStep} />
             case 1:
-                return (
-                    <div>
-                        {/* Guardian details form Fields */}
-
-                        {/* First Name and Last Name Fields */}
-                        <div className="mb-4 flex space-x-6">
-                            <div className="flex-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-[#222831] font-medium"
-                                >
-                                    First Name*
-                                </label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                    required
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <label
-                                    htmlFor="lastName"
-                                    className="block text-[#222831] font-medium"
-                                >
-                                    Last Name*
-                                </label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Email Field */}
-                        <div className="mb-4">
-                            <label
-                                htmlFor="email"
-                                className="block text-[#222831] font-medium"
-                            >
-                                Email*
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={user.signInDetails.loginId}
-                                className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                required
-                                disabled
-                            />
-                        </div>
-
-                        {/* Phone Number Field */}
-                        <div className="mb-4">
-                            <label
-                                htmlFor="phoneNumber"
-                                className="block text-[#222831] font-medium"
-                            >
-                                Phone Number*
-                            </label>
-                            <input
-                                type="tel"
-                                id="phoneNumber"
-                                value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                                className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                required
-                            />
-                        </div>
-
-                        {/* Address Line 1 Field */}
-                        <div className="mb-4">
-                            <label
-                                htmlFor="addressLine1"
-                                className="block text-[#222831] font-medium"
-                            >
-                                Address Line 1*
-                            </label>
-                            <input
-                                type="text"
-                                id="addressLine1"
-                                value={addressLine1}
-                                onChange={(e) => setAddressLine1(e.target.value)}
-                                className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                required
-                            />
-                        </div>
-
-                        {/* Address Line 2 Field */}
-                        <div className="mb-4">
-                            <label
-                                htmlFor="addressLine2"
-                                className="block text-[#222831] font-medium"
-                            >
-                                Address Line 2
-                            </label>
-                            <input
-                                type="text"
-                                id="addressLine2"
-                                value={addressLine2}
-                                onChange={(e) => setAddressLine2(e.target.value)}
-                                className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                            />
-                        </div>
-
-                        {/* City and Postcode Fields */}
-                        <div className="mb-4 flex space-x-6">
-                            <div className="flex-1">
-                                <label
-                                    htmlFor="city"
-                                    className="block text-[#222831] font-medium"
-                                >
-                                    City*
-                                </label>
-                                <input
-                                    type="text"
-                                    id="city"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                    required
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <label
-                                    htmlFor="postcode"
-                                    className="block text-[#222831] font-medium"
-                                >
-                                    Postcode*
-                                </label>
-                                <input
-                                    type="text"
-                                    id="postcode"
-                                    value={postcode}
-                                    onChange={(e) => setPostcode(e.target.value)}
-                                    className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Navigation Buttons */}
-                        <div className="flex justify-center mt-6">
-                            {step > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={handlePrevious}
-                                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
-                                >
-                                    Previous
-                                </button>
-                            )}
-                            {step < 3 && (
-                                <button
-                                    type="button"
-                                    onClick={handleNext}
-                                    className="bg-[#6FB545] text-white px-4 py-2 rounded-md hover:bg-[#078543] focus:outline-none"
-                                >
-                                    Next
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                );
+                return <FirstStep
+                    user={props.user}
+                    setStep={setStep}
+                    setError={setError}
+                    firstName={firstName}
+                    setFirstName={setFirstName}
+                    lastName={lastName}
+                    setLastName={setLastName}
+                    phoneNumber={phoneNumber}
+                    setPhoneNumber={setPhoneNumber}
+                    addressLine1={addressLine1}
+                    setAddressLine1={setAddressLine1}
+                    addressLine2={addressLine2}
+                    setAddressLine2={setAddressLine2}
+                    city={city}
+                    setCity={setCity}
+                    postcode={postcode}
+                    setPostcode={setPostcode} />
             case 2:
                 return (
                     <div>
@@ -666,7 +497,7 @@ function Registration() {
                             {step > 1 && (
                                 <button
                                     type="button"
-                                    onClick={handlePrevious}
+                                    onClick={() => setStep(1)}
                                     className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none mr-4"
                                 >
                                     Previous
@@ -675,7 +506,7 @@ function Registration() {
                             {step < 3 && (
                                 <button
                                     type="button"
-                                    onClick={handleNext}
+                                    onClick={() => handleNext(2)}
                                     className="bg-[#6FB545] text-white px-4 py-2 rounded-xl hover:bg-[#078543] focus:outline-none ml-4"
                                 >
                                     Next
@@ -850,7 +681,7 @@ function Registration() {
                         <div className="flex justify-center mt-6">
                             <button
                                 type="button"
-                                onClick={handlePrevious}
+                                onClick={() => setStep(2)}
                                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none"
                             >
                                 Previous
@@ -883,9 +714,7 @@ function Registration() {
                             {renderStepContent(step, user)}
                             <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut}>Sign Out</Button>
                             {/* Error Messages */}
-                            {error && (
-                                <p className="text-red-500 text-center mb-4">{error}</p>
-                            )}
+                            {error && <p className="text-red-800 text-center mb-4 mt-2">{error}</p>}
                         </form>
                     </div>
                 );

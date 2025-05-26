@@ -49,7 +49,7 @@ const Home = () => {
     }, []);
 
     const getUserGroups = async () => {
-        await fetchAuthSession({forceRefresh: true});
+        await fetchAuthSession({ forceRefresh: true });
         const session = await fetchAuthSession();
         if (!session || !session.tokens) return ""
 
@@ -63,7 +63,7 @@ const Home = () => {
         <div className="py-1 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-fixed bg-blend-luminosity">
             <div className="w-full p-2">
                 <Authenticator components={components}>
-                    {({ signOut }) => {
+                    {({ signOut, user }) => {
                         if (loading) return (
                             <div className="flex items-center justify-center">
                                 <Loader width="6rem" height="6rem" />
@@ -71,8 +71,8 @@ const Home = () => {
                         )
                         if (group === "ADMINS") return <Admin onLogout={signOut} />;
                         if (group === "GUARDIAN") return <Confirmation />;
- 
-                        return <Registration />;
+
+                        return <Registration user={user} />;
                     }}
                 </Authenticator>
             </div>
