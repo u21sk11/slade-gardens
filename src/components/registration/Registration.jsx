@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { register } from "../../apis/register";
 import { Authenticator, Button } from "@aws-amplify/ui-react";
-import { Amplify } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import "@aws-amplify/ui-react/styles.css";
-import outputs from "../../../amplify_outputs.json";
+import Disclaimer from "./steps/Disclaimer";
 
-Amplify.configure(outputs);
+
+const UpdatedRegistration = (props) => {
+  return <Disclaimer />
+}
+
 
 function Registration() {
   const navigate = useNavigate();
@@ -190,17 +193,15 @@ function Registration() {
   const ProgressBar = ({ step }) => (
     <div className="flex justify-between mb-6">
       <div
-        className={`flex-1 ${
-          step >= 1 ? "bg-green-500" : "bg-gray-300"
-        } h-2 rounded-l-lg`}
+        className={`flex-1 ${step >= 1 ? "bg-green-500" : "bg-gray-300"
+          } h-2 rounded-l-lg`}
       ></div>
       <div
         className={`flex-1 ${step >= 2 ? "bg-green-500" : "bg-gray-300"} h-2`}
       ></div>
       <div
-        className={`flex-1 ${
-          step >= 3 ? "bg-green-500" : "bg-gray-300"
-        } h-2 rounded-r-lg`}
+        className={`flex-1 ${step >= 3 ? "bg-green-500" : "bg-gray-300"
+          } h-2 rounded-r-lg`}
       ></div>
     </div>
   );
@@ -888,7 +889,7 @@ function Registration() {
                     type="button"
                     className="text-blue-500 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
                     onClick={() => setStep(0)}>
-                      terms and conditions
+                    terms and conditions
                   </button>?*
                 </label>
                 <div className="flex items-center space-x-4">
@@ -972,7 +973,7 @@ function Registration() {
     <Authenticator>
       {({ signOut, user }) => {
         return (
-          <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl mt-5">
+          <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl m-5">
             <Button onClick={signOut}>Sign Out</Button>
             {/* Title and Disclaimer Text */}
             <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">

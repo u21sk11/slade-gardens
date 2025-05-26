@@ -3,33 +3,48 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body, #root {
-    width: 100%;
-    height: 100%; /* Ensure full width and height */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%; /* Ensure full width and height */
 }
 
 /* Optional: Set a height of 100% for full-body layouts */
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure body takes full viewport height */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure body takes full viewport height */
 }
 
 /* This is your content area */
 .container {
-    flex-grow: 1; /* Allow content to grow and push footer down */
+  flex-grow: 1; /* Allow content to grow and push footer down */
 }
 
 [data-amplify-authenticator] {
-    --amplify-components-button-primary-background-color: theme('colors.sladeGreen.dark');
-    --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px theme('colors.sladeGreen.dark');
-    --amplify-components-tabs-item-active-border-color: theme('colors.sladeGreen.dark');
-    --amplify-components-tabs-item-color: theme('colors.sladeGreen.dark');
-    --amplify-components-tabs-item-active-color: theme('colors.sladeGreen.dark');
-    --amplify-components-button-link-color: theme('colors.sladeGreen.dark');
-  }
+  --amplify-components-button-primary-background-color: theme(
+    "colors.sladeGreen.dark"
+  );
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px
+    theme("colors.sladeGreen.dark");
+  --amplify-components-tabs-item-active-border-color: theme(
+    "colors.sladeGreen.dark"
+  );
+  --amplify-components-tabs-item-color: theme("colors.sladeGreen.dark");
+  --amplify-components-tabs-item-active-color: theme("colors.sladeGreen.dark");
+  --amplify-components-button-link-color: theme("colors.sladeGreen.dark");
+  --amplify-components-loader-stroke-filled-color: theme(
+    "colors.sladeGreen.dark"
+  );
+}
+
+.amplify-loader {
+  --amplify-components-loader-stroke-filled: theme("colors.sladeGreen.dark");
+  --amplify-components-loader-stroke-empty: theme("colors.sladeYellow.dark");
+}
