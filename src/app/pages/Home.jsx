@@ -16,7 +16,7 @@ const components = {
             <View textAlign="center" padding={tokens.space.large}>
                 <Image
                     alt="Slade Gardens Logo"
-                    src="https://sladeadventure.co.uk/wp-content/uploads/2019/07/slade-gardens-logo-no-bg.png"
+                    src="./slade-social-media.webp"
                 />
             </View>
         );
