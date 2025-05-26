@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { register } from "../../apis/register";
 import { Authenticator, Button, Loader } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";

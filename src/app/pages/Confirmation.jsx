@@ -1,5 +1,5 @@
 import { getChildren } from "../../apis/guardian";
-import { Authenticator } from "@aws-amplify/ui-react";
+import { Authenticator , Button } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
 
 const Confirmation = () => {
@@ -26,7 +26,7 @@ const Confirmation = () => {
 
   return (
     <Authenticator>
-      {({ user }) => {
+      {({ signOut, user }) => {
         useEffect(() => {
           if (user && user.signInDetails && user.signInDetails.loginId) {
             setGuardianId(user.signInDetails.loginId);
@@ -73,6 +73,7 @@ const Confirmation = () => {
                   </table>
                 </div>
               )}
+            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut} marginTop="1em">Sign Out</Button>
             </div>
           </div>
         );
