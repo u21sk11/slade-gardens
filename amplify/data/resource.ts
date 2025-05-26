@@ -7,7 +7,6 @@ const schema = a
         guardianId: a.id().required(),
         firstName: a.string().required(),
         lastName: a.string().required(),
-        email: a.email().required(),
         addressLine1: a.string().required(),
         addressLine2: a.string(),
         city: a.string().required(),

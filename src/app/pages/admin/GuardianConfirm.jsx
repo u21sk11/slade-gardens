@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { exitPlayground, rollCall } from "../../../apis/playground";
 
-function RollCall() {
-  useEffect(() => {
-    const fetchRollCall = async () => {
-      const childrenNames = await rollCall();
-      setChildrenNames(childrenNames);
-    };
-
-    fetchRollCall();
-  }, []);
+function GuardianConfirm(guardianId) {
 
   const [childrenNames, setChildrenNames] = useState([]);
 
@@ -30,7 +21,7 @@ function RollCall() {
             className="text-3xl font-galindo font-bold text-sladeOrange text-center mb-10"
             style={{ textShadow: "0.75px 0.75px 0.75px black" }}
           >
-            Roll Call
+            {guardianId.email}
           </h1>
           <table className="min-w-full bg-white">
             <tbody>
@@ -57,4 +48,4 @@ function RollCall() {
   );
 }
 
-export default RollCall;
+export default GuardianConfirm;
