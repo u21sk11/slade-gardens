@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { exitPlayground, rollCall } from "../../../apis/playground";
 
-function VolunteerSignin() {
+function RollCall() {
   useEffect(() => {
     const fetchRollCall = async () => {
       const childrenNames = await rollCall();
@@ -57,4 +57,4 @@ function VolunteerSignin() {
   );
 }
 
-export default VolunteerSignin;
+export default RollCall;
