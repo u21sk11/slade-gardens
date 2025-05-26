@@ -1,6 +1,20 @@
-import React, { useState } from "react";
+import { Button } from "@aws-amplify/ui-react";
 
-const Disclaimer = () => <div>
+const SocialMediaLinks = () => <p className="mb-6 flex justify-center">
+    <a href="https://www.facebook.com/SladeAdventure" target="_blank" className="ml-5 mr-5">
+        <img src="./facebook.png" alt="Facebook icon" className="w-6" />
+    </a>
+    |
+    <a href="https://www.instagram.com/sladeadventure/" target="_blank" className="ml-5 mr-5">
+        <img src="./instagram.png" alt="Instagram icon" className="w-6" />
+    </a>
+    |
+    <a href="https://x.com/sladeadventure" target="_blank" className="ml-5 mr-5">
+        <img src="./x.png" alt="X icon" className="w-6" />
+    </a>
+</p>;
+
+const Disclaimer = (props) => <div className="mb-2">
     <h3 className="text-lg text-center font-semibold text-[#222831] mb-4">
         Welcome!
     </h3>
@@ -54,39 +68,9 @@ const Disclaimer = () => <div>
         Follow us on social media <b>@sladeadventure</b> for updates and
         news of special events.
     </p>
-    <p className="text-sm text-center text-[#222831] mb-6">
-        <a
-            href="https://www.facebook.com/SladeAdventure"
-            target="_blank"
-            className="text-blue-500 hover:underline"
-        >
-            Facebook
-        </a>{" "}
-        |{" "}
-        <a
-            href="https://www.instagram.com/sladeadventure/"
-            target="_blank"
-            className="text-blue-500 hover:underline"
-        >
-            Instagram
-        </a>{" "}
-        |{" "}
-        <a
-            href="https://x.com/sladeadventure"
-            target="_blank"
-            className="text-blue-500 hover:underline"
-        >
-            X
-        </a>
-    </p>
+    <SocialMediaLinks />
     <div className="flex justify-center">
-        <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="bg-[#6FB545] text-white px-4 py-2 rounded-md hover:bg-[#078543] focus:outline-none"
-        >
-            Start Registration
-        </button>
+        <Button isFullWidth={true} variation="primary" colorTheme="success" onClick={() => props.setStep(1)}>Start Registration</Button>
     </div>
 </div>;
 
