@@ -4,6 +4,9 @@ import { fetchAuthSession } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import Admin from "./admin/Admin";
 import Registration from "./Registration";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 
 const components = {
     Header() {
@@ -13,7 +16,7 @@ const components = {
             <View textAlign="center" padding={tokens.space.large}>
                 <Image
                     alt="Slade Gardens Logo"
-                    src="https://sladeadventure.co.uk/wp-content/uploads/2019/07/slade-gardens-logo-no-bg.png"
+                    src="./slade-social-media.webp"
                 />
             </View>
         );
@@ -22,9 +25,11 @@ const components = {
 
 const Home = () => {
     const [group, setGroup] = useState("");
+    const [loading, isLoading] = useState(true);
 
     useEffect(() => {
         getUserGroups().then((result) => {
+            isLoading(false);
             setGroup(result);
         });
 
@@ -53,11 +58,18 @@ const Home = () => {
 
     return (
         <div className="py-1 min-h-screen bg-gray-50 flex items-center justify-center bg-[url(/user-login-bg.webp)] bg-cover bg-fixed bg-blend-luminosity">
+
             <div className="w-full p-2">
                 <Authenticator components={components}>
-                    {({ signOut, user }) => {
-                        if (group === "ADMINS") return <Admin onLogout={signOut}/>;
-                        
+                    {({ signOut }) => {
+                        if (loading) return (
+                            <Box className="flex items-center justify-center text-sladeGreen">
+                                <CircularProgress color="inherit" size="6rem" />
+                            </Box>
+                        )
+
+                        if (group === "ADMINS") return <Admin onLogout={signOut} />;
+
                         return <Registration />;
                     }}
                 </Authenticator>
