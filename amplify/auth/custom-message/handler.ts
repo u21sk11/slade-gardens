@@ -15,13 +15,13 @@ const template = (code: string, type: string): string => {
                 <div style="padding: 20;">
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
-                    <img style="border: 0;display: block;height: auto; width: 100%;max-width: 373px;" alt="Animage" height="200" width="300"  src="https://sladeadventure.co.uk/wp-content/uploads/2019/07/slade-gardens-logo-no-bg.png" />
+                    <img style="border: 0;display: block;height: auto; width: 30%;max-width: 373px;" alt="Animage" height="200" width="300"  src="https://sladeadventure.co.uk/wp-content/uploads/2019/07/slade-gardens-logo-no-bg.png" />
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
                     <h2 style="font-size: 28px; margin-top: 20px; margin-bottom: 0;font-style: normal; font-weight: bold; color: #000;font-size: 24px;line-height: 32px;text-align: center;">Hi</h2>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">${line1}</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
-                    <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">Here’s your confirmation code: ${code}</p>
+                    <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">Here’s your confirmation code: <strong>${code}</strong></p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">${line2}</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
