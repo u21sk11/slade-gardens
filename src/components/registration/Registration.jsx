@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { register } from "../../apis/register";
-import { Authenticator, Button, Loader } from "@aws-amplify/ui-react";
+import { Button, Loader } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/data"
 
 import Disclaimer from "./steps/Disclaimer";
 import FirstStep from "./steps/FirstStep";
+import SecondStep from "./steps/SecondStep";
 
 function Registration(props) {
     const navigate = useNavigate();
@@ -24,78 +25,7 @@ function Registration(props) {
     const [city, setCity] = useState("");
     const [postcode, setPostcode] = useState("");
 
-    const currentYear = new Date().getFullYear();
-    const youngestDob = new Date(
-        currentYear - 6,
-        new Date().getMonth(),
-        new Date().getDate()
-    )
-        .toISOString()
-        .split("T")[0];
-    const oldestDob = new Date(
-        currentYear - 21,
-        new Date().getMonth(),
-        new Date().getDate()
-    )
-        .toISOString()
-        .split("T")[0];
-
-    const ethnicityGroups = {
-        ASIAN: [
-            { value: "INDIAN", label: "Indian" },
-            { value: "PAKISTANI", label: "Pakistani" },
-            { value: "BANGLADESHI", label: "Bangladeshi" },
-            { value: "CHINESE", label: "Chinese" },
-            { value: "OTHER_ASIAN", label: "Any other Asian background" },
-        ],
-        BLACK: [
-            { value: "AFRICAN", label: "African" },
-            { value: "CARIBBEAN", label: "Caribbean" },
-            {
-                value: "OTHER_BLACK",
-                label: "Any other Black, Black British, or Caribbean background",
-            },
-        ],
-        MIXED: [
-            {
-                value: "WHITE_AND_BLACK_CARIBBEAN",
-                label: "White and Black Caribbean",
-            },
-            { value: "WHITE_AND_BLACK_AFRICAN", label: "White and Black African" },
-            { value: "WHITE_AND_ASIAN", label: "White and Asian" },
-            {
-                value: "OTHER_MIXED",
-                label: "Any other Mixed or multiple ethnic background",
-            },
-        ],
-        WHITE: [
-            {
-                value: "WHITE_BRITISH",
-                label: "English, Welsh, Scottish, Northern Irish or British",
-            },
-            { value: "WHITE_IRISH", label: "Irish" },
-            { value: "WHITE_GYPSY_TRAVELLER", label: "Gypsy or Irish Traveller" },
-            { value: "ROMA", label: "Roma" },
-            { value: "WHITE_OTHER", label: "Any other White background" },
-        ],
-        OTHER: [
-            { value: "ARAB", label: "Arab" },
-            { value: "OTHER", label: "Any other ethnic group" },
-            { value: "SKIP", label: "Prefer not to say" },
-        ],
-    };
-
-    const ethnicityMainGroups = [
-        { value: "", label: "Select Ethnicity Group*" },
-        { value: "ASIAN", label: "Asian or Asian British" },
-        { value: "BLACK", label: "Black, African, Caribbean or Black British" },
-        { value: "MIXED", label: "Mixed or multiple ethnic groups" },
-        { value: "WHITE", label: "White" },
-        { value: "OTHER", label: "Other ethnic group" },
-    ];
-
-    // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
-
+    // Step 2 State
     const [children, setChildren] = useState([
         {
             firstName: "",
@@ -111,42 +41,16 @@ function Registration(props) {
             permissionToLeave: "",
         },
     ]);
+
+    // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
+
+
     const [permissions, setPermissions] = useState({
         photos: "",
         emails: "",
         terms: "",
     });
     const [referralSource, setReferralSource] = useState("");
-
-    const handleChildChange = (index, field, value) => {
-        const updatedChildren = [...children];
-        updatedChildren[index][field] = value;
-        setChildren(updatedChildren);
-    };
-
-    const addChild = () => {
-        setChildren([
-            ...children,
-            {
-                firstName: "",
-                lastName: "",
-                gender: "",
-                ethnicityMainGroup: "",
-                ethnicity: "",
-                dob: "",
-                school: "",
-                allergies: "",
-                specialNeeds: "",
-                freeSchoolMeals: "",
-                permissionToLeave: "",
-            },
-        ]);
-    };
-
-    const removeChild = (index) => {
-        const updatedChildren = children.filter((_, i) => i !== index);
-        setChildren(updatedChildren);
-    };
 
     const handleSubmit = async (e, email, username) => {
         e.preventDefault();
@@ -213,30 +117,6 @@ function Registration(props) {
         if (isValid) setStep(nextStep);
     };
 
-    const validateStep2 = () => {
-        for (const child of children) {
-            if (
-                !child.firstName ||
-                !child.lastName ||
-                !child.gender ||
-                !child.ethnicityMainGroup ||
-                !child.ethnicity ||
-                !child.dob ||
-                !child.school ||
-                child.permissionToLeave === "" ||
-                child.freeSchoolMeals === "" ||
-                new Date(child.dob) < new Date(oldestDob) ||
-                new Date(child.dob) > new Date(youngestDob)
-            ) {
-                setError(
-                    "Please fill in all required fields for each child and ensure the date of birth is within the valid range."
-                );
-                return false;
-            }
-        }
-        return true;
-    };
-
     const validateStep3 = () => {
         if (!permissions.photos || !permissions.emails || !permissions.terms) {
             setError("Please fill in all required fields.");
@@ -269,252 +149,11 @@ function Registration(props) {
                     postcode={postcode}
                     setPostcode={setPostcode} />
             case 2:
-                return (
-                    <div>
-                        {/* Children form Fields */}
-                        {
-                            <>
-                                {children.map((child, index, guardianId) => (
-                                    <div
-                                        key={guardianId + index}
-                                        className="mb-6 border-t border-gray-300 pt-4"
-                                    >
-                                        <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                                            Child {index + 1}
-                                            {children.length > 1 && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeChild(index)}
-                                                    className="ml-4 text-red-500 text-sm hover:underline"
-                                                >
-                                                    Remove
-                                                </button>
-                                            )}
-                                        </h3>
-
-                                        {/* Child details form Fields */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {/* First Name Field */}
-                                            <input
-                                                type="text"
-                                                placeholder="First Name*"
-                                                value={child.firstName}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "firstName", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            />
-
-                                            {/* Last Name Field */}
-                                            <input
-                                                type="text"
-                                                placeholder="Last Name*"
-                                                value={child.lastName}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "lastName", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            />
-
-                                            {/* Gender Selection */}
-                                            <select
-                                                value={child.gender}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "gender", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            >
-                                                <option value="">Gender*</option>
-                                                <option value="MALE">Male</option>
-                                                <option value="FEMALE">Female</option>
-                                                <option value="NON_BINARY">Non-binary</option>
-                                                <option value="OTHER">Other</option>
-                                                <option value="SKIP">Prefer not to say</option>
-                                            </select>
-
-                                            {/* Date of Birth Field */}
-                                            <input
-                                                type="date"
-                                                placeholder="Date of Birth*"
-                                                value={child.dob}
-                                                min={oldestDob}
-                                                max={youngestDob}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "dob", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            />
-
-                                            {/* Ethnicity Main Group Selection */}
-                                            <div className="col-span-full">
-                                                <select
-                                                    value={child.ethnicityMainGroup || ""}
-                                                    onChange={(e) => {
-                                                        handleChildChange(
-                                                            index,
-                                                            "ethnicityMainGroup",
-                                                            e.target.value
-                                                        );
-                                                        handleChildChange(index, "ethnicity", "");
-                                                    }}
-                                                    className="p-3 border border-gray-300 rounded-md w-full"
-                                                    required
-                                                >
-                                                    {ethnicityMainGroups.map((opt) => (
-                                                        <option key={opt.value} value={opt.value}>
-                                                            {opt.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-
-                                            {/* Ethnicity Sub-group Selection */}
-                                            {child.ethnicityMainGroup &&
-                                                child.ethnicityMainGroup !== "" && (
-                                                    <div className="col-span-full">
-                                                        <select
-                                                            value={child.ethnicity}
-                                                            onChange={(e) =>
-                                                                handleChildChange(
-                                                                    index,
-                                                                    "ethnicity",
-                                                                    e.target.value
-                                                                )
-                                                            }
-                                                            className="p-3 border border-gray-300 rounded-md w-full"
-                                                            required
-                                                        >
-                                                            <option value="">Select Sub-group*</option>
-                                                            {ethnicityGroups[child.ethnicityMainGroup].map(
-                                                                (opt) => (
-                                                                    <option key={opt.value} value={opt.value}>
-                                                                        {opt.label}
-                                                                    </option>
-                                                                )
-                                                            )}
-                                                        </select>
-                                                    </div>
-                                                )}
-
-                                            {/* Permission to Leave Selection */}
-                                            <div className="col-span-full">
-                                                <select
-                                                    value={child.permissionToLeave}
-                                                    onChange={(e) =>
-                                                        handleChildChange(
-                                                            index,
-                                                            "permissionToLeave",
-                                                            e.target.value === "true"
-                                                        )
-                                                    }
-                                                    className="p-3 border border-gray-300 rounded-md w-full"
-                                                    required
-                                                >
-                                                    <option value="">Permission to leave?*</option>
-                                                    <option value="true">Yes</option>
-                                                    <option value="false">No</option>
-                                                </select>
-                                            </div>
-
-                                            {/* School Field */}
-                                            <input
-                                                type="text"
-                                                placeholder="School*"
-                                                value={child.school}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "school", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            />
-
-                                            {/* Free School Meals Selection */}
-                                            <select
-                                                value={child.freeSchoolMeals}
-                                                onChange={(e) =>
-                                                    handleChildChange(
-                                                        index,
-                                                        "freeSchoolMeals",
-                                                        e.target.value === "true"
-                                                    )
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                                required
-                                            >
-                                                <option value="">
-                                                    Eligible for free school meals?*
-                                                </option>
-                                                <option value="true">Yes</option>
-                                                <option value="false">No</option>
-                                            </select>
-
-                                            {/* Allergies Field */}
-                                            <input
-                                                type="text"
-                                                placeholder="Any Allergies?"
-                                                value={child.allergies}
-                                                onChange={(e) =>
-                                                    handleChildChange(index, "allergies", e.target.value)
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                            />
-
-                                            {/* Special Needs Field */}
-                                            <input
-                                                type="text"
-                                                placeholder="Disabilities / Special Needs?"
-                                                value={child.specialNeeds}
-                                                onChange={(e) =>
-                                                    handleChildChange(
-                                                        index,
-                                                        "specialNeeds",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="p-3 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-
-                                {/* Add Child Button */}
-                                <button
-                                    type="button"
-                                    onClick={addChild}
-                                    className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 focus:outline-none"
-                                >
-                                    + Add Child
-                                </button>
-                            </>
-                        }
-
-                        {/* Navigation Buttons */}
-                        <div className="flex justify-center mt-6">
-                            {step > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={() => setStep(1)}
-                                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none mr-4"
-                                >
-                                    Previous
-                                </button>
-                            )}
-                            {step < 3 && (
-                                <button
-                                    type="button"
-                                    onClick={() => handleNext(2)}
-                                    className="bg-[#6FB545] text-white px-4 py-2 rounded-xl hover:bg-[#078543] focus:outline-none ml-4"
-                                >
-                                    Next
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                );
+                return <SecondStep
+                    setStep={setStep}
+                    setError={setError}
+                    children={children}
+                    setChildren={setChildren} />
             case 3:
                 return (
                     <div>
@@ -696,12 +335,8 @@ function Registration(props) {
 
     return (
         <div className="max-w-4xl mx-auto p-10 bg-white shadow-md rounded-xl m-10">
-            <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">
-                Registration
-            </h2>
-            <p className="text-sm text-center text-sladeGreen-dark mb-6">
-                Please note: Slade Gardens Adventure Playground is not a childcare facility.
-            </p>
+            <h2 className="text-3xl font-semibold text-center text-[#222831] mb-4">Registration</h2>
+            <p className="text-sm text-center text-sladeGreen-dark mb-6">Please note: Slade Gardens Adventure Playground is not a childcare facility.</p>
             <form onSubmit={(e) => handleSubmit(e, props.user.signInDetails.loginId, props.user.username)}>
                 <Loader variation="linear" isDeterminate isPercentageTextHidden percentage={step / 4 * 100} />
                 {renderStepContent(step)}
