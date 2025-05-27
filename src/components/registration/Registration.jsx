@@ -8,8 +8,9 @@ import { generateClient } from "aws-amplify/data"
 import Disclaimer from "./steps/Disclaimer";
 import FirstStep from "./steps/FirstStep";
 import SecondStep from "./steps/SecondStep";
+import ThirdStep from "./steps/ThirdStep";
 
-function Registration(props) {
+const Registration = (props) => {
     const navigate = useNavigate();
     // Common State
     const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +43,7 @@ function Registration(props) {
         },
     ]);
 
-    // ---------------------------- FOR GUARDIAN REGISTRATION ----------------------------
-
-
+    // Step 3 State
     const [permissions, setPermissions] = useState({
         photos: "",
         emails: "",
@@ -96,35 +95,6 @@ function Registration(props) {
         setIsLoading(false);
     };
 
-    const handleNext = (nextStep) => {
-        setError("");
-        let isValid = false;
-
-        switch (nextStep) {
-            case 1:
-                isValid = validateStep1();
-                break;
-            case 2:
-                isValid = validateStep2();
-                break;
-            case 3:
-                isValid = validateStep3();
-                break;
-            default:
-                isValid = true;
-        }
-
-        if (isValid) setStep(nextStep);
-    };
-
-    const validateStep3 = () => {
-        if (!permissions.photos || !permissions.emails || !permissions.terms) {
-            setError("Please fill in all required fields.");
-            return false;
-        }
-        return true;
-    };
-
     const renderStepContent = (step) => {
         switch (step) {
             case 0:
@@ -155,179 +125,14 @@ function Registration(props) {
                     children={children}
                     setChildren={setChildren} />
             case 3:
-                return (
-                    <div>
-                        {/* Additional details form Fields */}
-
-                        <div className="mt-6">
-                            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                                Permissions
-                            </h3>
-                            <div className="mb-4">
-                                {/* Photo Permissions Fields */}
-                                <label className="block text-gray-700">
-                                    Do we have your permission for your child's photographs/videos
-                                    to be used on our social media or marketing?*
-                                </label>
-                                <div className="flex items-center space-x-4">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="photos"
-                                            value="yes"
-                                            checked={permissions.photos === "yes"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    photos: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        Yes
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="photos"
-                                            value="no"
-                                            checked={permissions.photos === "no"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    photos: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-
-                            {/* Email Permissions Fields */}
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    May we occasionally email you with news and notices of our
-                                    community events?*
-                                </label>
-                                <div className="flex items-center space-x-4">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="emails"
-                                            value="yes"
-                                            checked={permissions.emails === "yes"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    emails: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        Yes
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="emails"
-                                            value="no"
-                                            checked={permissions.emails === "no"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    emails: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Do you agree to the{" "}
-                                    <button
-                                        type="button"
-                                        className="text-blue-500 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
-                                        onClick={() => setStep(0)}>
-                                        terms and conditions
-                                    </button>?*
-                                </label>
-                                <div className="flex items-center space-x-4">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="terms"
-                                            value="yes"
-                                            checked={permissions.terms === "yes"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    terms: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        Yes
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="terms"
-                                            value="no"
-                                            checked={permissions.terms === "no"}
-                                            onChange={(e) =>
-                                                setPermissions({
-                                                    ...permissions,
-                                                    terms: e.target.value,
-                                                })
-                                            }
-                                            required
-                                        />{" "}
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* How did you hear Field */}
-                        <div className="mb-6">
-                            <label htmlFor="referralSource" className="block text-gray-700">
-                                How did you hear about Slade Gardens?
-                            </label>
-                            <input
-                                type="text"
-                                id="referralSource"
-                                value={referralSource}
-                                onChange={(e) => setReferralSource(e.target.value)}
-                                className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                            />
-                        </div>
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full py-3 mt-4 bg-[#6FB545] text-white rounded-md hover:bg-[#078543] focus:outline-none"
-                            disabled={isLoading}
-                        >
-                            {isLoading ? "Registering..." : "Submit"}
-                        </button>
-
-                        {/* Navigation Buttons */}
-                        <div className="flex justify-center mt-6">
-                            <button
-                                type="button"
-                                onClick={() => setStep(2)}
-                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-400 focus:outline-none"
-                            >
-                                Previous
-                            </button>
-                        </div>
-                    </div>
-                );
+                return <ThirdStep
+                    setStep={setStep}
+                    setError={setError}
+                    permissions={permissions}
+                    setPermissions={setPermissions}
+                    referralSource={referralSource}
+                    setReferralSource={setReferralSource}
+                    isLoading={isLoading} />
             default:
                 return null;
         }

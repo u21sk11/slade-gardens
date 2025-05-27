@@ -1,7 +1,7 @@
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "../amplify_outputs.json";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./app/pages/Home";
 
 /**
@@ -16,6 +16,7 @@ export default function App() {
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </div>
