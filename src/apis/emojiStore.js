@@ -17,6 +17,7 @@ const client = generateClient({
  * Gets a specified amount of unassigned emojis
  */
 export async function getUnassignedEmojis(emojiCount) {
+  await seedEmojiStore();
   try {
     let nextToken = null;
     let usableEmojis = [];

@@ -1,5 +1,5 @@
 import { getChildren } from "../../apis/guardian";
-import { Authenticator , Button } from "@aws-amplify/ui-react";
+import { Authenticator, Button } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
 
 const Confirmation = () => {
@@ -35,7 +35,7 @@ const Confirmation = () => {
         return (
           <div className="min-h-[60vh] flex items-center justify-center py-5">
             <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl text-center">
-              <h1 className="text-5xl font-galindo font-bold text-sladeOrange mb-1">
+              <h1 className="text-3xl font-semibold text-center text-[#222831] mb-4">
                 Registration Successful!
               </h1>
               <br />
@@ -73,7 +73,7 @@ const Confirmation = () => {
                   </table>
                 </div>
               )}
-            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut} marginTop="1em">Sign Out</Button>
+              <Button isFullWidth={true} variation="link" colorTheme="success" onClick={signOut} marginTop="1em">Sign Out</Button>
             </div>
           </div>
         );
