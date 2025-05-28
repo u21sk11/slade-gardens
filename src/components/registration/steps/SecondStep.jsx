@@ -131,19 +131,19 @@ const SecondStep = (props) => {
                             placeholder="First Name*"
                             value={child.firstName}
                             onChange={(e) => handleChildChange(index, "firstName", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required />
                         <input
                             type="text"
                             placeholder="Last Name*"
                             value={child.lastName}
                             onChange={(e) => handleChildChange(index, "lastName", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required />
                         <select
                             value={child.gender}
                             onChange={(e) => handleChildChange(index, "gender", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required>
                             <option value="">Gender*</option>
                             <option value="MALE">Male</option>
@@ -159,7 +159,7 @@ const SecondStep = (props) => {
                             min={oldestDob}
                             max={youngestDob}
                             onChange={(e) => handleChildChange(index, "dob", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required />
                         <div className="col-span-full">
                             <select
@@ -168,7 +168,7 @@ const SecondStep = (props) => {
                                     handleChildChange(index, "ethnicityMainGroup", e.target.value);
                                     handleChildChange(index, "ethnicity", "");
                                 }}
-                                className="p-3 border border-gray-300 rounded-md w-full"
+                                className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F] w-full"
                                 required>
                                 {ethnicityMainGroups.map((opt) => (
                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -180,7 +180,7 @@ const SecondStep = (props) => {
                                 <select
                                     value={child.ethnicity}
                                     onChange={(e) => handleChildChange(index, "ethnicity", e.target.value)}
-                                    className="p-3 border border-gray-300 rounded-md w-full"
+                                    className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F] w-full"
                                     required>
                                     <option value="">Select Sub-group*</option>
                                     {ethnicityGroups[child.ethnicityMainGroup].map(
@@ -193,7 +193,7 @@ const SecondStep = (props) => {
                             <select
                                 value={child.permissionToLeave}
                                 onChange={(e) => handleChildChange(index, "permissionToLeave", e.target.value === "true")}
-                                className="p-3 border border-gray-300 rounded-md w-full"
+                                className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F] w-full"
                                 required>
                                 <option value="">Permission to leave?*</option>
                                 <option value="true">Yes</option>
@@ -205,12 +205,12 @@ const SecondStep = (props) => {
                             placeholder="School*"
                             value={child.school}
                             onChange={(e) => handleChildChange(index, "school", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required />
                         <select
                             value={child.freeSchoolMeals}
                             onChange={(e) => handleChildChange(index, "freeSchoolMeals", e.target.value === "true")}
-                            className="p-3 border border-gray-300 rounded-md"
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required>
                             <option value="">Eligible for free school meals?*</option>
                             <option value="true">Yes</option>
@@ -221,13 +221,13 @@ const SecondStep = (props) => {
                             placeholder="Any Allergies?"
                             value={child.allergies}
                             onChange={(e) => handleChildChange(index, "allergies", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md" />
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]" />
                         <input
                             type="text"
                             placeholder="Disabilities / Special Needs?"
                             value={child.specialNeeds}
                             onChange={(e) => handleChildChange(index, "specialNeeds", e.target.value)}
-                            className="p-3 border border-gray-300 rounded-md" />
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]" />
                     </div>
                 </div>
             ))}

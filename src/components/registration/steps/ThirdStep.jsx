@@ -113,7 +113,7 @@ const ThirdStep = (props) => {
                 id="referralSource"
                 value={props.referralSource}
                 onChange={(e) => props.setReferralSource(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+                className="w-full p-3 mt-2 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]" />
         </div>
         <div className="flex justify-center mt-2">
             <Button marginRight="1rem" isFullWidth={true} variation="primary" colorTheme="success" onClick={() => { props.setStep(2); props.setError(""); }}>Previous</Button>
