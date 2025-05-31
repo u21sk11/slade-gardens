@@ -36,25 +36,24 @@ const Disclaimer = (props) => <div className="mb-2">
     </p>
     <p className="text-sm text-center text-[#222831] mb-6">
         The Adventure Playground is a place where children come to learn,
-        grow and have fun whilst experiencing risk and challenge through
+        grow, and have fun whilst experiencing risk and challenge through
         their play. The playground staff team are all experienced to
         ensure that the play that children engage in here will be as
         "safe" as it possibly can.
     </p>
     <p className="text-sm text-center text-[#222831] mb-6">
-        Occasionally we may take photographs of the children whilst they
-        are playing on structures or in the Hut for publicity purposes,
-        please share your permission in this form and also inform a member
+        Occasionally, we may take photographs of the children while they
+        are playing on structures or in the Hut for publicity purposes.
+        Please share your permission in this form and also inform a member
         of staff if you do not wish for your child's face to be included
         in any photographs.
     </p>
     <p className="text-sm text-center text-[#222831] mb-6">
         The following information that you enter will remain confidential
-        and is be used for monitoring services with the Local Council,
-        Department of Education and some grant funders. Funders now
+        and will be used for monitoring services with the Local Council,
+        Department of Education, and some grant funders. Funders now
         require evidence of your eligibility for Free School Meals. Please
-        provide accurate information as the information provided is cross
-        checked.
+        provide accurate information, as the information provided is cross-checked.
     </p>
     <p className="text-sm text-center text-[#222831] mb-6">
         We ask that users sign in and out each time they join us.

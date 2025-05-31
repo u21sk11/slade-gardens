@@ -153,8 +153,10 @@ const SecondStep = (props) => {
                             <option value="SKIP">Prefer not to say</option>
                         </select>
                         <input
-                            type="date"
+                            type="text"
                             placeholder="Date of Birth*"
+                            onFocus={(e) => { e.target.type = "date"; }}
+                            onBlur={(e) => { e.target.type = "text"; }}
                             value={child.dob}
                             min={oldestDob}
                             max={youngestDob}
