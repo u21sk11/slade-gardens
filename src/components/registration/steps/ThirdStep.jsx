@@ -3,14 +3,14 @@ import { Button } from "@aws-amplify/ui-react";
 const ThirdStep = (props) => {
     const validate = () => {
         props.setError("");
-        let isValid = true;
+        let field = "";
 
-        if (!props.permissions.photos || !props.permissions.emails || !props.permissions.terms) {
-            props.setError("Please fill in all required fields.");
-            isValid = false;
-        }
+        if (!props.permissions.terms) field = "3 - terms and conditions";
+        if (!props.permissions.emails) field = "2 - news and notices";
+        if (!props.permissions.photos) field = "1 - social media and marketing";
 
-        if (isValid) props.setStep(3);
+        if (field === "") props.setStep(3);
+        else props.setError(`Looks like you missed answering question number ${field}.`);
     };
 
     return <div className="mb-2">
@@ -18,7 +18,7 @@ const ThirdStep = (props) => {
             <h3 className="text-lg font-semibold text-gray-700 mb-2">Permissions</h3>
             <div className="mb-4">
                 <label className="block text-gray-700">
-                    Do we have your permission for your child's photographs/videos
+                    1. Do we have your permission for your child's photographs/videos
                     to be used on our social media or marketing?*
                 </label>
                 <div className="flex items-center space-x-4">
@@ -46,7 +46,7 @@ const ThirdStep = (props) => {
             </div>
             <div className="mb-4">
                 <label className="block text-gray-700">
-                    May we occasionally email you with news and notices of our
+                    2. May we occasionally email you with news and notices of our
                     community events?*
                 </label>
                 <div className="flex items-center space-x-4">
@@ -74,7 +74,7 @@ const ThirdStep = (props) => {
             </div>
             <div className="mb-4">
                 <label className="block text-gray-700">
-                    Do you agree to the{" "}
+                    3. Do you agree to the{" "}
                     <button
                         type="button"
                         className="text-blue-500 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"

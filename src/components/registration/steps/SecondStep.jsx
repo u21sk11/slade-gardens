@@ -92,6 +92,25 @@ const SecondStep = (props) => {
     };
 
     const validate = () => {
+        // props.setError("");
+        // let field = "";
+
+        // for (let i = 0; i < props.children.length; i++) {
+        //     if (!props.children[i].firstName) field = `'First Name' field for child ${i}`;
+        //     if (!props.children[i].lastName) field = `'Last Name' field for child ${i}`;
+        //     if (!props.children[i].gender) field = `'Gender' field for child ${i}`;
+        //     if (!props.children[i].ethnicity) field = `'Ethnicity Sub-Group' field for child ${i}`;
+        //     if (!props.children[i].ethnicityMainGroup) field = `'Ethnicity Group' field for child ${i}`;
+
+        //     if (!props.children[i].dob) field = `'Date of Birth' field for child ${i}`;
+        //     else if(new Date(child.dob) > new Date(youngestDob)){
+        //         field = "ensure the date of birth is within the valid range.";
+        //     }else if(new Date(child.dob) < new Date(oldestDob)){}
+        // }
+
+        // if (field === "") props.setStep(2);
+        // else props.setError(`Looks like you missed filling out the ${field} field.`)
+
         props.setError("");
         let isValid = true;
 
@@ -234,7 +253,7 @@ const SecondStep = (props) => {
                 </div>
             ))}
 
-            <Button isFullWidth={true} variation="link" colorTheme="success" onClick={addChild}>+ Add Child</Button>
+            <Button isFullWidth={true} variation="primary" colorTheme="warning" onClick={addChild}>+ Add Child</Button>
             <div className="flex justify-center mt-2">
                 <Button marginRight="1rem" isFullWidth={true} variation="primary" colorTheme="success" onClick={() => { props.setStep(1); props.setError("") }}>Previous</Button>
                 <Button marginLeft="1rem" isFullWidth={true} variation="primary" colorTheme="success" onClick={validate}>Next</Button>

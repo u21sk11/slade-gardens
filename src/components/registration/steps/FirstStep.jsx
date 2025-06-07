@@ -3,20 +3,17 @@ import { Button } from "@aws-amplify/ui-react";
 const FirstStep = (props) => {
     const validate = () => {
         props.setError("");
-        let isValid = true;
+        let field = "";
 
-        if (!props.firstName ||
-            !props.lastName ||
-            !props.phoneNumber ||
-            !props.addressLine1 ||
-            !props.city ||
-            !props.postcode
-        ) {
-            props.setError("Please fill in all required fields.");
-            isValid = false;
-        }
+        if (!props.firstName) field = "First Name";
+        if (!props.lastName) field = "Last Name";
+        if (!props.phoneNumber) field = "Phone Number";
+        if (!props.addressLine1) field = "Address Line 1";
+        if (!props.city) field = "City";
+        if (!props.postcode) field = "Postcode";
 
-        if (isValid) props.setStep(2);
+        if (field === "") props.setStep(2);
+        else props.setError(`Looks like you missed filling out the '${field}' field.`)
     };
 
     return <div className="mb-2">
