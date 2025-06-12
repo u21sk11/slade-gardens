@@ -253,8 +253,8 @@ const SecondStep = (props) => {
                 </div>
             ))}
 
-            <Button isFullWidth={true} variation="primary" colorTheme="warning" onClick={addChild}>+ Add Child</Button>
-            <div className="flex justify-center mt-2">
+            <Button isFullWidth={true} variation="primary" colorTheme="success" onClick={addChild}>+ Add Child 💛</Button>
+            <div className="flex justify-center mt-4">
                 <Button marginRight="1rem" isFullWidth={true} variation="primary" colorTheme="success" onClick={() => { props.setStep(1); props.setError("") }}>Previous</Button>
                 <Button marginLeft="1rem" isFullWidth={true} variation="primary" colorTheme="success" onClick={validate}>Next</Button>
             </div>

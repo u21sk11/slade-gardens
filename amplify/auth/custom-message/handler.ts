@@ -25,6 +25,7 @@ const template = (code: string, type: string): string => {
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">${line2}</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;</p>
+                    <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">If you weren’t expecting this email or something doesn’t seem quite right, please report it to <strong>sladeadventure@btinternet.com</strong></p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">Warm regards,</p>
                     <p style="Margin-top: 20px;Margin-bottom: 0;font-size: 16px;line-height: 24px; color: #000">The Slade Gardens Team</p>
                 </div>

@@ -15,7 +15,7 @@ const components = {
         const { tokens } = useTheme();
 
         return (
-            <View textAlign="center" padding={tokens.space.large}>
+            <View textAlign="center" padding={tokens.space.xxl}>
                 <Image
                     alt="Slade Gardens Logo"
                     src="./slade-social-media.webp"
