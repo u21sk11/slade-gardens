@@ -1,4 +1,6 @@
 import { Button } from "@aws-amplify/ui-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const SecondStep = (props) => {
     const ethnicityGroups = {
@@ -54,9 +56,6 @@ const SecondStep = (props) => {
         { value: "OTHER", label: "Other ethnic group" },
     ];
     const currentYear = new Date().getFullYear();
-    const youngestDob = new Date(currentYear - 6, new Date().getMonth(), new Date().getDate())
-        .toISOString()
-        .split("T")[0];
     const oldestDob = new Date(currentYear - 21, new Date().getMonth(), new Date().getDate())
         .toISOString()
         .split("T")[0];
@@ -70,7 +69,7 @@ const SecondStep = (props) => {
                 gender: "",
                 ethnicityMainGroup: "",
                 ethnicity: "",
-                dob: "",
+                dob: null,
                 school: "",
                 allergies: "",
                 specialNeeds: "",
@@ -88,52 +87,32 @@ const SecondStep = (props) => {
     const handleChildChange = (index, field, value) => {
         const updatedChildren = [...props.children];
         updatedChildren[index][field] = value;
+
         props.setChildren(updatedChildren);
     };
 
     const validate = () => {
-        // props.setError("");
-        // let field = "";
-
-        // for (let i = 0; i < props.children.length; i++) {
-        //     if (!props.children[i].firstName) field = `'First Name' field for child ${i}`;
-        //     if (!props.children[i].lastName) field = `'Last Name' field for child ${i}`;
-        //     if (!props.children[i].gender) field = `'Gender' field for child ${i}`;
-        //     if (!props.children[i].ethnicity) field = `'Ethnicity Sub-Group' field for child ${i}`;
-        //     if (!props.children[i].ethnicityMainGroup) field = `'Ethnicity Group' field for child ${i}`;
-
-        //     if (!props.children[i].dob) field = `'Date of Birth' field for child ${i}`;
-        //     else if(new Date(child.dob) > new Date(youngestDob)){
-        //         field = "ensure the date of birth is within the valid range.";
-        //     }else if(new Date(child.dob) < new Date(oldestDob)){}
-        // }
-
-        // if (field === "") props.setStep(2);
-        // else props.setError(`Looks like you missed filling out the ${field} field.`)
-
         props.setError("");
-        let isValid = true;
+        let field = "";
 
-        for (const child of props.children) {
-            if (
-                !child.firstName ||
-                !child.lastName ||
-                !child.gender ||
-                !child.ethnicityMainGroup ||
-                !child.ethnicity ||
-                !child.dob ||
-                !child.school ||
-                child.permissionToLeave === "" ||
-                child.freeSchoolMeals === "" ||
-                new Date(child.dob) < new Date(oldestDob) ||
-                new Date(child.dob) > new Date(youngestDob)
-            ) {
-                props.setError("Please fill in all required fields for each child and ensure the date of birth is within the valid range.");
-                isValid = false;
+        for (let i = 0; i < props.children.length; i++) {
+            if (!props.children[i].firstName) field = `'First Name' field for child ${i + 1} is missing.`;
+            if (!props.children[i].lastName) field = `'Last Name' field for child ${i + 1} is missing.`;
+            if (!props.children[i].gender) field = `'Gender' field for child ${i + 1} is missing.`;
+            if (!props.children[i].ethnicity) field = `'Ethnicity Sub-Group' field for child ${i + 1} is missing.`;
+            if (!props.children[i].ethnicityMainGroup) field = `'Ethnicity Group' field for child ${i + 1} is missing.`;
+            if (props.children[i].permissionToLeave === "") field = `'Permission to leave?' field for child ${i + 1} is missing.`;
+
+            if (!props.children[i].dob) field = `'Date of Birth' field for child ${i + 1} is missing.`;
+            else if (new Date(props.children[i].dob) < new Date(oldestDob)) {
+                field = `Child ${i + 1} is too old.`;
+            } else if (new Date(props.children[i].dob) > new Date()) {
+                field = `Child ${i + 1} has not been born yet.`;
             }
         }
 
-        if (isValid) props.setStep(3);
+        if (field === "") props.setStep(3);
+        else props.setError(`Looks like there's an issue with your form. ${field}`)
     };
 
     return (
@@ -171,17 +150,15 @@ const SecondStep = (props) => {
                             <option value="OTHER">Other</option>
                             <option value="SKIP">Prefer not to say</option>
                         </select>
-                        <input
-                            type="text"
-                            placeholder="Date of Birth*"
-                            onFocus={(e) => { e.target.type = "date"; }}
-                            onBlur={(e) => { e.target.type = "text"; }}
-                            value={child.dob}
-                            min={oldestDob}
-                            max={youngestDob}
-                            onChange={(e) => handleChildChange(index, "dob", e.target.value)}
-                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
-                            required />
+                        <DatePicker
+                            className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F] w-full"
+                            placeholderText="Date of Birth*"
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                            withPortal
+                            selected={child.dob}
+                            onChange={(e) => handleChildChange(index, "dob", e)} />
                         <div className="col-span-full">
                             <select
                                 value={child.ethnicityMainGroup || ""}
@@ -223,7 +200,7 @@ const SecondStep = (props) => {
                         </div>
                         <input
                             type="text"
-                            placeholder="School*"
+                            placeholder="School"
                             value={child.school}
                             onChange={(e) => handleChildChange(index, "school", e.target.value)}
                             className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
@@ -233,7 +210,7 @@ const SecondStep = (props) => {
                             onChange={(e) => handleChildChange(index, "freeSchoolMeals", e.target.value === "true")}
                             className="p-3 border border-[#6FB545] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F9DE3F]"
                             required>
-                            <option value="">Eligible for free school meals?*</option>
+                            <option value="">Eligible for free school meals?</option>
                             <option value="true">Yes</option>
                             <option value="false">No</option>
                         </select>

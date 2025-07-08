@@ -34,7 +34,7 @@ const Registration = (props) => {
             gender: "",
             ethnicityMainGroup: "",
             ethnicity: "",
-            dob: "",
+            dob: null,
             school: "",
             allergies: "",
             specialNeeds: "",

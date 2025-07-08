@@ -31,7 +31,7 @@ const schema = a
         lastName: a.string().required(),
         gender: a.ref("GenderEnum").required(),
         ethnicity: a.ref("EthnicityEnum").required(),
-        dob: a.date().required(),
+        dob: a.string().required(),
         school: a.string().required(),
         allergies: a.string(),
         disabilities: a.string(),
